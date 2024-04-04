@@ -15,6 +15,6 @@ include(':connector:blink-connector-datahub')
 
 include(':udf')
 include(':udf:flink-udx')
-
-
+include 'app:pushgateway'
+findProject(':app:pushgateway')?.name = 'pushgateway'
 

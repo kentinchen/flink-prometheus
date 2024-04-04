@@ -2,8 +2,8 @@ plugins {
     id("java")
 }
 
-group = "com.flink.connectors.pushgateway"
-version = "1.0-SNAPSHOT"
+group = properties["GROUP"] as String + ".connectors.pushgateway"
+version = properties["VERSION"]!!
 
 repositories {
     mavenCentral()
