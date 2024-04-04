@@ -2,6 +2,7 @@ rootProject.name = 'flink-prometheus'
 
 include(':app')
 include(':app:prometheus')
+include(':app:pushgateway')
 
 include(':connector')
 include(':connector:flink-connector-pushgateway')
@@ -15,6 +16,6 @@ include(':connector:blink-connector-datahub')
 
 include(':udf')
 include(':udf:flink-udx')
-include 'app:pushgateway'
-findProject(':app:pushgateway')?.name = 'pushgateway'
+
+
 
