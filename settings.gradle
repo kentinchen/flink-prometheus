@@ -3,3 +3,6 @@ rootProject.name = 'flink-prometheus'
 include ':app:prometheus'
 include ':connector'
 include ':udf'
+include 'connector:flink-connector-pushgateway'
+findProject(':connector:flink-connector-pushgateway')?.name = 'flink-connector-pushgateway'
+
