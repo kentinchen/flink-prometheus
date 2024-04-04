@@ -16,6 +16,7 @@ val assertjCoreVersion = "3.21.0"
 val mockitoVersion = "4.0.0"
 val mockitoInlineVersion = "4.6.1"
 val wiremockVersion = "2.27.2"
+val fastjsonVersion ="2.0.31"
 
 dependencies {
     compileOnly("org.apache.flink:flink-java:${flinkVersion}")
@@ -26,6 +27,7 @@ dependencies {
     compileOnly("org.apache.flink:flink-table-api-java-bridge:${flinkVersion}")
     compileOnly("org.apache.flink:flink-connector-base:${flinkVersion}")
     compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    compileOnly("com.alibaba:fastjson:${fastjsonVersion}")
 
     testImplementation("org.apache.httpcomponents:httpclient:4.5.13")
     testImplementation("org.apache.flink:flink-test-utils:${flinkVersion}")
