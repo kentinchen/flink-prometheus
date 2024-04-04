@@ -38,7 +38,7 @@ dependencies {
     testImplementation("org.apache.flink:flink-json:${flinkVersion}")
     testImplementation("org.apache.flink:flink-runtime-web:${flinkVersion}")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junit5Version")
-    testImplementation("org.junit.jupiter:junit-vintage-engine:$junit5Version")
+    //testImplementation("org.junit.jupiter:junit-vintage-engine:$junit5Version")
     testImplementation("org.assertj:assertj-core:$assertjCoreVersion")
     testImplementation("org.mockito:mockito-junit-jupiter:$mockitoVersion")
     testImplementation("org.mockito:mockito-inline:$mockitoInlineVersion")
