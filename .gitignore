@@ -2,8 +2,5 @@
 .gradle
 /build/
 /app/prometheus/build/
-/connector/flink-connector-pushgateway/build/
-/connector/blink-connector-prometheus/build/
-/connector/blink-connector-pushgateway/build/
-/connector/flink-connector-prometheus/build/
-/udf/flink-udx/build/
+/connector/*/build/
+/udf/*/build/
