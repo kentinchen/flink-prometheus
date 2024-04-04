@@ -4,3 +4,4 @@
 /app/prometheus/build/
 /connector/*/build/
 /udf/*/build/
+/buildSrc/build/
