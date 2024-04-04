@@ -9,14 +9,17 @@ repositories {
     mavenCentral()
 }
 
-val flinkVersion = "1.19.0"
-
 dependencies {
-    compileOnly("org.apache.flink:flink-java:$flinkVersion")
-    compileOnly("org.apache.flink:flink-streaming-java:$flinkVersion")
+    compileOnly(Libs.flink_java)
+    compileOnly(Libs.flink_stream)
 
-    testImplementation(platform("org.junit:junit-bom:5.9.1"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+    testImplementation(Libs.flinek_test_utils)
+    testImplementation("org.assertj:assertj-core:3.25.3")
+    testImplementation("org.mockito:mockito-junit-jupiter:5.11.0")
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly("org.slf4j:slf4j-simple:2.0.12")
 }
 
 tasks.test {
