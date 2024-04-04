@@ -1,0 +1,3 @@
+FROM flink:1.19.0-java11
+ADD ./build/libs/*.jar $FLINK_HOME/usrlib/
+RUN mkdir /state && chown flink:flink /state  # workaround for https://github.com/docker/compose/issues/3270

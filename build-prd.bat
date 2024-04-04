@@ -1,0 +1,1 @@
+docker buildx build -t flink-prometheus -f docker\Dockerfile-prd .

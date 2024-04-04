@@ -1,7 +1,8 @@
 ---
 services:
   job-cluster:
-    build: .
+    # build: .
+    image: flink-prometheus:1.0
     container_name: job-cluster
     ports:
     - "8081:8081"
@@ -16,7 +17,8 @@ services:
       state.checkpoints.dir: file:///state
 
   taskmanager1:
-    build: .
+    # build: .
+    image: flink-prometheus:1.0
     container_name: taskmanager1
     ports:
     - "9250:9249"
@@ -30,7 +32,8 @@ services:
       state.checkpoints.dir: file:///state
 
   taskmanager2:
-    build: .
+    # build: .
+    image: flink-prometheus:1.0
     container_name: taskmanager2
     ports:
     - "9251:9249"
@@ -51,6 +54,12 @@ services:
     volumes:
     - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     - ./prometheus/flink.rules.yml:/etc/prometheus/flink.rules.yml
+
+  pushgateway:
+    image: prom/pushgateway
+    container_name: pushgateway
+    ports:
+      - "9091:9091"
 
   grafana:
     image: grafana/grafana:8.4.0

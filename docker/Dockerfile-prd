@@ -1,5 +1,5 @@
 FROM gradle:8.7.0-jdk11 as builder
-COPY . .
+COPY .. .
 RUN gradle shadowJar
 
 FROM flink:1.19.0-java11
