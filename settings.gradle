@@ -1,0 +1,5 @@
+rootProject.name = 'flink-prometheus'
+
+include ':app:prometheus'
+include ':connector'
+include ':udf'
