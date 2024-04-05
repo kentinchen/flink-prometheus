@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = properties["GROUP"] as String + ".connectors.pushgateway"
@@ -54,4 +55,15 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+var copyJar = task("copyJar", type = Copy::class) {
+    from("build/libs")
+    into(rootProject.projectDir.absolutePath + "/libs")
+    include("*-all.jar")
+    mustRunAfter(tasks.named("shadowJar"))
+}
+
+tasks.named("shadowJar") {
+    finalizedBy(copyJar)
 }
