@@ -13,9 +13,7 @@ public class SerializationSchemaElementConverter
     private final SerializationSchema<RowData> serializationSchema;
     private boolean schemaOpened = false;
 
-    public SerializationSchemaElementConverter(
-            String insertMethod,
-            SerializationSchema<RowData> serializationSchema) {
+    public SerializationSchemaElementConverter(String insertMethod, SerializationSchema<RowData> serializationSchema) {
         this.insertMethod = insertMethod;
         this.serializationSchema = serializationSchema;
     }

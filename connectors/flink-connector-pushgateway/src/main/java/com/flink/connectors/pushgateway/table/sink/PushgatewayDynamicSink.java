@@ -59,7 +59,6 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<HttpSinkReques
                 .<RowData>builder()
                 .setEndpointUrl(tableOptions.get(PUSHGATEWAY))
                 .setHttpPostRequestCallback(httpPostRequestCallback)
-                // In future header preprocessor could be set via custom factory
                 .setElementConverter(new SerializationSchemaElementConverter(insertMethod, serializationSchema))
                 .setProperties(properties);
         addAsyncOptionsToSinkBuilder(builder);
