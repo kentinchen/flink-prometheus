@@ -7,7 +7,7 @@ import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
 import java.util.Arrays;
 
-public class StreamSQLTable {
+public class StreamSQLTableJob {
     public static void main(String[] args) throws Exception {
 
         // set up the Java DataStream API
@@ -23,31 +23,14 @@ public class StreamSQLTable {
                                 new Order(1L, "diaper", 4),
                                 new Order(3L, "rubber", 2)));
 
-        final DataStream<Order> orderB =
-                env.fromCollection(
-                        Arrays.asList(
-                                new Order(2L, "pen", 3),
-                                new Order(2L, "rubber", 3),
-                                new Order(4L, "beer", 1)));
 
         // convert the first DataStream to a Table object
         // it will be used "inline" and is not registered in a catalog
         final Table tableA = tableEnv.fromDataStream(orderA);
 
-        // convert the second DataStream and register it as a view
-        // it will be accessible under a name
-        tableEnv.createTemporaryView("TableB", orderB);
-
-        // union the two tables
-        final Table result =
-                tableEnv.sqlQuery(
-                        "SELECT * FROM "
-                                + tableA
-                                + " WHERE amount > 2 UNION ALL "
-                                + "SELECT * FROM TableB WHERE amount < 2");
 
         // convert the Table back to an insert-only DataStream of type `Order`
-        tableEnv.toDataStream(result, Order.class).print();
+        tableEnv.toDataStream(tableA, Order.class).print();
 
         // after the table program is converted to a DataStream program,
         // we must use `env.execute()` to submit the job

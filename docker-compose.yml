@@ -9,7 +9,8 @@ services:
     - "9249:9249"
     volumes:
     - state:/state
-    command: standalone-job --job-classname com.github.mbode.flink_prometheus_example.PrometheusExampleJob --job-id 00000000000000000000000000000000
+    #command: standalone-job --job-classname com.github.mbode.flink_prometheus_example.PrometheusExampleJob --job-id 00000000000000000000000000000000
+    command: standalone-job --job-classname com.flink.app.prometheus.table.StreamSQLTableJob --job-id 00000000000000000000000000000000
     environment:
     - |
       FLINK_PROPERTIES=
