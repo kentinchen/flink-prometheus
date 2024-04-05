@@ -3,7 +3,7 @@ buildscript {
     repositories {
         maven {
             //allowInsecureProtocol = true
-            url = properties["MAVEN_REPO"]?.let { uri(it) }
+            url = properties["MAVEN_REPO"]?.let { uri(it) }!!
         }
         google()
         mavenCentral()
@@ -17,7 +17,13 @@ buildscript {
 }
 
 plugins {
+    java
     id("idea")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 allprojects {
@@ -28,9 +34,9 @@ allprojects {
 }
 
 
-tasks.register("clean",Delete::class){
+/*tasks.register("clean",Delete::class){
     delete(rootProject.buildDir)
-}
+}*/
 
 
 //tasks.register("copyJars",Copy::class){

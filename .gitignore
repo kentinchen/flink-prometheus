@@ -1,7 +1,7 @@
 .idea/
 .gradle
-/build/
-/app/prometheus/build/
-/connector/*/build/
+/libs/
+/apps/*/build/
+/connectors/*/build/
 /udf/*/build/
 /buildSrc/build/

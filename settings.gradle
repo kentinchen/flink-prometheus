@@ -1,21 +1,20 @@
 rootProject.name = 'flink-prometheus'
 
-include(':app')
-include(':app:prometheus')
-include(':app:pushgateway')
+include(':apps')
+include(':apps:prometheus')
+include(':apps:pushgateway')
+include(':apps:prometheus-table')
+include(':apps:pushgateway-table')
 
-include(':connector')
-include(':connector:flink-connector-pushgateway')
-include(':connector:flink-connector-prometheus')
-include(':connector:flink-connector-sls')
-include(':connector:flink-connector-datahub')
-include(':connector:blink-connector-prometheus')
-include(':connector:blink-connector-pushgateway')
-include(':connector:blink-connector-sls')
-include(':connector:blink-connector-datahub')
+include(':connectors')
+include(':connectors:flink-connector-pushgateway')
+include(':connectors:flink-connector-prometheus')
+include(':connectors:flink-connector-sls')
+include(':connectors:flink-connector-datahub')
+include(':connectors:blink-connector-prometheus')
+include(':connectors:blink-connector-pushgateway')
+include(':connectors:blink-connector-sls')
+include(':connectors:blink-connector-datahub')
 
 include(':udf')
 include(':udf:flink-udx')
-
-
-
