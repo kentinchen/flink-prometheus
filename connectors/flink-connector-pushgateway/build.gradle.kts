@@ -31,7 +31,7 @@ dependencies {
     compileOnly("com.alibaba:fastjson:${fastjsonVersion}")
     compileOnly("io.prometheus:simpleclient:0.16.0")
     compileOnly("io.prometheus:simpleclient_common:0.16.0")
-    compileOnly("io.prometheus:simpleclient_pushgateway:0.16.0")
+    implementation("io.prometheus:simpleclient_pushgateway:0.16.0")
     annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
 
     testImplementation("org.apache.httpcomponents:httpclient:4.5.13")
