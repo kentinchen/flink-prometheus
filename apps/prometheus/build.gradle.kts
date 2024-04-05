@@ -31,6 +31,7 @@ dependencies {
     testRuntimeOnly("org.slf4j:slf4j-simple:2.0.12")
 }
 
+// 配置test task
 tasks.named<Test>("test") {
     useJUnitPlatform()
 }

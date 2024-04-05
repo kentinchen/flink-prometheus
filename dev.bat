@@ -1,4 +1,5 @@
 .\gradlew tasks
+.\gradlew help --task test
 
 .\gradlew clean
 .\gradlew build
