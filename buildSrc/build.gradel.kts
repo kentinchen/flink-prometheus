@@ -1,6 +1,11 @@
 plugins {
     `kotlin-dsl`
 }
-repositories{
+repositories {
     jcenter()
+    gradlePluginPortal()
+}
+
+dependencies {
+    implementation("libs.spotbugs.gradle.plugin")
 }

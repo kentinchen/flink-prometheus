@@ -1,0 +1,5 @@
+[versions]
+spotbugs-gradle-plugin = "5.0.13"
+
+[libraries]
+spotbugs-gradle-plugin = { module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version.ref = "spotbugs-gradle-plugin" }
