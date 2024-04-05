@@ -87,3 +87,13 @@ spotless {
     java { googleJavaFormat() }
     kotlinGradle { ktlint() }
 }
+
+var copyJar = task("copyJar", type = Copy::class) {
+    from("build/libs")
+    into(rootProject.projectDir.absolutePath + "/libs")
+    include("*.jar")
+}
+
+tasks.named("jar") {
+    finalizedBy(copyJar)
+}

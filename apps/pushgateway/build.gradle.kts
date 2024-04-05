@@ -17,3 +17,13 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+var copyJar = task("copyJar", type = Copy::class) {
+    from("build/libs")
+    into(rootProject.projectDir.absolutePath + "/libs")
+    include("*.jar")
+}
+
+tasks.named("jar") {
+    finalizedBy(copyJar)
+}

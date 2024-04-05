@@ -33,14 +33,3 @@ allprojects {
     }
 }
 
-/*tasks.register("clean",Delete::class){
-    delete(rootProject.buildDir)
-}*/
-
-//tasks.register("copyJars",Copy::class){
-//    from 'build/libs'
-//    into rootProject . projectDir . absolutePath +'build/libs'
-//}
-
-//bootJar.finalizedBy copyJars
-//copyJars.mustRunAfter bootJar
