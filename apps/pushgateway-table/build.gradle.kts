@@ -16,6 +16,7 @@ dependencies {
     compileOnly("org.apache.flink:flink-streaming-java:$flinkVersion")
     compileOnly("org.apache.flink:flink-table-api-java-bridge:$flinkVersion")
     compileOnly("org.apache.flink:flink-table-runtime:$flinkVersion")
+    compileOnly(project(":connectors:flink-connector-pushgateway"))
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
     testImplementation("org.apache.flink:flink-test-utils:$flinkVersion")
