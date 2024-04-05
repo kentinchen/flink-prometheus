@@ -2,7 +2,6 @@ package com.flink.connectors.pushgateway.table.converter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.flink.connectors.pushgateway.table.sink.RowPointConverter;
 import org.apache.flink.types.Row;
 
 import java.util.Collections;

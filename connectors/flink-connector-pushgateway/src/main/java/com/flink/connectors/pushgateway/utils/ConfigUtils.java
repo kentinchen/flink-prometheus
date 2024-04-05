@@ -31,9 +31,9 @@ public final class ConfigUtils {
      * Values for this property will be cast to {@code valueClazz} type.
      *
      * @param properties properties to extract keys from.
-     * @param keyPrefix prefix used to match property name with.
+     * @param keyPrefix  prefix used to match property name with.
      * @param valueClazz type to cast property values to.
-     * @param <T> type of the elements of a returned map.
+     * @param <T>        type of the elements of a returned map.
      * @return Map of propertyName to propertyValue.
      */
     public static <T> Map<String, T> propertiesToMap(
@@ -50,8 +50,8 @@ public final class ConfigUtils {
                 }
             } else {
                 throw new ConfigException(
-                    entry.getKey().toString(),
-                    entry.getValue(), "Key must be a string."
+                        entry.getKey().toString(),
+                        entry.getValue(), "Key must be a string."
                 );
             }
         }
@@ -81,9 +81,9 @@ public final class ConfigUtils {
         int delimiterLastIndex = propertyKey.lastIndexOf(PROPERTY_NAME_DELIMITER);
         if (delimiterLastIndex == propertyKey.length() - 1) {
             throw new ConfigException(
-                String.format(
-                    "Invalid property - %s. Property name should not end with property delimiter.",
-                    propertyKey)
+                    String.format(
+                            "Invalid property - %s. Property name should not end with property delimiter.",
+                            propertyKey)
             );
         }
 
@@ -98,8 +98,8 @@ public final class ConfigUtils {
             map.put(key, clazz.cast(properties.get(key)));
         } catch (ClassCastException e) {
             throw new ConfigException(
-                String.format("Unable to cast value for property %s to type %s", key,
-                    clazz), e);
+                    String.format("Unable to cast value for property %s to type %s", key,
+                            clazz), e);
         }
     }
 
@@ -107,9 +107,9 @@ public final class ConfigUtils {
         final Properties httpProperties = new Properties();
 
         tableOptions.entrySet().stream()
-            .filter(entry ->
-                entry.getKey().startsWith(ConnectorConfigConstants.GID_CONNECTOR_HTTP))
-            .forEach(entry -> httpProperties.put(entry.getKey(), entry.getValue()));
+                .filter(entry ->
+                        entry.getKey().startsWith(ConnectorConfigConstants.GID_CONNECTOR_HTTP))
+                .forEach(entry -> httpProperties.put(entry.getKey(), entry.getValue()));
 
         return httpProperties;
     }

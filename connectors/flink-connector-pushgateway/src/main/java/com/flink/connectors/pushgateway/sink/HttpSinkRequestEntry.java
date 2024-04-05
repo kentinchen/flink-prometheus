@@ -1,4 +1,4 @@
-package com.flink.connectors.pushgateway.table.sink;
+package com.flink.connectors.pushgateway.sink;
 
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -8,14 +8,13 @@ import lombok.ToString;
 import java.io.Serializable;
 
 /**
- * Represents a single {@link com.getindata.connectors.http.HttpSink} request. Contains the HTTP
+ * Represents a single {@link HttpSink} request. Contains the HTTP
  * method name, Content-Type header value, and byte representation of the body of the request.
  */
 @RequiredArgsConstructor
 @EqualsAndHashCode
 @ToString
 public final class HttpSinkRequestEntry implements Serializable {
-
     /**
      * HTTP method name to use when sending the request.
      */

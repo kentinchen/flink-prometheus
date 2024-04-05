@@ -1,6 +1,7 @@
 package com.flink.connectors.pushgateway.table.sink;
 
-import com.flink.connectors.pushgateway.table.sink.callback.HttpPostRequestCallbackFactory;
+import com.flink.connectors.pushgateway.sink.httpclient.HttpRequest;
+import com.flink.connectors.pushgateway.table.callback.HttpPostRequestCallbackFactory;
 import com.flink.connectors.pushgateway.utils.ConfigUtils;
 import org.apache.flink.configuration.ConfigOption;
 import org.apache.flink.configuration.ReadableConfig;
@@ -12,42 +13,32 @@ import org.apache.flink.table.factories.FactoryUtil;
 import java.util.Properties;
 import java.util.Set;
 
-import static com.flink.connectors.pushgateway.table.sink.PushgatewyaDynamicSinkConnectorOptions.REQUEST_CALLBACK_IDENTIFIER;
-import static com.flink.connectors.pushgateway.table.sink.PushgatewyaDynamicSinkConnectorOptions.URL;
+import static com.flink.connectors.pushgateway.table.sink.PushgatewyaDynamicSinkConnectorOptions.*;
 
-public class PushgatewayDynamicTableSinkFactory  extends AsyncDynamicTableSinkFactory {
+public class PushgatewayDynamicTableSinkFactory extends AsyncDynamicTableSinkFactory {
     public static final String IDENTIFIER = "pushgateway";
 
     @Override
     public DynamicTableSink createDynamicTableSink(Context context) {
         final AsyncDynamicSinkContext factoryContext = new AsyncDynamicSinkContext(this, context);
         ReadableConfig tableOptions = factoryContext.getTableOptions();
-
-        Properties asyncSinkProperties =
-                new AsyncSinkConfigurationValidator(tableOptions).getValidatedConfigurations();
-
+        Properties asyncSinkProperties = new AsyncSinkConfigurationValidator(tableOptions).getValidatedConfigurations();
         // generics type erasure, so we have to do an unchecked cast
-        final HttpPostRequestCallbackFactory<HttpRequest> postRequestCallbackFactory =
+        final HttpPostRequestCallbackFactory<HttpRequest> requestCallbackFactory =
                 FactoryUtil.discoverFactory(
                         context.getClassLoader(),
                         HttpPostRequestCallbackFactory.class,  // generics type erasure
                         tableOptions.get(REQUEST_CALLBACK_IDENTIFIER)
                 );
-
-        Properties httpConnectorProperties =
-                ConfigUtils.getHttpConnectorProperties(context.getCatalogTable().getOptions());
-
-        PushgatewayDynamicSink.HttpDynamicTableSinkBuilder builder =
-                new PushgatewayDynamicSink.HttpDynamicTableSinkBuilder()
+        Properties connectorProperties = ConfigUtils.getHttpConnectorProperties(context.getCatalogTable().getOptions());
+        PushgatewayDynamicSink.PushgatewayDynamicTableSinkBuilder builder =
+                new PushgatewayDynamicSink.PushgatewayDynamicTableSinkBuilder()
                         .setTableOptions(tableOptions)
                         .setEncodingFormat(factoryContext.getEncodingFormat())
-                        .setHttpPostRequestCallback(
-                                postRequestCallbackFactory.createHttpPostRequestCallback()
-                        )
+                        .setHttpPostRequestCallback(requestCallbackFactory.createHttpPostRequestCallback())
                         .setConsumedDataType(factoryContext.getPhysicalDataType())
-                        .setProperties(httpConnectorProperties);
+                        .setProperties(connectorProperties);
         addAsyncOptionsToBuilder(asyncSinkProperties, builder);
-
         return builder.build();
     }
 
@@ -58,6 +49,14 @@ public class PushgatewayDynamicTableSinkFactory  extends AsyncDynamicTableSinkFa
 
     @Override
     public Set<ConfigOption<?>> requiredOptions() {
-        return Set.of(URL, FactoryUtil.FORMAT);
+        return Set.of(PUSHGATEWAY);
+    }
+
+    @Override
+    public Set<ConfigOption<?>> optionalOptions() {
+        var options = super.optionalOptions();
+        options.add(INSERT_METHOD);
+        options.add(REQUEST_CALLBACK_IDENTIFIER);
+        return options;
     }
 }

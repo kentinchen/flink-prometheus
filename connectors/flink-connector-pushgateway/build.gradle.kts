@@ -17,7 +17,7 @@ val assertjCoreVersion = "3.21.0"
 val mockitoVersion = "4.0.0"
 val mockitoInlineVersion = "4.6.1"
 val wiremockVersion = "2.27.2"
-val fastjsonVersion ="2.0.31"
+val fastjsonVersion = "2.0.31"
 
 dependencies {
     compileOnly("org.apache.flink:flink-java:${flinkVersion}")

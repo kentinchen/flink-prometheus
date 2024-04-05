@@ -1,6 +1,11 @@
 package com.flink.connectors.pushgateway.table.sink;
 
-import com.flink.connectors.pushgateway.table.sink.callback.HttpPostRequestCallback;
+import com.flink.connectors.pushgateway.sink.HttpSink;
+import com.flink.connectors.pushgateway.sink.HttpSinkBuilder;
+import com.flink.connectors.pushgateway.sink.HttpSinkRequestEntry;
+import com.flink.connectors.pushgateway.sink.httpclient.HttpRequest;
+import com.flink.connectors.pushgateway.table.SerializationSchemaElementConverter;
+import com.flink.connectors.pushgateway.table.callback.HttpPostRequestCallback;
 import org.apache.flink.api.common.serialization.SerializationSchema;
 import org.apache.flink.configuration.ReadableConfig;
 import org.apache.flink.connector.base.table.sink.AsyncDynamicTableSink;
@@ -8,110 +13,115 @@ import org.apache.flink.connector.base.table.sink.AsyncDynamicTableSinkBuilder;
 import org.apache.flink.table.connector.ChangelogMode;
 import org.apache.flink.table.connector.format.EncodingFormat;
 import org.apache.flink.table.connector.sink.DynamicTableSink;
+import org.apache.flink.table.connector.sink.SinkV2Provider;
 import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.types.DataType;
+import org.apache.flink.util.Preconditions;
 
 import javax.annotation.Nullable;
 import java.util.Properties;
 
+import static com.flink.connectors.pushgateway.table.sink.PushgatewyaDynamicSinkConnectorOptions.INSERT_METHOD;
+import static com.flink.connectors.pushgateway.table.sink.PushgatewyaDynamicSinkConnectorOptions.PUSHGATEWAY;
+
 public class PushgatewayDynamicSink extends AsyncDynamicTableSink<HttpSinkRequestEntry> {
+    private final DataType consumedDataType;
+    private final EncodingFormat<SerializationSchema<RowData>> encodingFormat;
+    private final HttpPostRequestCallback<HttpRequest> httpPostRequestCallback;
+    private final ReadableConfig tableOptions;
+    private final Properties properties;
 
     protected PushgatewayDynamicSink(@Nullable Integer maxBatchSize, @Nullable Integer maxInFlightRequests,
                                      @Nullable Integer maxBufferedRequests, @Nullable Long maxBufferSizeInBytes,
-                                     @Nullable Long maxTimeInBufferMS) {
+                                     @Nullable Long maxTimeInBufferMS, DataType consumedDataType,
+                                     EncodingFormat<SerializationSchema<RowData>> encodingFormat,
+                                     HttpPostRequestCallback<HttpRequest> httpPostRequestCallback,
+                                     ReadableConfig tableOptions,
+                                     Properties properties) {
         super(maxBatchSize, maxInFlightRequests, maxBufferedRequests, maxBufferSizeInBytes, maxTimeInBufferMS);
+        this.consumedDataType = Preconditions.checkNotNull(consumedDataType, "Consumed data type must not be null");
+        this.encodingFormat = Preconditions.checkNotNull(encodingFormat, "Encoding format must not be null");
+        this.httpPostRequestCallback = Preconditions.checkNotNull(httpPostRequestCallback, "Post request callback must not be null");
+        this.tableOptions = Preconditions.checkNotNull(tableOptions, "Table options must not be null");
+        this.properties = properties;
     }
 
     @Override
     public ChangelogMode getChangelogMode(ChangelogMode changelogMode) {
-        return null;
+        return encodingFormat.getChangelogMode();
     }
 
     @Override
     public SinkRuntimeProvider getSinkRuntimeProvider(Context context) {
-        return null;
+        SerializationSchema<RowData> serializationSchema = encodingFormat.createRuntimeEncoder(context, consumedDataType);
+        var insertMethod = tableOptions.get(INSERT_METHOD);
+        HttpSinkBuilder<RowData> builder = HttpSink
+                .<RowData>builder()
+                .setEndpointUrl(tableOptions.get(PUSHGATEWAY))
+                .setHttpPostRequestCallback(httpPostRequestCallback)
+                // In future header preprocessor could be set via custom factory
+                .setElementConverter(new SerializationSchemaElementConverter(insertMethod, serializationSchema))
+                .setProperties(properties);
+        addAsyncOptionsToSinkBuilder(builder);
+        return SinkV2Provider.of(builder.build());
     }
 
     @Override
     public DynamicTableSink copy() {
-        return null;
+        return new PushgatewayDynamicSink(
+                maxBatchSize,
+                maxInFlightRequests,
+                maxBufferedRequests,
+                maxBufferSizeInBytes,
+                maxTimeInBufferMS,
+                consumedDataType,
+                encodingFormat,
+                httpPostRequestCallback,
+                tableOptions,
+                properties
+        );
     }
 
     @Override
     public String asSummaryString() {
-        return "";
+        return "PushgatewayDynamicSink";
     }
 
-    public static class HttpDynamicTableSinkBuilder
-            extends AsyncDynamicTableSinkBuilder<HttpSinkRequestEntry, HttpDynamicTableSinkBuilder> {
-
+    public static class PushgatewayDynamicTableSinkBuilder extends AsyncDynamicTableSinkBuilder<HttpSinkRequestEntry, PushgatewayDynamicTableSinkBuilder> {
         private final Properties properties = new Properties();
-
         private ReadableConfig tableOptions;
-
         private DataType consumedDataType;
-
         private EncodingFormat<SerializationSchema<RowData>> encodingFormat;
-
         private HttpPostRequestCallback<HttpRequest> httpPostRequestCallback;
 
-        /**
-         * @param tableOptions the {@link ReadableConfig} consisting of options listed in table
-         *                     creation DDL
-         * @return {@link HttpDynamicTableSinkBuilder} itself
-         */
-        public HttpDynamicTableSinkBuilder setTableOptions(ReadableConfig tableOptions) {
+        public PushgatewayDynamicTableSinkBuilder setTableOptions(ReadableConfig tableOptions) {
             this.tableOptions = tableOptions;
             return this;
         }
 
-        /**
-         * @param encodingFormat the format for encoding records
-         * @return {@link HttpDynamicTableSinkBuilder} itself
-         */
-        public HttpDynamicTableSinkBuilder setEncodingFormat(
+        public PushgatewayDynamicTableSinkBuilder setEncodingFormat(
                 EncodingFormat<SerializationSchema<RowData>> encodingFormat) {
             this.encodingFormat = encodingFormat;
             return this;
         }
 
-        /**
-         * @param httpPostRequestCallback the {@link HttpPostRequestCallback} implementation
-         *                                for processing of requests and responses
-         * @return {@link HttpDynamicTableSinkBuilder} itself
-         */
-        public HttpDynamicTableSinkBuilder setHttpPostRequestCallback(
+        public PushgatewayDynamicTableSinkBuilder setHttpPostRequestCallback(
                 HttpPostRequestCallback<HttpRequest> httpPostRequestCallback) {
             this.httpPostRequestCallback = httpPostRequestCallback;
             return this;
         }
 
-        /**
-         * @param consumedDataType the consumed data type of the table
-         * @return {@link HttpDynamicTableSinkBuilder} itself
-         */
-        public HttpDynamicTableSinkBuilder setConsumedDataType(DataType consumedDataType) {
+        public PushgatewayDynamicTableSinkBuilder setConsumedDataType(DataType consumedDataType) {
             this.consumedDataType = consumedDataType;
             return this;
         }
 
-        /**
-         * Set property for Http Sink.
-         * @param propertyName property name
-         * @param propertyValue property value
-         * @return {@link HttpDynamicTableSinkBuilder} itself
-         */
-        public HttpDynamicTableSinkBuilder setProperty(String propertyName, String propertyValue) {
+        public PushgatewayDynamicTableSinkBuilder setProperty(String propertyName, String propertyValue) {
             this.properties.setProperty(propertyName, propertyValue);
             return this;
         }
 
-        /**
-         * Add properties to Http Sink configuration
-         * @param properties properties to add
-         * @return {@link HttpDynamicTableSinkBuilder} itself
-         */
-        public HttpDynamicTableSinkBuilder setProperties(Properties properties) {
+        public PushgatewayDynamicTableSinkBuilder setProperties(Properties properties) {
             this.properties.putAll(properties);
             return this;
         }
@@ -123,7 +133,12 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<HttpSinkReques
                     getMaxInFlightRequests(),
                     getMaxBufferedRequests(),
                     getMaxBufferSizeInBytes(),
-                    getMaxTimeInBufferMS()
+                    getMaxTimeInBufferMS(),
+                    consumedDataType,
+                    encodingFormat,
+                    httpPostRequestCallback,
+                    tableOptions,
+                    properties
             );
         }
     }

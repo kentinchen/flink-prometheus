@@ -1,4 +1,4 @@
-package com.flink.connectors.pushgateway.table.sink;
+package com.flink.connectors.pushgateway.sink.httpclient;
 
 import lombok.Data;
 

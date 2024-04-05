@@ -1,16 +1,13 @@
-package com.flink.connectors.pushgateway.table.sink.callback;
+package com.flink.connectors.pushgateway.table.callback;
 
-import com.flink.connectors.pushgateway.table.sink.HttpRequest;
+import com.flink.connectors.pushgateway.sink.httpclient.HttpRequest;
 import org.apache.flink.configuration.ConfigOption;
 
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Factory for creating {@link Slf4jHttpPostRequestCallback}.
- */
 public class Slf4jHttpPostRequestCallbackFactory
-    implements HttpPostRequestCallbackFactory<HttpRequest> {
+        implements HttpPostRequestCallbackFactory<HttpRequest> {
 
     public static final String IDENTIFIER = "slf4j-logger";
 

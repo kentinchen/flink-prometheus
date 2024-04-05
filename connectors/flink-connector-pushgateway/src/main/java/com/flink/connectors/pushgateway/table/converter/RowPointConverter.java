@@ -1,4 +1,4 @@
-package com.flink.connectors.pushgateway.table.sink;
+package com.flink.connectors.pushgateway.table.converter;
 
 import org.apache.flink.types.Row;
 

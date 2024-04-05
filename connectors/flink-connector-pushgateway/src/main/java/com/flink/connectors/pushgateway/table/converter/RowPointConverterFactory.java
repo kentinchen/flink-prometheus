@@ -1,10 +1,6 @@
-package com.flink.connectors.pushgateway.table.sink;
+package com.flink.connectors.pushgateway.table.converter;
 
 import com.flink.connectors.pushgateway.config.NotEnoughParamsException;
-import com.flink.connectors.pushgateway.table.converter.MultiFieldTagSchemaConverter;
-import com.flink.connectors.pushgateway.table.converter.MultiFieldTagSchemalessConverter;
-import com.flink.connectors.pushgateway.table.converter.SingleValueTagSchemaConverter;
-import com.flink.connectors.pushgateway.table.converter.SingleValueTagSchemalessConverter;
 import org.apache.flink.api.java.typeutils.RowTypeInfo;
 
 import java.util.HashMap;
