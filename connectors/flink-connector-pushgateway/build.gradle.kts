@@ -29,6 +29,8 @@ dependencies {
     compileOnly("org.projectlombok:lombok:${lombokVersion}")
     compileOnly("com.alibaba:fastjson:${fastjsonVersion}")
 
+    annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+
     testImplementation("org.apache.httpcomponents:httpclient:4.5.13")
     testImplementation("org.apache.flink:flink-test-utils:${flinkVersion}")
     testImplementation("org.apache.flink:flink-table-test-utils:${flinkVersion}")

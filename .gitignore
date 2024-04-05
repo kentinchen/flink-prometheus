@@ -5,3 +5,4 @@
 /connectors/*/build/
 /udf/*/build/
 /buildSrc/build/
+/build/
