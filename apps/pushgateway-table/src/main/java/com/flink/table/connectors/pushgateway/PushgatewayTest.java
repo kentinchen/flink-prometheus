@@ -2,6 +2,7 @@ package com.flink.table.connectors.pushgateway;
 
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.table.api.TableResult;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
 public class PushgatewayTest {
@@ -47,10 +48,11 @@ public class PushgatewayTest {
                         "vm_id STRING)\n"
                         + "WITH (\n"
                         + "  'connector' = 'pushgateway',\n"
-                        + "  'pushgateway' = '" + pushgateway + "',\n"
+                        + "  'pushgateway' = '" + pushgateway + "'\n"
                         + ")");
 
-        tEnv.sqlQuery("INSERT INTO ecs_perf_tsdb SELECT ts,m_type,m_name,m_value,vm_id FROM ecs_perf_sls ");
+        TableResult tableResult1 = tEnv.executeSql("INSERT INTO ecs_perf_tsdb SELECT ts,m_type,m_name,m_value,vm_id FROM ecs_perf_sls ");
+        System.out.println(tableResult1.getJobClient().get().getJobStatus());
 
         env.execute();
     }
