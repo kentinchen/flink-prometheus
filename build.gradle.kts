@@ -18,13 +18,24 @@ buildscript {
 
 plugins {
     java
-    id("idea")
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }
+
+//sourceSets {
+//    main {
+//        java {
+//            srcDirs("src/main/java")
+//        }
+//        resources {
+//            srcDirs("src/main/resources")
+//            include("**/META-INF/services/*")
+//        }
+//    }
+//}
 
 allprojects {
     repositories {
