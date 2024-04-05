@@ -25,18 +25,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-//sourceSets {
-//    main {
-//        java {
-//            srcDirs("src/main/java")
-//        }
-//        resources {
-//            srcDirs("src/main/resources")
-//            include("**/META-INF/services/*")
-//        }
-//    }
-//}
-
 allprojects {
     repositories {
         google()
@@ -44,11 +32,9 @@ allprojects {
     }
 }
 
-
 /*tasks.register("clean",Delete::class){
     delete(rootProject.buildDir)
 }*/
-
 
 //tasks.register("copyJars",Copy::class){
 //    from 'build/libs'

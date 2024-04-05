@@ -2,7 +2,10 @@
 .gradle
 /libs/
 /apps/*/build/
+/apps/*/out/
 /connectors/*/build/
+/connectors/*/out/
 /udf/*/build/
+/udf/*/out/
 /buildSrc/build/
 /build/
