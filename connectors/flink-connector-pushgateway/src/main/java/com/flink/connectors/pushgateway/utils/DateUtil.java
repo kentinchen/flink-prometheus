@@ -7,58 +7,50 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
-    private static String DATA_FORMAT_DATA_SHORT_SYMBOL_X ="yyyy-MM-dd";
-    private static String DATA_FORMAT_DATA_SHORT_SYMBOL_Y ="yyyy-MM-dd HH:mm:ss";
+    private static String DATA_FORMAT_DATA_SHORT_SYMBOL_X = "yyyy-MM-dd";
+    private static String DATA_FORMAT_DATA_SHORT_SYMBOL_Y = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * 通过时间秒毫秒数判断两个时间的间隔
-     * @param form
-     *          开始时间
-     * @param to
-     *          结束时间
-     * @return
-     *          相差天数
+     *
+     * @param form 开始时间
+     * @param to   结束时间
+     * @return 相差天数
      */
     public static int differentDays(Date form, Date to) {
-        return (int) ((to.getTime() - form.getTime()) / (1000*3600*24));
+        return (int) ((to.getTime() - form.getTime()) / (1000 * 3600 * 24));
     }
 
     /**
      * 通过时间秒毫秒数判断两个时间的间隔
-     * @param form
-     *          开始时间
-     * @param to
-     *          结束时间
-     * @return
-     *          相差小时数
+     *
+     * @param form 开始时间
+     * @param to   结束时间
+     * @return 相差小时数
      */
     public static int differentHours(Date form, Date to) {
-        return (int) ((to.getTime() - form.getTime()) / (1000*3600));
+        return (int) ((to.getTime() - form.getTime()) / (1000 * 3600));
     }
 
     /**
      * 通过时间秒毫秒数判断两个时间的间隔
-     * @param form
-     *          开始时间
-     * @param to
-     *          结束时间
-     * @return
-     *          相差分钟数
+     *
+     * @param form 开始时间
+     * @param to   结束时间
+     * @return 相差分钟数
      */
     public static int differentMinute(Date form, Date to) {
-        return (int) ((to.getTime() - form.getTime()) / (1000*60));
+        return (int) ((to.getTime() - form.getTime()) / (1000 * 60));
     }
 
     /**
      * 判断两个时间相差多少个月
-     * @param form
-     *          开始时间
-     * @param to
-     *          结束时间
-     * @return
-     *          相差月数
+     *
+     * @param form 开始时间
+     * @param to   结束时间
+     * @return 相差月数
      */
-    public static int differentMonth(Date form, Date to){
+    public static int differentMonth(Date form, Date to) {
         Calendar bef = Calendar.getInstance();
         Calendar aft = Calendar.getInstance();
         bef.setTime(form);
@@ -70,28 +62,24 @@ public class DateUtil {
 
     /**
      * 把日期格式化为字符串
-     * @param date
-     *          日期
-     * @param format
-     *          格式
-     * @return
-     *          返回格式化之后的字符串
+     *
+     * @param date   日期
+     * @param format 格式
+     * @return 返回格式化之后的字符串
      */
-    public static String dateToString(Date date, String format){
+    public static String dateToString(Date date, String format) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(format);
         return dateFormat.format(date);
     }
 
     /**
      * 把日期格式化为字符串
-     * @param date
-     *          日期
-     * @param format
-     *          格式
-     * @return
-     *          返回格式化之后的字符串
+     *
+     * @param date   日期
+     * @param format 格式
+     * @return 返回格式化之后的字符串
      */
-    public static Date stringToDate(String date,String format){
+    public static Date stringToDate(String date, String format) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(format);
         try {
             return dateFormat.parse(date);
@@ -102,30 +90,26 @@ public class DateUtil {
 
     /**
      * 通过传入的日期加指定的天数
-     * @param date
-     *          日期
-     * @param day
-     *          天数
-     * @return
-     *          相加后的天数
+     *
+     * @param date 日期
+     * @param day  天数
+     * @return 相加后的天数
      */
-    public static Date getNextDay(Date date,int day){
+    public static Date getNextDay(Date date, int day) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_YEAR,day);
+        calendar.add(Calendar.DAY_OF_YEAR, day);
         return calendar.getTime();
     }
 
     /**
      * 通过传入的日期加指定的分钟数
-     * @param date
-     *          日期
-     * @param minute
-     *          天数
-     * @return
-     *          相加后的天数
+     *
+     * @param date   日期
+     * @param minute 天数
+     * @return 相加后的天数
      */
-    public static Date getNextMinute(Date date,int minute){
+    public static Date getNextMinute(Date date, int minute) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.MINUTE, minute);
@@ -134,99 +118,99 @@ public class DateUtil {
 
     /**
      * 通过传入的日期加指定的天数
-     * @param date
-     *          日期
-     * @param day
-     *          天数
-     * @return
-     *          相加后的天数
+     *
+     * @param date 日期
+     * @param day  天数
+     * @return 相加后的天数
      */
-    public static String getNextDay(String date ,int day,String format){
-        return dateToString(getNextDay(stringToDate(date,format),day),format);
+    public static String getNextDay(String date, int day, String format) {
+        return dateToString(getNextDay(stringToDate(date, format), day), format);
     }
 
     /**
      * 通过传入的日期加指定的年数
-     * @param date
-     *          日期
-     * @param year
-     *          年数
-     * @return
-     *          计算后的日期
+     *
+     * @param date 日期
+     * @param year 年数
+     * @return 计算后的日期
      */
-    public static Date getNextYear(Date date,int year){
+    public static Date getNextYear(Date date, int year) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.add(Calendar.YEAR,year);
+        calendar.add(Calendar.YEAR, year);
         return calendar.getTime();
     }
+
     /**
      * 通过传入的日期加指定的月数
-     * @param date
-     *          日期
-     * @param month
-     *          月数
-     * @return
-     *          计算后的日期
+     *
+     * @param date  日期
+     * @param month 月数
+     * @return 计算后的日期
      */
-    public static Date getNextMonth(Date date,int month){
+    public static Date getNextMonth(Date date, int month) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.add(Calendar.MONTH,month);
+        calendar.add(Calendar.MONTH, month);
         return calendar.getTime();
     }
 
 
     /**
      * 获取当前的时间
-     * @return
-     *          返回当前的时间
+     *
+     * @return 返回当前的时间
      */
-    public static Date getNowDate(){
+    public static Date getNowDate() {
         return new Date();
     }
 
     /**
      * 获取当前的时间（yyyy-MM-dd）
-     * @return
-     *          返回当前的时间
+     *
+     * @return 返回当前的时间
      */
-    public static String getNowDayString(){
+    public static String getNowDayString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATA_FORMAT_DATA_SHORT_SYMBOL_X);
         return dateFormat.format(getNowDate());
     }
+
     /**
      * 获取当前的时间（yyyy-MM-dd HH:mm:ss）
-     * @return
-     *          返回当前的时间
+     *
+     * @return 返回当前的时间
      */
-    public static String getNowTime(){
+    public static String getNowTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATA_FORMAT_DATA_SHORT_SYMBOL_Y);
         return dateFormat.format(getNowDate());
     }
 
     /**
      * 获取当前的时间
-     * @return
-     *          返回当前的时间
+     *
+     * @return 返回当前的时间
      */
-    public static Date getNowDayDate(){
+    public static Date getNowDayDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATA_FORMAT_DATA_SHORT_SYMBOL_X);
-        return stringToDate(dateFormat.format(getNowDate()),DATA_FORMAT_DATA_SHORT_SYMBOL_X);
+        return stringToDate(dateFormat.format(getNowDate()), DATA_FORMAT_DATA_SHORT_SYMBOL_X);
     }
+
     /**
      * 获得当前时间前几天的日期
+     *
      * @param i 天数
      * @return
      */
-    public static Date getBeforeDayDate(int i){
-        Calendar   cal   =   Calendar.getInstance();
-        cal.add(Calendar.DATE,   -i);
+    public static Date getBeforeDayDate(int i) {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -i);
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATA_FORMAT_DATA_SHORT_SYMBOL_X);
-        return stringToDate(dateFormat.format(cal.getTime()),DATA_FORMAT_DATA_SHORT_SYMBOL_X);
+        return stringToDate(dateFormat.format(cal.getTime()), DATA_FORMAT_DATA_SHORT_SYMBOL_X);
     }
+
     /**
      * 获得某天23:59:59点时间
+     *
      * @return
      */
     public static Date getTimesnight(Date date) {
@@ -241,6 +225,7 @@ public class DateUtil {
 
     /**
      * 获得某天0点时间
+     *
      * @return
      */
     public static Date getTimesmorning(Date date) {
@@ -254,11 +239,10 @@ public class DateUtil {
     }
 
     /**
+     * @param inputJudgeDate 要判断是否在当天24h内的时间
+     * @return boolean
      * @Description 是否为当天24h内
      * @author guo
-     * @param inputJudgeDate 要判断是否在当天24h内的时间
-     * @return
-     * boolean
      */
     public static boolean isToday(Date inputJudgeDate) {
         boolean flag = false;
@@ -280,7 +264,7 @@ public class DateUtil {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if(inputJudgeDate.after(paseBeginTime) && inputJudgeDate.before(paseEndTime)) {
+        if (inputJudgeDate.after(paseBeginTime) && inputJudgeDate.before(paseEndTime)) {
             flag = true;
         }
         return flag;
@@ -288,12 +272,11 @@ public class DateUtil {
 
     /**
      * 把日期格式化为字符串
-     * @param date
-     *          日期
-     * @return
-     *          返回格式化之后的字符串
+     *
+     * @param date 日期
+     * @return 返回格式化之后的字符串
      */
-    public static Date stringToDateFormat(String date){
+    public static Date stringToDateFormat(String date) {
         String format = "yyyy-MM-dd HH:mm:ss";
         SimpleDateFormat dateFormat = new SimpleDateFormat(format);
         try {
@@ -305,13 +288,14 @@ public class DateUtil {
 
     /**
      * 时间戳转date
+     *
      * @return
      */
-    public static Date timeToDate (Long time) {
+    public static Date timeToDate(Long time) {
         //时间戳转化为Sting或Date
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String d = format.format(time);
-        Date date= null;
+        Date date = null;
         try {
             date = format.parse(d);
             return date;
@@ -322,13 +306,13 @@ public class DateUtil {
     }
 
     //取当前时间戳（10位格式）
-    public static Long getCurrentTimeStamp(){
+    public static Long getCurrentTimeStamp() {
         return dateToTimeStamp(new Date());
     }
 
     //取10位时间戳
-    public static Long dateToTimeStamp(Date date){
+    public static Long dateToTimeStamp(Date date) {
         Timestamp ts = new Timestamp(date.getTime());
-        return ts.getTime()/1000;
+        return ts.getTime() / 1000;
     }
 }

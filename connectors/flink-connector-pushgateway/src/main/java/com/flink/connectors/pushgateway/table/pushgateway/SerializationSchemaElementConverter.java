@@ -33,6 +33,7 @@ public class SerializationSchemaElementConverter
 
     @Override
     public PushgatewayGaugeEntity apply(RowData rowData, Context context) {
+        // SingleValueTagSchemaConverter converter = new SingleValueTagSchemaConverter(serializationSchema);
         return new PushgatewayGaugeEntity();
     }
 }

@@ -13,7 +13,7 @@ public class PushgatewayGaugeEntity implements Serializable {
     public Double metricValue;
     public TreeMap<String, String> groupingKey;
 
-    public PushgatewayGaugeEntity(){
+    public PushgatewayGaugeEntity() {
     }
 
     public PushgatewayGaugeEntity(String jobName,
@@ -22,7 +22,7 @@ public class PushgatewayGaugeEntity implements Serializable {
         this.jobName = jobName;
         this.timestamp = DateUtil.getCurrentTimeStamp();
         this.metricName = metricName;
-        this.metricHelp = "Help "+ metricName;
+        this.metricHelp = "Help " + metricName;
         this.metricValue = metricValue;
         this.groupingKey = groupingKey;
     }
@@ -30,7 +30,7 @@ public class PushgatewayGaugeEntity implements Serializable {
     public PushgatewayGaugeEntity(String jobName, Long timestamp,
                                   String metricName, Double metricValue,
                                   TreeMap<String, String> groupingKey) {
-        this(jobName,  metricName, metricValue, groupingKey);
+        this(jobName, metricName, metricValue, groupingKey);
         this.timestamp = timestamp;
     }
 
@@ -39,5 +39,9 @@ public class PushgatewayGaugeEntity implements Serializable {
                                   TreeMap<String, String> groupingKey) {
         this(jobName, timestamp, metricName, metricValue, groupingKey);
         this.metricHelp = metricHelp;
+    }
+
+    public long getSizeInBytes() {
+        return 40;      //TODO 计算计算大小
     }
 }

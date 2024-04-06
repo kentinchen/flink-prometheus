@@ -52,7 +52,7 @@ public abstract class PushgatewayBaseSinkFunction<IN> extends RichSinkFunction<I
                     field.setAccessible(true);
                     try {
                         String gatewayBaseURL = (String) field.get(pg);
-                        System.err.println("write pushgateway: " +gatewayBaseURL);
+                        System.err.println("write pushgateway: " + gatewayBaseURL);
                     } catch (IllegalAccessException ex) {
                         throw new RuntimeException(ex);
                     }

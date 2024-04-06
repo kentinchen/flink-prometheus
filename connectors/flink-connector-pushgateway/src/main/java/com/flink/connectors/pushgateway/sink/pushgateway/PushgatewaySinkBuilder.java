@@ -9,17 +9,16 @@ import org.apache.flink.connector.base.sink.writer.ElementConverter;
 import java.util.Optional;
 import java.util.Properties;
 
-public class PushgatewaySinkBuilder <InputT> extends AsyncSinkBaseBuilder<InputT, PushgatewayGaugeEntity, PushgatewaySinkBuilder<InputT>> {
+public class PushgatewaySinkBuilder<InputT> extends AsyncSinkBaseBuilder<InputT, PushgatewayGaugeEntity, PushgatewaySinkBuilder<InputT>> {
     private static final int DEFAULT_MAX_BATCH_SIZE = 500;
     private static final int DEFAULT_MAX_IN_FLIGHT_REQUESTS = 50;
     private static final int DEFAULT_MAX_BUFFERED_REQUESTS = 10_000;
     private static final long DEFAULT_MAX_BATCH_SIZE_IN_B = 5 * 1024 * 1024;
     private static final long DEFAULT_MAX_TIME_IN_BUFFER_MS = 5000;
     private static final long DEFAULT_MAX_RECORD_SIZE_IN_B = 1024 * 1024;
+    private final Properties properties = new Properties();
     // Mandatory field
     private String pushgateway;
-
-    private final Properties properties = new Properties();
     private ElementConverter<InputT, PushgatewayGaugeEntity> elementConverter;
 
     @PublicEvolving
