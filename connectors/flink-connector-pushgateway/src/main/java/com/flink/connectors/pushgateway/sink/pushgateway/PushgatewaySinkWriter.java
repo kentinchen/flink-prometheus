@@ -46,8 +46,9 @@ public class PushgatewaySinkWriter<InputT> extends AsyncSinkWriter<InputT, Pushg
     @Override
     protected void submitRequestEntries(List<PushgatewayGaugeEntity> list, Consumer<List<PushgatewayGaugeEntity>> consumer) {
         for (PushgatewayGaugeEntity pushgatewayGaugeEntity : list) {
-            pushGauge(pushgatewayGaugeEntity);
-
+            if (pushgatewayGaugeEntity != null) {
+                pushGauge(pushgatewayGaugeEntity);
+            }
         }
     }
 

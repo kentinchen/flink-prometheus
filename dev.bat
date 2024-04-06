@@ -44,3 +44,7 @@ WITH (
 )
 
 INSERT INTO ecs_perf_tsdb SELECT ts,m_type,m_name,m_value,vm_id FROM ecs_perf_sls;
+
+
+Caused by: org.apache.flink.client.program.ProgramInvocationException: The main method caused an error:
+Table sink 'default_catalog.default_database.ecs_perf_tsdb' doesn't support consuming delete changes which is produced by node TableSourceScan(table=[[default_catalog, default_database, ecs_perf_sls]], fields=[ts, m_type, m_name, m_value, vm_id])

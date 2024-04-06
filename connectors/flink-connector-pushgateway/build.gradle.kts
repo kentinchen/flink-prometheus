@@ -29,6 +29,7 @@ dependencies {
     compileOnly("org.apache.logging.log4j:log4j-core:${log4jVersion}")
     compileOnly("org.apache.flink:flink-table-api-java-bridge:${flinkVersion}")
     compileOnly("org.apache.flink:flink-connector-base:${flinkVersion}")
+    compileOnly("org.apache.flink:flink-table-runtime:${flinkVersion}")
     compileOnly("org.projectlombok:lombok:${lombokVersion}")
     compileOnly("com.alibaba:fastjson:${fastjsonVersion}")
     compileOnly("io.prometheus:simpleclient:0.16.0")

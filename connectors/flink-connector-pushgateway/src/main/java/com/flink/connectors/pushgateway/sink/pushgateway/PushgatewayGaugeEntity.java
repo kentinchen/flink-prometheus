@@ -13,9 +13,6 @@ public class PushgatewayGaugeEntity implements Serializable {
     public Double metricValue;
     public TreeMap<String, String> groupingKey;
 
-    public PushgatewayGaugeEntity() {
-    }
-
     public PushgatewayGaugeEntity(String jobName,
                                   String metricName, Double metricValue,
                                   TreeMap<String, String> groupingKey) {

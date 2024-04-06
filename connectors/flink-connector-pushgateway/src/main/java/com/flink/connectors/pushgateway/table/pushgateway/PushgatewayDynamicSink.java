@@ -6,6 +6,7 @@ import com.flink.connectors.pushgateway.sink.pushgateway.PushgatewaySink;
 import com.flink.connectors.pushgateway.sink.pushgateway.PushgatewaySinkBuilder;
 import com.flink.connectors.pushgateway.table.callback.HttpPostRequestCallback;
 import org.apache.flink.api.common.serialization.SerializationSchema;
+import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.configuration.ReadableConfig;
 import org.apache.flink.connector.base.table.sink.AsyncDynamicTableSink;
 import org.apache.flink.connector.base.table.sink.AsyncDynamicTableSinkBuilder;
@@ -54,10 +55,11 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGau
     public SinkRuntimeProvider getSinkRuntimeProvider(Context context) {
         SerializationSchema<RowData> serializationSchema = encodingFormat.createRuntimeEncoder(context, consumedDataType);
         var insertMethod = tableOptions.get(INSERT_METHOD);
+        final TypeInformation<RowData> rowDataTypeInfo = context.createTypeInformation(consumedDataType);
         PushgatewaySinkBuilder<RowData> builder = PushgatewaySink
                 .<RowData>builder()
                 .setEndpointUrl(tableOptions.get(PUSHGATEWAY))
-                .setElementConverter(new SerializationSchemaElementConverter(insertMethod, serializationSchema))
+                .setElementConverter(PushgatewayConverterFactory.create(rowDataTypeInfo, consumedDataType, serializationSchema))
                 .setProperties(properties);
         addAsyncOptionsToSinkBuilder(builder);
         return SinkV2Provider.of(builder.build());
