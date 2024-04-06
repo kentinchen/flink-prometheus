@@ -1,10 +1,8 @@
 package com.flink.connectors.pushgateway.table.pushgateway;
 
-import com.flink.connectors.pushgateway.sink.httpclient.HttpRequest;
 import com.flink.connectors.pushgateway.sink.pushgateway.PushgatewayGaugeEntity;
 import com.flink.connectors.pushgateway.sink.pushgateway.PushgatewaySink;
 import com.flink.connectors.pushgateway.sink.pushgateway.PushgatewaySinkBuilder;
-import com.flink.connectors.pushgateway.table.callback.HttpPostRequestCallback;
 import org.apache.flink.api.common.serialization.SerializationSchema;
 import org.apache.flink.configuration.ReadableConfig;
 import org.apache.flink.connector.base.table.sink.AsyncDynamicTableSink;
@@ -26,7 +24,6 @@ import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewayDyna
 public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGaugeEntity> {
     private final DataType consumedDataType;
     private final EncodingFormat<SerializationSchema<RowData>> encodingFormat;
-    private final HttpPostRequestCallback<HttpRequest> httpPostRequestCallback;
     private final ReadableConfig tableOptions;
     private final Properties properties;
 
@@ -34,13 +31,11 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGau
                                      @Nullable Integer maxBufferedRequests, @Nullable Long maxBufferSizeInBytes,
                                      @Nullable Long maxTimeInBufferMS, DataType consumedDataType,
                                      EncodingFormat<SerializationSchema<RowData>> encodingFormat,
-                                     HttpPostRequestCallback<HttpRequest> httpPostRequestCallback,
                                      ReadableConfig tableOptions,
                                      Properties properties) {
         super(maxBatchSize, maxInFlightRequests, maxBufferedRequests, maxBufferSizeInBytes, maxTimeInBufferMS);
         this.consumedDataType = Preconditions.checkNotNull(consumedDataType, "Consumed data type must not be null");
         this.encodingFormat = Preconditions.checkNotNull(encodingFormat, "Encoding format must not be null");
-        this.httpPostRequestCallback = Preconditions.checkNotNull(httpPostRequestCallback, "Post request callback must not be null");
         this.tableOptions = Preconditions.checkNotNull(tableOptions, "Table options must not be null");
         this.properties = properties;
     }
@@ -76,7 +71,6 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGau
                 maxTimeInBufferMS,
                 consumedDataType,
                 encodingFormat,
-                httpPostRequestCallback,
                 tableOptions,
                 properties
         );
@@ -92,7 +86,6 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGau
         private ReadableConfig tableOptions;
         private DataType consumedDataType;
         private EncodingFormat<SerializationSchema<RowData>> encodingFormat;
-        private HttpPostRequestCallback<HttpRequest> httpPostRequestCallback;
 
         public PushgatewayDynamicTableSinkBuilder setTableOptions(ReadableConfig tableOptions) {
             this.tableOptions = tableOptions;
@@ -101,11 +94,6 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGau
 
         public PushgatewayDynamicTableSinkBuilder setEncodingFormat(EncodingFormat<SerializationSchema<RowData>> encodingFormat) {
             this.encodingFormat = encodingFormat;
-            return this;
-        }
-
-        public PushgatewayDynamicTableSinkBuilder setHttpPostRequestCallback(HttpPostRequestCallback<HttpRequest> httpPostRequestCallback) {
-            this.httpPostRequestCallback = httpPostRequestCallback;
             return this;
         }
 
@@ -134,7 +122,6 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGau
                     getMaxTimeInBufferMS(),
                     consumedDataType,
                     encodingFormat,
-                    httpPostRequestCallback,
                     tableOptions,
                     properties
             );
