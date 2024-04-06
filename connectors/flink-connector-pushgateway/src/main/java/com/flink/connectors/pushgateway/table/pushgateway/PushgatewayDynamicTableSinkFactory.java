@@ -13,8 +13,8 @@ import org.apache.flink.table.factories.FactoryUtil;
 import java.util.Properties;
 import java.util.Set;
 
-import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewyaDynamicSinkConnectorOptions.PUSHGATEWAY;
-import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewyaDynamicSinkConnectorOptions.REQUEST_CALLBACK_IDENTIFIER;
+import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewayDynamicSinkConnectorOptions.PUSHGATEWAY;
+import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewayDynamicSinkConnectorOptions.REQUEST_CALLBACK_IDENTIFIER;
 
 public class PushgatewayDynamicTableSinkFactory extends AsyncDynamicTableSinkFactory {
     public static final String IDENTIFIER = "pushgateway";

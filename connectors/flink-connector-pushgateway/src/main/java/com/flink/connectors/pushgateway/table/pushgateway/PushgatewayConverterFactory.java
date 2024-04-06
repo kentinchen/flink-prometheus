@@ -17,7 +17,7 @@ public class PushgatewayConverterFactory {
     private static String M_VALUE = "m_value";
     private static String TIMESTAMP = "timestamp";
 
-    public static SerializationSchemaElementConverter create(DataType consumedDataType, SerializationSchema<RowData> serializationSchema) {
+    public static SerializationSchemaElementConverter create(DataType consumedDataType) {
         final RowType physicalRowType = (RowType) consumedDataType.getLogicalType();
         List<RowType.RowField> fields = physicalRowType.getFields();
         Map<Integer, String> tagsIdxMap = new HashMap<>();
@@ -46,6 +46,6 @@ public class PushgatewayConverterFactory {
         if (nameIdx < 0 || valueIdx < 0) {
             throw new NotEnoughParamsException("`metric` and `timestamp` column must be defined correctly");
         }
-        return new SerializationSchemaElementConverter(nameIdx, valueIdx, tagsIdxMap, fieldNames, fieldTypes, consumedDataType, serializationSchema);
+        return new SerializationSchemaElementConverter(nameIdx, valueIdx, tagsIdxMap);
     }
 }

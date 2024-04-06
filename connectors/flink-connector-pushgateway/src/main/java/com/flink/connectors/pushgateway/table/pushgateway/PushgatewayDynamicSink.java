@@ -21,7 +21,7 @@ import org.apache.flink.util.Preconditions;
 import javax.annotation.Nullable;
 import java.util.Properties;
 
-import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewyaDynamicSinkConnectorOptions.PUSHGATEWAY;
+import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewayDynamicSinkConnectorOptions.PUSHGATEWAY;
 
 public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGaugeEntity> {
     private final DataType consumedDataType;
@@ -60,7 +60,7 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGau
         PushgatewaySinkBuilder<RowData> builder = PushgatewaySink
                 .<RowData>builder()
                 .setEndpointUrl(tableOptions.get(PUSHGATEWAY))
-                .setElementConverter(PushgatewayConverterFactory.create(consumedDataType, serializationSchema))
+                .setElementConverter(PushgatewayConverterFactory.create(consumedDataType))
                 .setProperties(properties);
         addAsyncOptionsToSinkBuilder(builder);
         return SinkV2Provider.of(builder.build());

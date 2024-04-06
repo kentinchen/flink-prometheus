@@ -9,14 +9,15 @@ import static com.flink.connectors.pushgateway.config.ConnectorConfigConstants.S
 /**
  * Table API options for {@link PushgatewayDynamicSink}.
  */
-public class PushgatewyaDynamicSinkConnectorOptions {
-
+public class PushgatewayDynamicSinkConnectorOptions {
     public static final ConfigOption<String> PUSHGATEWAY =
             ConfigOptions.key("pushgateway").stringType().noDefaultValue()
                     .withDescription("The pushgateway Url,for example：pushgateway:9091");
 
+    public static final ConfigOption<String> JOB_NAME = ConfigOptions.key("job.name").stringType()
+            .defaultValue("pushgateway");
+
     public static final ConfigOption<String> REQUEST_CALLBACK_IDENTIFIER =
-            ConfigOptions.key(SINK_REQUEST_CALLBACK_IDENTIFIER)
-                    .stringType()
+            ConfigOptions.key(SINK_REQUEST_CALLBACK_IDENTIFIER).stringType()
                     .defaultValue(Slf4jHttpPostRequestCallbackFactory.IDENTIFIER);
 }
