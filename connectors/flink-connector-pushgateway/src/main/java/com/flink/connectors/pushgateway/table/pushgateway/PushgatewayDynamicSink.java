@@ -60,7 +60,7 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGau
         PushgatewaySinkBuilder<RowData> builder = PushgatewaySink
                 .<RowData>builder()
                 .setEndpointUrl(tableOptions.get(PUSHGATEWAY))
-                .setElementConverter(PushgatewayConverterFactory.create(consumedDataType))
+                .setElementConverter(PushgatewayConverterFactory.create(consumedDataType,serializationSchema))
                 .setProperties(properties);
         addAsyncOptionsToSinkBuilder(builder);
         return SinkV2Provider.of(builder.build());

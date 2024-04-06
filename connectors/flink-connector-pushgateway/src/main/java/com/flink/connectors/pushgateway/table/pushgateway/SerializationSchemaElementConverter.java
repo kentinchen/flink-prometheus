@@ -2,10 +2,11 @@ package com.flink.connectors.pushgateway.table.pushgateway;
 
 import com.flink.connectors.pushgateway.sink.pushgateway.PushgatewayGaugeEntity;
 import com.flink.connectors.pushgateway.table.SchemaLifecycleAwareElementConverter;
-import org.apache.flink.api.common.typeinfo.TypeInformation;
+import org.apache.flink.api.common.serialization.SerializationSchema;
 import org.apache.flink.api.connector.sink2.Sink.InitContext;
 import org.apache.flink.api.connector.sink2.SinkWriter.Context;
 import org.apache.flink.table.data.RowData;
+import org.apache.flink.util.FlinkRuntimeException;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -14,19 +15,26 @@ public class SerializationSchemaElementConverter
         implements SchemaLifecycleAwareElementConverter<RowData, PushgatewayGaugeEntity> {
     protected Map<Integer, String> tagsIdxMap;
     private boolean schemaOpened = false;
+    private final SerializationSchema<RowData> serializationSchema;
     private int metricIdx;
     private int valueIdx;
 
-    public SerializationSchemaElementConverter(int metricIdx, int valueIdx, Map<Integer, String> tagsIdxMap) {
+    public SerializationSchemaElementConverter(int metricIdx, int valueIdx, Map<Integer, String> tagsIdxMap, SerializationSchema<RowData> serializationSchema) {
         this.metricIdx = metricIdx;
         this.valueIdx = valueIdx;
         this.tagsIdxMap = tagsIdxMap;
+        this.serializationSchema = serializationSchema;
     }
 
     @Override
     public void open(InitContext context) {
         if (!schemaOpened) {
-            schemaOpened = true;
+            try {
+                serializationSchema.open(context.asSerializationSchemaInitializationContext());
+                schemaOpened = true;
+            } catch (Exception e) {
+                throw new FlinkRuntimeException("Failed to initialize serialization schema.", e);
+            }
         }
     }
 
@@ -34,8 +42,9 @@ public class SerializationSchemaElementConverter
     public PushgatewayGaugeEntity apply(RowData rowData, Context context) {
         String metricName1 = rowData.getString(metricIdx).toString();
         String metricName = metricName1.replace(" ", "").replace("-", "_");
-        return new PushgatewayGaugeEntity("jobName", metricName,
-                rowData.getDouble(valueIdx), parseTags(rowData));
+        Double metricValue = rowData.getDouble(valueIdx);
+        System.out.println("metricName:" + metricName + " metricValue:" + metricValue);
+        return new PushgatewayGaugeEntity("jobName", metricName, metricValue, parseTags(rowData));
     }
 
     protected TreeMap<String, String> parseTags(RowData row) {
