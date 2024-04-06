@@ -42,10 +42,7 @@ public class PushgatewayTableTest {
                         + ")");*/
 
         env.executeSql(
-                "CREATE TABLE ecs_perf_tsdb (" +
-                        "m_name STRING, " +
-                        "m_value Double, " +
-                        "report_year INT)\n"
+                "CREATE TABLE ecs_perf_tsdb ( m_name STRING, report_year STRING, m_value Double)\n"
                         + "WITH (\n"
                         + "  'connector' = 'pushgateway',\n"
                         + "  'format' = 'json',\n"
@@ -59,27 +56,27 @@ public class PushgatewayTableTest {
         final TableResult insertionResult =
                 env.executeSql(
                         "INSERT INTO ecs_perf_tsdb VALUES"
-                                + "  ('LosAngeles',  2013, 13106100), "
-                                + "  ('LosAngeles', 2014, 72600), "
-                                + "  ('LosAngeles', 2015, 72300), "
-                                + "  ('Chicago', 2013, 9553270), "
-                                + "  ('Chicago', 2014, 11340), "
-                                + "  ('Chicago', 2015, 6730), "
-                                + "  ('Houston', 2013, 6330660), "
-                                + "  ('Houston', 2014, 172960), "
-                                + "  ('Houston', 2015, 172940), "
-                                + "  ('Phoenix', 2013, 4404680), "
-                                + "  ('Phoenix', 2014, 86740), "
-                                + "  ('Phoenix', 2015, 89700), "
-                                + "  ('SanAntonio',  2013, 2280580), "
-                                + "  ('SanAntonio',  2014, 49180), "
-                                + "  ('SanAntonio',  2015, 50870), "
-                                + "  ('SanFrancisco',  2013, 4521310), "
-                                + "  ('SanFrancisco',  2014, 65940), "
-                                + "  ('Sanrancisco',  2015, 62290), "
-                                + "  ('Dallas',  2013, 6817520), "
-                                + "  ('Dallas',  2014, 137740), "
-                                + "  ('Dallas',  2015, 154020)");
+                                + "  ('LosAngeles',  '2013', 13106100), "
+                                + "  ('LosAngeles', '2014', 72600), "
+                                + "  ('LosAngeles', '2015', 72300), "
+                                + "  ('Chicago', '2013', 9553270), "
+                                + "  ('Chicago', '2014', 11340), "
+                                + "  ('Chicago', '2015', 6730), "
+                                + "  ('Houston', '2013', 6330660), "
+                                + "  ('Houston', '2014', 172960), "
+                                + "  ('Houston', '2015', 172940), "
+                                + "  ('Phoenix', '2013', 4404680), "
+                                + "  ('Phoenix', '2014', 86740), "
+                                + "  ('Phoenix', '2015', 89700), "
+                                + "  ('SanAntonio',  '2013', 2280580), "
+                                + "  ('SanAntonio',  '2014', 49180), "
+                                + "  ('SanAntonio',  '2015', 50870), "
+                                + "  ('SanFrancisco',  '2013', 4521310), "
+                                + "  ('SanFrancisco',  '2014', 65940), "
+                                + "  ('Sanrancisco',  '2015', 62290), "
+                                + "  ('Dallas',  '2013', 6817520), "
+                                + "  ('Dallas',  '2014', 137740), "
+                                + "  ('Dallas',  '2015', 154020)");
 
         // since all cluster operations of the Table API are executed asynchronously,
         // we need to wait until the insertion has been completed,
