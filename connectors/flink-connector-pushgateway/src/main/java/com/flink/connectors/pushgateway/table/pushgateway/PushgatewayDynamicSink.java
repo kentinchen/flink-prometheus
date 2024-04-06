@@ -16,6 +16,7 @@ import org.apache.flink.table.connector.sink.DynamicTableSink;
 import org.apache.flink.table.connector.sink.SinkV2Provider;
 import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.types.DataType;
+import org.apache.flink.types.RowKind;
 import org.apache.flink.util.Preconditions;
 
 import javax.annotation.Nullable;
@@ -48,13 +49,16 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGau
 
     @Override
     public ChangelogMode getChangelogMode(ChangelogMode changelogMode) {
-        return encodingFormat.getChangelogMode();
+        // return encodingFormat.getChangelogMode();
+        return ChangelogMode.newBuilder()
+                .addContainedKind(RowKind.INSERT)
+                .addContainedKind(RowKind.DELETE)
+                .build();
     }
 
     @Override
     public SinkRuntimeProvider getSinkRuntimeProvider(Context context) {
         SerializationSchema<RowData> serializationSchema = encodingFormat.createRuntimeEncoder(context, consumedDataType);
-        var insertMethod = tableOptions.get(INSERT_METHOD);
         final TypeInformation<RowData> rowDataTypeInfo = context.createTypeInformation(consumedDataType);
         PushgatewaySinkBuilder<RowData> builder = PushgatewaySink
                 .<RowData>builder()
