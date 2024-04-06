@@ -68,14 +68,14 @@ public class PushgatewayTableTest {
                                 + "  ('Phoenix', '2013', 4404680), "
                                 + "  ('Phoenix', '2014', 86740), "
                                 + "  ('Phoenix', '2015', 89700), "
+                                + "  ('Dallas',  '2013', 6817520), "
+                                + "  ('Dallas',  '2014', 137740), "
                                 + "  ('SanAntonio',  '2013', 2280580), "
                                 + "  ('SanAntonio',  '2014', 49180), "
                                 + "  ('SanAntonio',  '2015', 50870), "
                                 + "  ('SanFrancisco',  '2013', 4521310), "
                                 + "  ('SanFrancisco',  '2014', 65940), "
                                 + "  ('Sanrancisco',  '2015', 62290), "
-                                + "  ('Dallas',  '2013', 6817520), "
-                                + "  ('Dallas',  '2014', 137740), "
                                 + "  ('Dallas',  '2015', 154020)");
 
         // since all cluster operations of the Table API are executed asynchronously,
