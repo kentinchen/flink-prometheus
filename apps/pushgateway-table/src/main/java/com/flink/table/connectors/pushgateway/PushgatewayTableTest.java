@@ -64,7 +64,7 @@ public class PushgatewayTableTest {
                                 + "  ('LosAngeles', 2015, 72300), "
                                 + "  ('Chicago', 2013, 9553270), "
                                 + "  ('Chicago', 2014, 11340), "
-                                + "  ('Chicago', 2015, -6730), "
+                                + "  ('Chicago', 2015, 6730), "
                                 + "  ('Houston', 2013, 6330660), "
                                 + "  ('Houston', 2014, 172960), "
                                 + "  ('Houston', 2015, 172940), "
