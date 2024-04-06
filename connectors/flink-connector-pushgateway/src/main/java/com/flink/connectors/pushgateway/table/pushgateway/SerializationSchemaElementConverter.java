@@ -49,8 +49,6 @@ public class SerializationSchemaElementConverter
 
     @Override
     public PushgatewayGaugeEntity apply(RowData rowData, Context context) {
-        String jobName = "job";
-        // return null;
         TreeMap<String, String> tags = new TreeMap<>();
         tags.put("tagK1", "kentin");
         return new PushgatewayGaugeEntity("job", "ecs_load", 0.23, tags);

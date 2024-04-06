@@ -15,12 +15,6 @@ public class PushgatewyaDynamicSinkConnectorOptions {
             ConfigOptions.key("pushgateway").stringType().noDefaultValue()
                     .withDescription("The pushgateway Url,for example：pushgateway:9091");
 
-    public static final ConfigOption<String> INSERT_METHOD =
-            ConfigOptions.key("insert-method")
-                    .stringType()
-                    .defaultValue("POST")
-                    .withDescription("Method used for requests built from SQL's INSERT.");
-
     public static final ConfigOption<String> REQUEST_CALLBACK_IDENTIFIER =
             ConfigOptions.key(SINK_REQUEST_CALLBACK_IDENTIFIER)
                     .stringType()

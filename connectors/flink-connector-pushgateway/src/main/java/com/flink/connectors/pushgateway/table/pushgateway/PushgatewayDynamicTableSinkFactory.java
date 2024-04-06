@@ -3,19 +3,18 @@ package com.flink.connectors.pushgateway.table.pushgateway;
 import com.flink.connectors.pushgateway.sink.httpclient.HttpRequest;
 import com.flink.connectors.pushgateway.table.callback.HttpPostRequestCallbackFactory;
 import com.flink.connectors.pushgateway.utils.ConfigUtils;
-import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.configuration.ConfigOption;
 import org.apache.flink.configuration.ReadableConfig;
 import org.apache.flink.connector.base.table.AsyncDynamicTableSinkFactory;
 import org.apache.flink.connector.base.table.sink.options.AsyncSinkConfigurationValidator;
 import org.apache.flink.table.connector.sink.DynamicTableSink;
-import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.factories.FactoryUtil;
 
 import java.util.Properties;
 import java.util.Set;
 
-import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewyaDynamicSinkConnectorOptions.*;
+import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewyaDynamicSinkConnectorOptions.PUSHGATEWAY;
+import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewyaDynamicSinkConnectorOptions.REQUEST_CALLBACK_IDENTIFIER;
 
 public class PushgatewayDynamicTableSinkFactory extends AsyncDynamicTableSinkFactory {
     public static final String IDENTIFIER = "pushgateway";
@@ -55,7 +54,6 @@ public class PushgatewayDynamicTableSinkFactory extends AsyncDynamicTableSinkFac
     @Override
     public Set<ConfigOption<?>> optionalOptions() {
         var options = super.optionalOptions();
-        options.add(INSERT_METHOD);
         options.add(REQUEST_CALLBACK_IDENTIFIER);
         return options;
     }

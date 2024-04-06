@@ -17,8 +17,7 @@ public class PushgatewayConverterFactory {
     private static String M_VALUE = "m_value";
     private static String TIMESTAMP = "timestamp";
 
-    public static SerializationSchemaElementConverter create(TypeInformation<RowData> rowTypeInfo, DataType consumedDataType, SerializationSchema<RowData> serializationSchema) {
-
+    public static SerializationSchemaElementConverter create(DataType consumedDataType, SerializationSchema<RowData> serializationSchema) {
         final RowType physicalRowType = (RowType) consumedDataType.getLogicalType();
         List<RowType.RowField> fields = physicalRowType.getFields();
         Map<Integer, String> tagsIdxMap = new HashMap<>();
