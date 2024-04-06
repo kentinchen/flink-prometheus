@@ -8,7 +8,6 @@ import org.apache.flink.api.connector.sink2.Sink.InitContext;
 import org.apache.flink.api.connector.sink2.SinkWriter.Context;
 import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.types.DataType;
-import org.apache.flink.types.Row;
 import org.apache.flink.util.FlinkRuntimeException;
 
 import java.util.Map;
@@ -49,30 +48,21 @@ public class SerializationSchemaElementConverter
 
     @Override
     public PushgatewayGaugeEntity apply(RowData rowData, Context context) {
-        TreeMap<String, String> tags = new TreeMap<>();
-        tags.put("tagK1", "kentin");
-        return new PushgatewayGaugeEntity("job", "ecs_load", 0.23, tags);
-        //return new PushgatewayGaugeEntity(jobName, parseMetric(null), parseValue(null), parseTags(null));
+        return new PushgatewayGaugeEntity("jobName", rowData.getString(metricIdx).toString(),
+                rowData.getDouble(valueIdx), parseTags(rowData));
     }
 
-    protected String parseMetric(Row row) {
-        return row.getField(this.metricIdx).toString();
-    }
-
-    protected Double parseValue(Row row) {
-        return Double.valueOf((String) row.getField(this.valueIdx));
-    }
-
-    protected TreeMap<String, String> parseTags(Row row) {
+    protected TreeMap<String, String> parseTags(RowData row) {
         return tagsIdxMap.isEmpty() ? new TreeMap<>() : doParseTags(tagsIdxMap, row);
     }
 
-    private TreeMap<String, String> doParseTags(Map<Integer, String> tagsIdxMap, Row row) {
+    private TreeMap<String, String> doParseTags(Map<Integer, String> tagsIdxMap, RowData row) {
         TreeMap<String, String> tags = new TreeMap<>();
         for (Map.Entry<Integer, String> entry : tagsIdxMap.entrySet()) {
             int idx = entry.getKey();
             String tagKey = entry.getValue();
-            Object rawTagValue = row.getField(idx);
+            System.out.println("tag idx:" + idx + " tagKey:" + tagKey );
+            Object rawTagValue = row.getString(idx).toString();
             String tagValue = (rawTagValue == null) ? "None" : rawTagValue.toString();
             tags.put(tagKey, tagValue);
         }

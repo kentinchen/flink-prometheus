@@ -141,14 +141,36 @@ public final class SocketSource
      * Placeholder because the SocketSource does not support fault-tolerance and thus does not
      * require actual checkpointing.
      */
-    public static class DummyCheckpoint {}
+    public static class DummyCheckpoint {
+    }
+
+    /**
+     * Not used - only required to avoid NullPointerException. The split is not transferred from the
+     * enumerator, it is implicitly represented by the socket.
+     */
+    private static class NoOpDummySplitSerializer implements SimpleVersionedSerializer<DummySplit> {
+        @Override
+        public int getVersion() {
+            return 0;
+        }
+
+        @Override
+        public byte[] serialize(DummySplit split) throws IOException {
+            return new byte[0];
+        }
+
+        @Override
+        public DummySplit deserialize(int version, byte[] serialized) throws IOException {
+            return new DummySplit();
+        }
+    }
 
     private class SocketReader implements SourceReader<RowData, DummySplit> {
 
+        int b;
         private Socket socket;
         private ByteArrayOutputStream buffer;
         private InputStream stream;
-        int b;
 
         @Override
         public void start() {
@@ -236,27 +258,6 @@ public final class SocketSource
             } catch (Throwable t) {
                 // ignore
             }
-        }
-    }
-
-    /**
-     * Not used - only required to avoid NullPointerException. The split is not transferred from the
-     * enumerator, it is implicitly represented by the socket.
-     */
-    private static class NoOpDummySplitSerializer implements SimpleVersionedSerializer<DummySplit> {
-        @Override
-        public int getVersion() {
-            return 0;
-        }
-
-        @Override
-        public byte[] serialize(DummySplit split) throws IOException {
-            return new byte[0];
-        }
-
-        @Override
-        public DummySplit deserialize(int version, byte[] serialized) throws IOException {
-            return new DummySplit();
         }
     }
 }

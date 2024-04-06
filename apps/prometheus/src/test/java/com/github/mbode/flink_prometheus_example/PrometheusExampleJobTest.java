@@ -4,8 +4,8 @@ import org.apache.flink.test.util.AbstractTestBase;
 import org.junit.jupiter.api.Test;
 
 class PrometheusExampleJobTest extends AbstractTestBase {
-  @Test
-  void jobRuns() throws Exception {
-    PrometheusExampleJob.main(new String[] {"--elements", "7"});
-  }
+    @Test
+    void jobRuns() throws Exception {
+        PrometheusExampleJob.main(new String[]{"--elements", "7"});
+    }
 }

@@ -4,19 +4,27 @@
 [![Prometheus v2.37.1](https://img.shields.io/badge/prometheus-v2.37.1-blue.svg)](https://github.com/prometheus/prometheus/releases/tag/v2.37.1)
 
 This repository contains the live demo to my talk _Monitoring Flink with Prometheus_, which I have given at:
-* [Flink Forward Berlin 2018](https://berlin-2018.flink-forward.org/conference-program/#monitoring-flink-with-prometheus), _2018-09-04_ (:video_camera: [Video](https://www.youtube.com/watch?v=vesj-ghLimA) :page_facing_up: [Slides](https://www.slideshare.net/MaximilianBode1/monitoring-flink-with-prometheus))
-* [Spark & Hadoop User Group Munich](https://www.meetup.com/de-DE/Hadoop-User-Group-Munich/events/252393503/), _2018-09-26_
 
-The blog post [Flink and Prometheus: Cloud-native monitoring of streaming applications](https://flink.apache.org/features/2019/03/11/prometheus-monitoring.html) explains how to run the demo yourself.
+* [Flink Forward Berlin 2018](https://berlin-2018.flink-forward.org/conference-program/#monitoring-flink-with-prometheus),
+  _2018-09-04_ (:video_camera: [Video](https://www.youtube.com/watch?v=vesj-ghLimA) :
+  page_facing_up: [Slides](https://www.slideshare.net/MaximilianBode1/monitoring-flink-with-prometheus))
+* [Spark & Hadoop User Group Munich](https://www.meetup.com/de-DE/Hadoop-User-Group-Munich/events/252393503/),
+  _2018-09-26_
+
+The blog
+post [Flink and Prometheus: Cloud-native monitoring of streaming applications](https://flink.apache.org/features/2019/03/11/prometheus-monitoring.html)
+explains how to run the demo yourself.
 
 ## Getting Started
 
 ### Startup
+
 ```
 ./gradlew composeUp
 ```
 
 ### Web UIs
+
 - [Flink JobManager](http://localhost:8081/#/overview)
 - [Prometheus](http://localhost:9090/graph)
 - [Grafana](http://localhost:3000) (credentials _admin:flink_)
@@ -40,7 +48,9 @@ The blog post [Flink and Prometheus: Cloud-native monitoring of streaming applic
     - [gradle-versions-plugin](https://github.com/ben-manes/gradle-versions-plugin)
 
 ## Development
+
 typical tasks:
+
 - verify: `./gradlew check`
 - integration tests: `./gradlew integrationTest`
 - list outdated dependenices: `./gradlew dependencyUpdates`

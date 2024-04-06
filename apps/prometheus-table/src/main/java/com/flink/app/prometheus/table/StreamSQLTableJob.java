@@ -37,14 +37,17 @@ public class StreamSQLTableJob {
         env.execute();
     }
 
-    /** Simple POJO. */
+    /**
+     * Simple POJO.
+     */
     public static class Order {
         public Long user;
         public String product;
         public int amount;
 
         // for POJO detection in DataStream API
-        public Order() {}
+        public Order() {
+        }
 
         // for structured type detection in Table API
         public Order(Long user, String product, int amount) {

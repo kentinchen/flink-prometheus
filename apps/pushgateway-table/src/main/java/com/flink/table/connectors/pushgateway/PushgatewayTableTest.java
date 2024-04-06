@@ -1,11 +1,9 @@
 package com.flink.table.connectors.pushgateway;
 
 import org.apache.flink.api.java.utils.ParameterTool;
-import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.TableEnvironment;
 import org.apache.flink.table.api.TableResult;
-import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
 public class PushgatewayTableTest {
 
@@ -19,7 +17,7 @@ public class PushgatewayTableTest {
         env.setParallelism(1); // source only supports parallelism of 1
         final StreamTableEnvironment tEnv = StreamTableEnvironment.create(env);*/
 
-        final EnvironmentSettings settings =                EnvironmentSettings.newInstance().inStreamingMode().build();
+        final EnvironmentSettings settings = EnvironmentSettings.newInstance().inStreamingMode().build();
         final TableEnvironment env = TableEnvironment.create(settings);
 
         // register a table in the catalog
@@ -47,7 +45,7 @@ public class PushgatewayTableTest {
                 "CREATE TABLE ecs_perf_tsdb (" +
                         "m_name STRING, " +
                         "m_value Double, " +
-                        "vm_id INT)\n"
+                        "report_year INT)\n"
                         + "WITH (\n"
                         + "  'connector' = 'pushgateway',\n"
                         + "  'format' = 'json',\n"
@@ -61,9 +59,9 @@ public class PushgatewayTableTest {
         final TableResult insertionResult =
                 env.executeSql(
                         "INSERT INTO ecs_perf_tsdb VALUES"
-                                + "  ('Los Angeles',  2013, 13106100), "
-                                + "  ('Los Angeles', 2014, 72600), "
-                                + "  ('Los Angeles', 2015, 72300), "
+                                + "  ('LosAngeles',  2013, 13106100), "
+                                + "  ('LosAngeles', 2014, 72600), "
+                                + "  ('LosAngeles', 2015, 72300), "
                                 + "  ('Chicago', 2013, 9553270), "
                                 + "  ('Chicago', 2014, 11340), "
                                 + "  ('Chicago', 2015, -6730), "
@@ -73,12 +71,12 @@ public class PushgatewayTableTest {
                                 + "  ('Phoenix', 2013, 4404680), "
                                 + "  ('Phoenix', 2014, 86740), "
                                 + "  ('Phoenix', 2015, 89700), "
-                                + "  ('San Antonio',  2013, 2280580), "
-                                + "  ('San Antonio',  2014, 49180), "
-                                + "  ('San Antonio',  2015, 50870), "
-                                + "  ('San Francisco',  2013, 4521310), "
-                                + "  ('San Francisco',  2014, 65940), "
-                                + "  ('San Francisco',  2015, 62290), "
+                                + "  ('SanAntonio',  2013, 2280580), "
+                                + "  ('SanAntonio',  2014, 49180), "
+                                + "  ('SanAntonio',  2015, 50870), "
+                                + "  ('SanFrancisco',  2013, 4521310), "
+                                + "  ('SanFrancisco',  2014, 65940), "
+                                + "  ('Sanrancisco',  2015, 62290), "
                                 + "  ('Dallas',  2013, 6817520), "
                                 + "  ('Dallas',  2014, 137740), "
                                 + "  ('Dallas',  2015, 154020)");

@@ -55,6 +55,17 @@ public final class ChangelogCsvDeserializer implements DeserializationSchema<Row
         this.columnDelimiter = columnDelimiter;
     }
 
+    private static Object parse(LogicalTypeRoot root, String value) {
+        switch (root) {
+            case INTEGER:
+                return Integer.parseInt(value);
+            case VARCHAR:
+                return value;
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
     @Override
     public TypeInformation<RowData> getProducedType() {
         // return the type information required by Flink's core interfaces
@@ -78,17 +89,6 @@ public final class ChangelogCsvDeserializer implements DeserializationSchema<Row
         }
         // convert to internal data structure
         return (RowData) converter.toInternal(row);
-    }
-
-    private static Object parse(LogicalTypeRoot root, String value) {
-        switch (root) {
-            case INTEGER:
-                return Integer.parseInt(value);
-            case VARCHAR:
-                return value;
-            default:
-                throw new IllegalArgumentException();
-        }
     }
 
     @Override

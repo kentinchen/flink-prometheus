@@ -1,7 +1,7 @@
 package com.flink.table.connectors.pushgateway;
 
-import com.flink.connectors.pushgateway.sink.pushgateway.PushgatewayGaugeEntity;
 import com.flink.connectors.pushgateway.sink.function.PushgatewayBaseSinkFunction;
+import com.flink.connectors.pushgateway.sink.pushgateway.PushgatewayGaugeEntity;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
