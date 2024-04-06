@@ -1,4 +1,4 @@
-package com.flink.connectors.pushgateway.sink;
+package com.flink.connectors.pushgateway.sink.http;
 
 import java.util.Properties;
 

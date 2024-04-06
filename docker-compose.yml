@@ -10,10 +10,10 @@ services:
     volumes:
     - state:/state
     #command: standalone-job --job-classname com.github.mbode.flink_prometheus_example.PrometheusExampleJob --job-id 00000000000000000000000000000000
-    command: standalone-job --job-classname com.flink.table.connectors.pushgateway.PushgatewayFunctionTest --job-id 00000000000000000000000000000000
+    #command: standalone-job --job-classname com.flink.table.connectors.pushgateway.PushgatewayFunctionTest --job-id 00000000000000000000000000000000
     #command: standalone-job --job-classname com.flink.app.prometheus.table.StreamSQLTableJob --job-id 00000000000000000000000000000000
     #command: standalone-job --job-classname org.apache.flink.table.examples.java.connectors.ChangelogSocketExample --job-id 00000000000000000000000000000000 --hostname 192.168.203.205
-    #command: standalone-job --job-classname com.flink.table.connectors.pushgateway.PushgatewayTableTest --job-id 00000000000000000000000000000000 --hostname 192.168.203.205 --pushgateway pushgateway:9091
+    command: standalone-job --job-classname com.flink.table.connectors.pushgateway.PushgatewayTableTest --job-id 00000000000000000000000000000000 --hostname 192.168.203.205 --pushgateway pushgateway:9091
     environment:
     - |
       FLINK_PROPERTIES=

@@ -1,7 +1,7 @@
 package com.flink.connectors.pushgateway.sink.httpclient;
 
 import com.flink.connectors.pushgateway.config.ConnectorConfigConstants;
-import com.flink.connectors.pushgateway.sink.RequestSubmitter;
+import com.flink.connectors.pushgateway.sink.http.RequestSubmitter;
 import com.flink.connectors.pushgateway.utils.ThreadUtils;
 import org.apache.flink.util.concurrent.ExecutorThreadFactory;
 

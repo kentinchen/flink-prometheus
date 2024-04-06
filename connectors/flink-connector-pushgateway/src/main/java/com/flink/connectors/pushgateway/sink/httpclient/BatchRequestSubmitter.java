@@ -1,7 +1,7 @@
 package com.flink.connectors.pushgateway.sink.httpclient;
 
 import com.flink.connectors.pushgateway.config.ConnectorConfigConstants;
-import com.flink.connectors.pushgateway.sink.HttpSinkRequestEntry;
+import com.flink.connectors.pushgateway.sink.http.HttpSinkRequestEntry;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.annotation.VisibleForTesting;
 

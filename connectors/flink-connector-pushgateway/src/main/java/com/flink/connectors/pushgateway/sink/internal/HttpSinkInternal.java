@@ -2,10 +2,10 @@ package com.flink.connectors.pushgateway.sink.internal;
 
 import com.flink.connectors.pushgateway.config.ConnectorConfigConstants;
 import com.flink.connectors.pushgateway.config.SinkRequestSubmitMode;
-import com.flink.connectors.pushgateway.sink.HttpSinkRequestEntry;
-import com.flink.connectors.pushgateway.sink.HttpSinkWriter;
-import com.flink.connectors.pushgateway.sink.HttpSinkWriterStateSerializer;
-import com.flink.connectors.pushgateway.sink.RequestSubmitterFactory;
+import com.flink.connectors.pushgateway.sink.http.HttpSinkRequestEntry;
+import com.flink.connectors.pushgateway.sink.http.HttpSinkWriter;
+import com.flink.connectors.pushgateway.sink.http.HttpSinkWriterStateSerializer;
+import com.flink.connectors.pushgateway.sink.http.RequestSubmitterFactory;
 import com.flink.connectors.pushgateway.sink.httpclient.BatchRequestSubmitterFactory;
 import com.flink.connectors.pushgateway.sink.httpclient.HttpRequest;
 import com.flink.connectors.pushgateway.sink.httpclient.PerRequestRequestSubmitterFactory;

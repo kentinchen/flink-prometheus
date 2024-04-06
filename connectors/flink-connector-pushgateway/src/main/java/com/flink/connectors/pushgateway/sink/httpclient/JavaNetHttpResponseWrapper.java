@@ -1,6 +1,6 @@
 package com.flink.connectors.pushgateway.sink.httpclient;
 
-import com.flink.connectors.pushgateway.sink.HttpSinkRequestEntry;
+import com.flink.connectors.pushgateway.sink.http.HttpSinkRequestEntry;
 import lombok.Data;
 import lombok.NonNull;
 

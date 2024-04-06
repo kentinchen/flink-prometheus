@@ -1,6 +1,6 @@
 package com.flink.connectors.pushgateway.sink.function;
 
-import com.flink.connectors.pushgateway.sink.PushgatewayGaugeSinkEntity;
+import com.flink.connectors.pushgateway.sink.pushgateway.PushgatewayGaugeEntity;
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Gauge;
 import io.prometheus.client.exporter.PushGateway;
@@ -34,7 +34,7 @@ public abstract class PushgatewayBaseSinkFunction<IN> extends RichSinkFunction<I
         this.exceptionRef.set(e);
     }
 
-    public void pushGauge(PushgatewayGaugeSinkEntity gaugeSinkEntity) {
+    public void pushGauge(PushgatewayGaugeEntity gaugeSinkEntity) {
         //System.err.println("write pushgateway: " + pushgateway);
         Gauge gauge = gaugeMap.get(gaugeSinkEntity.metricName);
         if (gauge == null) {

@@ -1,4 +1,4 @@
-package com.flink.connectors.pushgateway.sink;
+package com.flink.connectors.pushgateway.sink.http;
 
 import com.flink.connectors.pushgateway.sink.httpclient.HttpRequest;
 import com.flink.connectors.pushgateway.sink.internal.HttpSinkInternal;

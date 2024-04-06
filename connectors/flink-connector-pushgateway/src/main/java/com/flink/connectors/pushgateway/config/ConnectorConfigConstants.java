@@ -13,7 +13,7 @@ public final class ConnectorConfigConstants {
     /**
      * A property prefix for http connector.
      */
-    public static final String GID_CONNECTOR_HTTP = "gid.connector.http.";
+    public static final String GID_CONNECTOR_HTTP = "connector.pushgateway.";
 
     /**
      * A property prefix for http connector header properties

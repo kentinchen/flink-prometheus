@@ -1,4 +1,4 @@
-package com.flink.connectors.pushgateway.sink;
+package com.flink.connectors.pushgateway.sink.http;
 
 import com.flink.connectors.pushgateway.config.ConnectorConfigConstants;
 import com.flink.connectors.pushgateway.utils.ThreadUtils;

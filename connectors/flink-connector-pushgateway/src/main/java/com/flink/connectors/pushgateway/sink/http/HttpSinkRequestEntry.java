@@ -1,4 +1,4 @@
-package com.flink.connectors.pushgateway.sink;
+package com.flink.connectors.pushgateway.sink.http;
 
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;

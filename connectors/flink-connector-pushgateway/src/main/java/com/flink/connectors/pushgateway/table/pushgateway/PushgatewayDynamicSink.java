@@ -1,10 +1,9 @@
-package com.flink.connectors.pushgateway.table.sink;
+package com.flink.connectors.pushgateway.table.pushgateway;
 
-import com.flink.connectors.pushgateway.sink.HttpSink;
-import com.flink.connectors.pushgateway.sink.HttpSinkBuilder;
-import com.flink.connectors.pushgateway.sink.HttpSinkRequestEntry;
 import com.flink.connectors.pushgateway.sink.httpclient.HttpRequest;
-import com.flink.connectors.pushgateway.table.SerializationSchemaElementConverter;
+import com.flink.connectors.pushgateway.sink.pushgateway.PushgatewayGaugeEntity;
+import com.flink.connectors.pushgateway.sink.pushgateway.PushgatewaySink;
+import com.flink.connectors.pushgateway.sink.pushgateway.PushgatewaySinkBuilder;
 import com.flink.connectors.pushgateway.table.callback.HttpPostRequestCallback;
 import org.apache.flink.api.common.serialization.SerializationSchema;
 import org.apache.flink.configuration.ReadableConfig;
@@ -21,10 +20,10 @@ import org.apache.flink.util.Preconditions;
 import javax.annotation.Nullable;
 import java.util.Properties;
 
-import static com.flink.connectors.pushgateway.table.sink.PushgatewyaDynamicSinkConnectorOptions.INSERT_METHOD;
-import static com.flink.connectors.pushgateway.table.sink.PushgatewyaDynamicSinkConnectorOptions.PUSHGATEWAY;
+import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewyaDynamicSinkConnectorOptions.INSERT_METHOD;
+import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewyaDynamicSinkConnectorOptions.PUSHGATEWAY;
 
-public class PushgatewayDynamicSink extends AsyncDynamicTableSink<HttpSinkRequestEntry> {
+public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGaugeEntity> {
     private final DataType consumedDataType;
     private final EncodingFormat<SerializationSchema<RowData>> encodingFormat;
     private final HttpPostRequestCallback<HttpRequest> httpPostRequestCallback;
@@ -55,10 +54,9 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<HttpSinkReques
     public SinkRuntimeProvider getSinkRuntimeProvider(Context context) {
         SerializationSchema<RowData> serializationSchema = encodingFormat.createRuntimeEncoder(context, consumedDataType);
         var insertMethod = tableOptions.get(INSERT_METHOD);
-        HttpSinkBuilder<RowData> builder = HttpSink
+        PushgatewaySinkBuilder<RowData> builder = PushgatewaySink
                 .<RowData>builder()
                 .setEndpointUrl(tableOptions.get(PUSHGATEWAY))
-                .setHttpPostRequestCallback(httpPostRequestCallback)
                 .setElementConverter(new SerializationSchemaElementConverter(insertMethod, serializationSchema))
                 .setProperties(properties);
         addAsyncOptionsToSinkBuilder(builder);
@@ -86,7 +84,7 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<HttpSinkReques
         return "PushgatewayDynamicSink";
     }
 
-    public static class PushgatewayDynamicTableSinkBuilder extends AsyncDynamicTableSinkBuilder<HttpSinkRequestEntry, PushgatewayDynamicTableSinkBuilder> {
+    public static class PushgatewayDynamicTableSinkBuilder extends AsyncDynamicTableSinkBuilder<PushgatewayGaugeEntity, PushgatewayDynamicTableSinkBuilder> {
         private final Properties properties = new Properties();
         private ReadableConfig tableOptions;
         private DataType consumedDataType;
@@ -98,14 +96,12 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<HttpSinkReques
             return this;
         }
 
-        public PushgatewayDynamicTableSinkBuilder setEncodingFormat(
-                EncodingFormat<SerializationSchema<RowData>> encodingFormat) {
+        public PushgatewayDynamicTableSinkBuilder setEncodingFormat(EncodingFormat<SerializationSchema<RowData>> encodingFormat) {
             this.encodingFormat = encodingFormat;
             return this;
         }
 
-        public PushgatewayDynamicTableSinkBuilder setHttpPostRequestCallback(
-                HttpPostRequestCallback<HttpRequest> httpPostRequestCallback) {
+        public PushgatewayDynamicTableSinkBuilder setHttpPostRequestCallback(HttpPostRequestCallback<HttpRequest> httpPostRequestCallback) {
             this.httpPostRequestCallback = httpPostRequestCallback;
             return this;
         }

@@ -2,7 +2,7 @@ package com.flink.connectors.pushgateway.sink.httpclient;
 
 import com.flink.connectors.pushgateway.config.ConfigException;
 import com.flink.connectors.pushgateway.config.ConnectorConfigConstants;
-import com.flink.connectors.pushgateway.sink.RequestSubmitterFactory;
+import com.flink.connectors.pushgateway.sink.http.RequestSubmitterFactory;
 import com.flink.connectors.pushgateway.utils.ThreadUtils;
 import org.apache.flink.util.StringUtils;
 import org.apache.flink.util.concurrent.ExecutorThreadFactory;

@@ -1,6 +1,7 @@
-package com.flink.connectors.pushgateway.table;
+package com.flink.connectors.pushgateway.table.http;
 
-import com.flink.connectors.pushgateway.sink.HttpSinkRequestEntry;
+import com.flink.connectors.pushgateway.sink.http.HttpSinkRequestEntry;
+import com.flink.connectors.pushgateway.table.SchemaLifecycleAwareElementConverter;
 import org.apache.flink.api.common.serialization.SerializationSchema;
 import org.apache.flink.api.connector.sink2.Sink.InitContext;
 import org.apache.flink.api.connector.sink2.SinkWriter.Context;

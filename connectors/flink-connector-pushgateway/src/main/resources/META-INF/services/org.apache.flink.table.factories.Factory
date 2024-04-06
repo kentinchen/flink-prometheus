@@ -1,1 +1,2 @@
-com.flink.connectors.pushgateway.table.sink.PushgatewayDynamicTableSinkFactory
+com.flink.connectors.pushgateway.table.pushgateway.PushgatewayDynamicTableSinkFactory
+com.flink.connectors.pushgateway.table.callback.Slf4jHttpPostRequestCallbackFactory

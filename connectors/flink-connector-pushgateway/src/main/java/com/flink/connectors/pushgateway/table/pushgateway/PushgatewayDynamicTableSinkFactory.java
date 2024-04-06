@@ -1,4 +1,4 @@
-package com.flink.connectors.pushgateway.table.sink;
+package com.flink.connectors.pushgateway.table.pushgateway;
 
 import com.flink.connectors.pushgateway.sink.httpclient.HttpRequest;
 import com.flink.connectors.pushgateway.table.callback.HttpPostRequestCallbackFactory;
@@ -13,7 +13,7 @@ import org.apache.flink.table.factories.FactoryUtil;
 import java.util.Properties;
 import java.util.Set;
 
-import static com.flink.connectors.pushgateway.table.sink.PushgatewyaDynamicSinkConnectorOptions.*;
+import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewyaDynamicSinkConnectorOptions.*;
 
 public class PushgatewayDynamicTableSinkFactory extends AsyncDynamicTableSinkFactory {
     public static final String IDENTIFIER = "pushgateway";
@@ -25,11 +25,9 @@ public class PushgatewayDynamicTableSinkFactory extends AsyncDynamicTableSinkFac
         Properties asyncSinkProperties = new AsyncSinkConfigurationValidator(tableOptions).getValidatedConfigurations();
         // generics type erasure, so we have to do an unchecked cast
         final HttpPostRequestCallbackFactory<HttpRequest> requestCallbackFactory =
-                FactoryUtil.discoverFactory(
-                        context.getClassLoader(),
+                FactoryUtil.discoverFactory(context.getClassLoader(),
                         HttpPostRequestCallbackFactory.class,  // generics type erasure
-                        tableOptions.get(REQUEST_CALLBACK_IDENTIFIER)
-                );
+                        tableOptions.get(REQUEST_CALLBACK_IDENTIFIER));
         Properties connectorProperties = ConfigUtils.getHttpConnectorProperties(context.getCatalogTable().getOptions());
         PushgatewayDynamicSink.PushgatewayDynamicTableSinkBuilder builder =
                 new PushgatewayDynamicSink.PushgatewayDynamicTableSinkBuilder()

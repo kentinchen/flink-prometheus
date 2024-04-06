@@ -1,4 +1,4 @@
-package com.flink.connectors.pushgateway.table.sink;
+package com.flink.connectors.pushgateway.table.pushgateway;
 
 import com.flink.connectors.pushgateway.table.callback.Slf4jHttpPostRequestCallbackFactory;
 import org.apache.flink.configuration.ConfigOption;

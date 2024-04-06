@@ -48,6 +48,7 @@ public class PushgatewayTableTest {
                         "vm_id STRING)\n"
                         + "WITH (\n"
                         + "  'connector' = 'pushgateway',\n"
+                        + "  'format' = 'raw',\n"
                         + "  'pushgateway' = '" + pushgateway + "'\n"
                         + ")");
 
