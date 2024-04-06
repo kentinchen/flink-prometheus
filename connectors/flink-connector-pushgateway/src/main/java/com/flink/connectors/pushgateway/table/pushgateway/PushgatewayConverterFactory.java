@@ -30,7 +30,7 @@ public class PushgatewayConverterFactory {
         int tsIdx = -1;
         for (int i = 0; i < physicalRowType.getFieldCount(); i++) {
             String fieldName = fields.get(i).getName();
-            System.out.println("i:" + i + "fieldName:" + fieldName);
+            System.out.println("i:" + i + " fieldName:" + fieldName + " type:" + fields.get(i).getType());
             if (fieldName.equals(M_TYPE)) {
                 typeIdx = i;
             } else if (fieldName.equals(M_NAME)) {
@@ -39,19 +39,14 @@ public class PushgatewayConverterFactory {
                 valueIdx = i;
             } else if (fieldName.equals(TIMESTAMP)) {
                 tsIdx = i;
-            } else tagsIdxMap.put(i, fieldName);
+            } else {
+                tagsIdxMap.put(i, fieldName);
+            }
             fieldNames[i] = fieldName;
-            // fieldTypes[i] = fields.get(i).getType();
         }
-
-        /*int typeIdx = rowTypeInfo.getFieldIndex(M_TYPE);      //默认为gauge
-        int nameIdx = rowTypeInfo.getFieldIndex(M_NAME);
-        int valueIdx = rowTypeInfo.getFieldIndex(M_VALUE);
-        int tsIdx = rowTypeInfo.getFieldIndex(TIMESTAMP);      //无法用时间戳*/
         if (nameIdx < 0 || valueIdx < 0) {
             throw new NotEnoughParamsException("`metric` and `timestamp` column must be defined correctly");
         }
-
         return new SerializationSchemaElementConverter(nameIdx, valueIdx, tagsIdxMap, fieldNames, fieldTypes, consumedDataType, serializationSchema);
     }
 }

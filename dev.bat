@@ -5,6 +5,10 @@ del libs/*.jar
 docker/build-dev.bat
 docker-compose up -d
 
+.\gradlew jar
+docker/build-dev.bat
+docker-compose up -d
+
 .\gradlew tasks
 .\gradlew help --task test
 .\gradlew :connectors:flink-connector-socket:jar --info

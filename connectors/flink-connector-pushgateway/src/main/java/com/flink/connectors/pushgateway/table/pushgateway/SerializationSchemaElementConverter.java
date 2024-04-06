@@ -6,7 +6,6 @@ import org.apache.flink.api.common.serialization.SerializationSchema;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.connector.sink2.Sink.InitContext;
 import org.apache.flink.api.connector.sink2.SinkWriter.Context;
-import org.apache.flink.api.java.typeutils.RowTypeInfo;
 import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.types.DataType;
 import org.apache.flink.types.Row;
@@ -26,7 +25,7 @@ public class SerializationSchemaElementConverter
     private TypeInformation[] fieldTypes;
 
     public SerializationSchemaElementConverter(int metricIdx, int valueIdx, Map<Integer, String> tagsIdxMap,
-                                               String[] fieldNames, TypeInformation[] fieldTypes,DataType producedDataType,
+                                               String[] fieldNames, TypeInformation[] fieldTypes, DataType producedDataType,
                                                SerializationSchema<RowData> serializationSchema) {
         this.metricIdx = metricIdx;
         this.valueIdx = valueIdx;
@@ -51,8 +50,11 @@ public class SerializationSchemaElementConverter
     @Override
     public PushgatewayGaugeEntity apply(RowData rowData, Context context) {
         String jobName = "job";
-        return null;
-        // return new PushgatewayGaugeEntity(jobName, parseMetric(null), parseValue(null), parseTags(null));
+        // return null;
+        TreeMap<String, String> tags = new TreeMap<>();
+        tags.put("tagK1", "kentin");
+        return new PushgatewayGaugeEntity("job", "ecs_load", 0.23, tags);
+        //return new PushgatewayGaugeEntity(jobName, parseMetric(null), parseValue(null), parseTags(null));
     }
 
     protected String parseMetric(Row row) {
