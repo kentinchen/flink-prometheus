@@ -22,7 +22,7 @@ docker cp data/sql-client-init.sql jobmanager:/opt/flink/data/
 
 a=("jobmanager" "taskmanager")
 for cntr in ${a[@]};do
-    -- docker restart $cntr
+    #docker restart $cntr
     docker exec $cntr cat /etc/hosts
 done
 

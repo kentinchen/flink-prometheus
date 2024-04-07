@@ -13,9 +13,9 @@ import java.util.TreeMap;
 
 public class SerializationSchemaElementConverter
         implements SchemaLifecycleAwareElementConverter<RowData, PushgatewayGaugeEntity> {
+    private final SerializationSchema<RowData> serializationSchema;
     protected Map<Integer, String> tagsIdxMap;
     private boolean schemaOpened = false;
-    private final SerializationSchema<RowData> serializationSchema;
     private int metricIdx;
     private int valueIdx;
 
@@ -41,7 +41,9 @@ public class SerializationSchemaElementConverter
     @Override
     public PushgatewayGaugeEntity apply(RowData rowData, Context context) {
         String metricName1 = rowData.getString(metricIdx).toString();
-        String metricName = metricName1.replace(" ", "").replace("-", "_");
+        String metricName = metricName1.replace(" ", "")
+                .replace("-", "_")
+                .replace(".", "_");
         Double metricValue = rowData.getDouble(valueIdx);
         System.out.println("metricName:" + metricName + " metricValue:" + metricValue);
         return new PushgatewayGaugeEntity("jobName", metricName, metricValue, parseTags(rowData));
