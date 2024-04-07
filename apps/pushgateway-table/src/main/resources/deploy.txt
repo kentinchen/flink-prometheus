@@ -1,0 +1,77 @@
+0. 准备环境
+   1)ECS 2核4G
+   2)分配100G磁盘
+   3)安装docker
+   4)做asapi的singletunnel到ecs，另外需要在/etc/hosts中加上asapi的解析
+   5)注意时区为中国时区，否则可能采集到的数据差8小时
+     # ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+   6)准备远程脚本(可选采集，slb指标通过脚本解析日志文件采集，需要做免密并且要按要求更改脚本)
+     scp shell/slb* opsae@10.114.179.141:/home/opsae/agent/
+     ssh opsae@10.114.179.141 'bash -s' < /home/opsae/agent/slb_code_agent.sh
+     ssh opsae@10.114.179.141 'sh /home/opsae/agent/slb_code_agent.sh'
+   7)准备drds连接信息(可选采集，需要安装mysql客户端，并配置连接信息/data/conf/drds_config)
+
+1. 把数据库盘挂到/data目录中 (主要是保存prometheus时序数据及配置文件，空间大小与指标数量及保存时间要关，容器运行时通过mount挂载)
+   cd /data
+   mkdir -p /data/conf  #配置文件目录
+   mkdir -p /data/prom  #指标文件目录(采集程序写入，node_export读取)
+   准备主配置文件及cms配置文件(从sample中复制config.ini及cms-config1.yaml到/data/conf，并依据现场情况修改)
+
+2. 启动node_export(启动参数collector.textfile.directory目录中.prom文件都会自动export出去，供prometheus采集)
+   wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+   tar -zxvf node_exporter-1.3.1.linux-amd64.tar.gz
+   cd /data/node_exporter-1.3.1.linux-amd64
+   nohup ./node_exporter --web.listen-address=0.0.0.0:9100  --collector.textfile.directory=/data/prom &
+   curl http://localhost:9100/metrics
+
+3. 启动prometheus（需要采集的信息在prometheus.yml中配置，默认可从sample/prometheus.yml复制）
+   wget https://github.com/prometheus/prometheus/releases/download/v2.38.0/prometheus-2.38.0.linux-amd64.tar.gz
+   tar -zxvf prometheus-2.38.0.linux-amd64.tar.gz
+   cd /data/prometheus-2.38.0.linux-amd64
+   nohup ./prometheus --config.file=prometheus.yml --web.enable-lifecycle &
+   curl http://localhost:9090
+   curl -X POST http://localhost:9090/-/reload  不重启prometheus重新加载配置
+
+4. 启动pushgateway
+   wget https://github.com/prometheus/pushgateway/releases/download/v1.3.1/pushgateway-1.7.0.linux-amd64.tar.gz
+   tar -zxvf pushgateway-1.7.0.linux-amd64.tar.gz
+   cd /data/pushgateway-1.7.0.linux-amd64
+   nohup ./pushgateway &
+   curl http://localhost:9091/metrics
+   echo "test_metric 123456" | curl --data-binary @- http://localhost:9091/metrics/job/test_job
+
+5. 启动alertmanger（可选功能，主要功能是告警去重、分组、路由等信息在alertmanager.yml)
+   wget https://github.com/prometheus/alertmanager/releases/download/v0.24.0/alertmanager-0.24.0.linux-amd64.tar.gz
+   tar -zxvf alertmanager-0.24.0.linux-amd64.tar.gz
+   cd /data/alertmanager-0.24.0.linux-amd64
+   nohup ./alertmanager --config.file=alertmanager.yml --cluster.advertise-address=0.0.0.0:9093 &
+   curl http://localhost:9093
+
+6. 启动grafana
+   wget https://dl.grafana.com/enterprise/release/grafana-enterprise-9.1.5.linux-amd64.tar.gz
+   tar -zxvf grafana-enterprise-9.1.5.linux-amd64.tar.gz
+   cd /data/grafana-9.1.5/bin
+   nohup ./grafana-server &
+   curl http://localhost:3000
+   默认为admin/admin,第一次进去之后需要手动修改成其它密码，例如Admin123
+
+7. 数据采集工具安装（需要先安装Docker服务[参考docker.md]，把主机/data目录挂载到容器中的/data目录）
+      1）通过导出、导入image方式运行
+      #docker save -o business-monitor.tar business-monitor 
+      docker load -i business-monitor.tar
+      docker run  -d -v /data:/data -v /etc/hosts:/etc/hosts business-monitor
+   
+      2）更新python文件（有时加debug信息，需要修改代码，docker中无vi,先在外面修改，然后docker cp进去）
+      # cd /data/tam-business-monitor
+      # rm -rf privatecloudmonitor_v315/conf
+      # rm -rf privatecloudmonitor_v315/prom
+      # docker cp privatecloudmonitor_v315/ 采集容器id:/opt/
+      # docker restart 采集容器id
+      直接运行update.sh自动更新代码
+ 
+      3）问题排查
+      CONTAINER_ID=$(docker ps -a |grep business-monitor|awk '{print $1}')
+      docker logs "$CONTAINER_ID"
+
+8. grafana配置prometheus数据源，导入grafana配置
+

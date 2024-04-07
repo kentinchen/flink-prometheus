@@ -5,14 +5,34 @@ import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.TableEnvironment;
 import org.apache.flink.table.api.TableResult;
 
-public class PushgatewayTableTest {
+public class PushgatewayTableTest1 {
 
     public static void main(String[] args) throws Exception {
         final ParameterTool params = ParameterTool.fromArgs(args);
         final String pushgateway = params.get("pushgateway", "localhost:9091");
-
         final EnvironmentSettings settings = EnvironmentSettings.newInstance().inStreamingMode().build();
         final TableEnvironment env = TableEnvironment.create(settings);
+
+        // register a table in the catalog
+        /*env.executeSql(
+                "CREATE TABLE ecs_perf_sls (" +
+                        "ts     INT, " +
+                        "m_type STRING, " +
+                        "m_name STRING, " +
+                        "m_value Double, " +
+                        "vm_id STRING)\n"
+                        + "WITH (\n"
+                        + "  'connector' = 'socket',\n"
+                        + "  'hostname' = '"
+                        + hostname
+                        + "',\n"
+                        + "  'port' = '"
+                        + port
+                        + "',\n"
+                        + "  'byte-delimiter' = '10',\n"
+                        + "  'format' = 'changelog-csv',\n"
+                        + "  'changelog-csv.column-delimiter' = '|'\n"
+                        + ")");*/
 
         env.executeSql(
                 "CREATE TABLE ecs_perf_tsdb ( m_name STRING, report_year STRING, m_value Double)\n"
@@ -21,6 +41,9 @@ public class PushgatewayTableTest {
                         + "  'format' = 'json',\n"
                         + "  'pushgateway' = '" + pushgateway + "'\n"
                         + ")");
+
+        /*TableResult tableResult1 = env.executeSql("INSERT INTO ecs_perf_tsdb SELECT ts,m_type,m_name,m_value,vm_id FROM ecs_perf_sls ");
+        System.out.println(tableResult1.getJobClient().get().getJobStatus());*/
 
         // insert some example data into the table
         final TableResult insertionResult =
@@ -52,5 +75,7 @@ public class PushgatewayTableTest {
         // we need to wait until the insertion has been completed,
         // an exception is thrown in case of an error
         insertionResult.await();
+
+        //env.execute();
     }
 }
