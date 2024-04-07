@@ -18,15 +18,16 @@ for cntr in ${a[@]};do
     docker cp data/employee.csv $cntr:/opt/flink/data/
 done
 
+docker cp data/sql-client-init.sql jobmanager:/opt/flink/data/
+
 a=("jobmanager" "taskmanager")
 for cntr in ${a[@]};do
-    docker restart $cntr
-    docker run --add-host=ali-tianji-cms-transfer.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186 \
-               --add-host=data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186 \
-               -it $cntr
+    -- docker restart $cntr
+    docker exec $cntr cat /etc/hosts
 done
 
 docker exec -it jobmanager bash
+docker exec -it taskmanager bash
 echo '10.81.200.186 data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com' >> /etc/hosts
 echo '10.81.200.186 ali-tianji-cms-transfer.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com' >> /etc/hosts
 
@@ -42,3 +43,6 @@ vi /etc/hosts
 
 mysql -h 10.81.200.185 -u monitor -p123456 monitor
 select * from score_board_target;
+
+http://10.81.200.185:9090/
+http://10.81.200.185:8081/
