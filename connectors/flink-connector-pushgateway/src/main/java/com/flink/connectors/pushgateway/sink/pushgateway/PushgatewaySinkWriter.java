@@ -21,6 +21,7 @@ public class PushgatewaySinkWriter<InputT> extends AsyncSinkWriter<InputT, Pushg
     private final transient CollectorRegistry pushRegistry = new CollectorRegistry();
     private final transient Map<String, Gauge> gaugeMap = new HashMap<>();
     private transient PushGateway pg;
+    private Properties properties;
 
     public PushgatewaySinkWriter(
             ElementConverter<InputT, PushgatewayGaugeEntity> elementConverter,
@@ -36,7 +37,7 @@ public class PushgatewaySinkWriter<InputT> extends AsyncSinkWriter<InputT, Pushg
             Properties properties) {
         super(elementConverter, context, maxBatchSize, maxInFlightRequests, maxBufferedRequests,
                 maxBatchSizeInBytes, maxTimeInBufferMS, maxRecordSizeInBytes, bufferedRequestStates);
-
+        this.properties = properties;
         this.pg = new PushGateway(pushgateway);
         var metrics = context.metricGroup();
         this.numRecordsSendErrorsCounter = metrics.getNumRecordsSendErrorsCounter();
@@ -52,7 +53,7 @@ public class PushgatewaySinkWriter<InputT> extends AsyncSinkWriter<InputT, Pushg
         }
     }
 
-    public void pushGauge(PushgatewayGaugeEntity gaugeSinkEntity) {
+    private void pushGauge(PushgatewayGaugeEntity gaugeSinkEntity) {
         //System.err.println("write pushgateway: " + pushgateway);
         numRecordsSendCounter.inc();
         Gauge gauge = gaugeMap.get(gaugeSinkEntity.metricName);

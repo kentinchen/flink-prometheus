@@ -19,7 +19,7 @@ public class PushgatewayGaugeEntity implements Serializable {
         this.jobName = jobName;
         this.timestamp = DateUtil.getCurrentTimeStamp();
         this.metricName = metricName;
-        this.metricHelp = "Help " + metricName;
+        this.metricHelp = "None";
         this.metricValue = metricValue;
         this.groupingKey = groupingKey;
     }

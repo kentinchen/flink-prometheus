@@ -1,4 +1,4 @@
-CREATE TEMPORARY TABLE ecs (
+CREATE TEMPORARY TABLE ecs_perf_sls (
     instanceId             VARCHAR,
     ts                     BIGINT,
     m                      VARCHAR,
@@ -21,28 +21,23 @@ select *
 from ecs limit 10;
 
 CREATE
-TEMPORARY TABLE kvstore_perf_logstore (
+TEMPORARY TABLE ecs_perf_prom (
     instanceid             VARCHAR,
-    ts                     BIGINT,
     `m`                    VARCHAR,
-    o_id                   VARCHAR,
+    oid                    VARCHAR,
     v                      DOUBLE
 ) WITH (
-    'connector' = 'datahub',
-    'endpoint' = 'http://datahub.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com',
-    'accessId'='DbAggn5r8F65cH8Q',
-    'accessKey'='a8GERjIW8sb0fEJNURW8w8kQBimS9B',
-    'project' = 'cjh',
-    'topic' = 'kvstore_perf_logstore'
+    'connector' = 'pushgateway',
+    'format' = 'json',
+    'pushgateway' = '10.81.200.185:9091'
 );
 
-insert into kvstore_perf_logstore
+insert into ecs_perf_prom
 select instanceId,
-       ts,
-       RedisMonitorConvert(`m`) as m,
-       uuid()                   as o_id,
-       v
-from kvstore
+       m                        as m_name,
+       uuid()                   as oid,
+       v                        as m_value
+from ecs_perf_sls
 where v >= 0
   and cast(v as VARCHAR) <> 'NaN';
 

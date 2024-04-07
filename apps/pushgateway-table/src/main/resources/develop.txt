@@ -23,8 +23,8 @@ for cntr in ${a[@]};do
 done
 
 docker exec -it jobmanager bash
-./bin/sql-client.sh
-./bin/sql-client.sh -i
+./bin/sql-client.sh -i data/sql-client-init.sql
+./bin/sql-client.sh -f data/sql-client-file.sql
 
 apt update
 apt install vim net-tools -y
