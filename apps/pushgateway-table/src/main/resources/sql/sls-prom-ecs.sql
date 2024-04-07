@@ -16,9 +16,7 @@ TEMPORARY TABLE ecs_perf_sls (
     'project' = 'ali-tianji-cms-transfer',
     'logStore' = 'ecs'
 );
-
-select *
-from ecs_perf_sls limit 10;
+-- select * from ecs_perf_sls limit 10;
 
 CREATE
 TEMPORARY TABLE ecs_perf_prom (
