@@ -1,8 +1,19 @@
+docker network create flink-network
 FLINK_PROPERTIES="jobmanager.rpc.address: jobmanager
                   taskmanager.numberOfTaskSlots: 8"
-docker run -d  --name=jobmanager  --network flink-network     --publish 8081:8081     --env FLINK_PROPERTIES="${FLINK_PROPERTIES}"     flink:1.19.0-java11 jobmanager
-docker run -d  --name=taskmanager --network flink-network     --env FLINK_PROPERTIES="${FLINK_PROPERTIES}"     flink:1.19.0-java11 taskmanager
+docker run -d  --name=jobmanager  \
+               --network flink-network   \
+               --publish 8081:8081     \
+               --add-host=ali-tianji-cms-transfer.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com=10.81.200.186 \
+               --env FLINK_PROPERTIES="${FLINK_PROPERTIES}"     \
+               flink:1.15.4-java8 jobmanager
+docker run -d  --name=taskmanager \
+               --network flink-network     \
+               --env FLINK_PROPERTIES="${FLINK_PROPERTIES}"     \
+               --add-host=ali-tianji-cms-transfer.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com=10.81.200.186 \
+               flink:1.15.4-java8 taskmanager
 
+cd /root/flink/
 a=("jobmanager" "taskmanager")
 for cntr in ${a[@]};do
     docker cp lib/flink-udx-1.0-all.jar $cntr:/opt/flink/lib/;
@@ -22,15 +33,11 @@ docker cp data/sql-client-init.sql jobmanager:/opt/flink/data/
 
 a=("jobmanager" "taskmanager")
 for cntr in ${a[@]};do
-    #docker restart $cntr
+    docker restart $cntr
     docker exec $cntr cat /etc/hosts
 done
 
-docker exec -it jobmanager bash
-docker exec -it taskmanager bash
-echo '10.81.200.186 data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com' >> /etc/hosts
-echo '10.81.200.186 ali-tianji-cms-transfer.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com' >> /etc/hosts
-
+cd /opt/flink/log
 
 docker exec -it jobmanager bash
 ./bin/sql-client.sh -i data/sql-client-init.sql
@@ -46,3 +53,4 @@ select * from score_board_target;
 
 http://10.81.200.185:9090/
 http://10.81.200.185:8081/
+

@@ -23,7 +23,7 @@ dependencies {
     compileOnly("org.apache.flink:flink-table-api-java-bridge:${flinkVersion}")
     compileOnly("org.apache.flink:flink-connector-base:${flinkVersion}")
     compileOnly("org.apache.flink:flink-table-runtime:${flinkVersion}")
-    implementation("com.aliyun:hitsdb-client:0.3.7")
+    implementation("com.aliyun:hitsdb-client:0.4.0")
 
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
