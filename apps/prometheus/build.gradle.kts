@@ -94,6 +94,6 @@ var copyJar = task("copyJar", type = Copy::class) {
     include("*.jar")
 }
 
-tasks.named("jar") {
+/*tasks.named("jar") {
     finalizedBy(copyJar)
-}
+}*/

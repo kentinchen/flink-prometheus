@@ -53,3 +53,21 @@ https://mirrors.cloud.tencent.com/gradle/
 
 Caused by: org.apache.flink.client.program.ProgramInvocationException: The main method caused an error:
 Table sink 'default_catalog.default_database.ecs_perf_tsdb' doesn't support consuming delete changes which is produced by node TableSourceScan(table=[[default_catalog, default_database, ecs_perf_sls]], fields=[ts, m_type, m_name, m_value, vm_id])
+
+docker exec jobmanager mkdir -p /opt/flink/data
+docker cp sql-client-init.sql jobmanager:/opt/flink/data/
+docker exec -it jobmanager bash
+./bin/sql-client.sh
+
+for %%cntr in ("jobmanager" "taskmanager") do (
+  echo %%cntr
+  docker exec %%cntr mkdir -p /opt/flink/scripts
+  docker exec %%cntr mkdir -p /opt/flink/data;
+)
+
+cntrs = ("jobmanager,taskmanager1,taskmanager2")
+foreach ($cntr in $cntrs) {
+    echo $cntr
+    docker exec $cntr mkdir -p /opt/flink/scripts
+    docker exec $cntr mkdir -p /opt/flink/data;
+}

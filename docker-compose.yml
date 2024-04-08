@@ -3,7 +3,7 @@ services:
   job-cluster:
     # build: .
     image: flink-prometheus:1.0
-    container_name: job-cluster
+    container_name: jobmanager
     ports:
       - "8081:8081"
       - "9249:9249"

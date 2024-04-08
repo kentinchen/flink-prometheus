@@ -45,7 +45,7 @@ var copyJar = task("copyJar", type = Copy::class) {
     mustRunAfter(tasks.named("shadowJar"))
 }
 
-tasks.named("shadowJar") {
+/*tasks.named("shadowJar") {
     finalizedBy(copyJar)
-}
+}*/
 
