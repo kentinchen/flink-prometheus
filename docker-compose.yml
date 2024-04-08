@@ -18,6 +18,7 @@ services:
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: job-cluster
+        taskmanager.numberOfTaskSlots: 8
         state.checkpoints.dir: file:///state
 
   taskmanager1:
@@ -33,6 +34,7 @@ services:
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: job-cluster
+        taskmanager.numberOfTaskSlots: 8
         state.checkpoints.dir: file:///state
 
   taskmanager2:
@@ -48,6 +50,7 @@ services:
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: job-cluster
+        taskmanager.numberOfTaskSlots: 8
         state.checkpoints.dir: file:///state
 
   prometheus:

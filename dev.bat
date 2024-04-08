@@ -5,6 +5,9 @@ del libs/*.jar
 docker/build-dev.bat
 docker-compose up -d
 
+docker exec -it jobmanager bash
+./bin/sql-client.sh
+
 .\gradlew jar
 docker/build-dev.bat
 docker-compose up -d
@@ -36,28 +39,10 @@ m_name    指标名称(例如ecs_cpu_load1),定好之后不能变动，告警与
 m_value   指标值（double类型）
 其它为动态字段，会打到指标标签中
 
-CREATE TABLE ecs_perf_tsdb(
-    ts     INT,
-    m_type STRING,
-    m_name STRING,
-    m_value Double,
-    vm_id STRING)
-WITH (
-  'connector' = 'pushgateway',
-  'pushgateway' = 'http://localhost:9091'
-)
-
-INSERT INTO ecs_perf_tsdb SELECT ts,m_type,m_name,m_value,vm_id FROM ecs_perf_sls;
-
 https://mirrors.cloud.tencent.com/gradle/
 
 Caused by: org.apache.flink.client.program.ProgramInvocationException: The main method caused an error:
 Table sink 'default_catalog.default_database.ecs_perf_tsdb' doesn't support consuming delete changes which is produced by node TableSourceScan(table=[[default_catalog, default_database, ecs_perf_sls]], fields=[ts, m_type, m_name, m_value, vm_id])
-
-docker exec jobmanager mkdir -p /opt/flink/data
-docker cp sql-client-init.sql jobmanager:/opt/flink/data/
-docker exec -it jobmanager bash
-./bin/sql-client.sh
 
 for %%cntr in ("jobmanager" "taskmanager") do (
   echo %%cntr
