@@ -1,6 +1,7 @@
 package com.flink.connectors.pushgateway.sink.pushgateway;
 
 import com.flink.connectors.pushgateway.table.SchemaLifecycleAwareElementConverter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.connector.base.sink.AsyncSinkBase;
 import org.apache.flink.connector.base.sink.writer.BufferedRequestState;
 import org.apache.flink.connector.base.sink.writer.ElementConverter;
@@ -13,6 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Properties;
 
+@Slf4j
 public class PushgatewaySink<InputT> extends AsyncSinkBase<InputT, PushgatewayGaugeEntity> {
     private final Properties properties;
     private final String pushgateway;

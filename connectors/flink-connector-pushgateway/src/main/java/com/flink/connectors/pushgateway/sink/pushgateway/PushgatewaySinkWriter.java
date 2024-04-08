@@ -10,6 +10,7 @@ import org.apache.flink.metrics.groups.SinkWriterMetricGroup;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.function.Consumer;
@@ -48,6 +49,7 @@ public class PushgatewaySinkWriter<InputT> extends AsyncSinkWriter<InputT, Pushg
                 pushgatewaySinkGaugeFunction.constructPoint(pushgatewayGaugeEntity);
             }
         }
+        consumer.accept(Collections.emptyList());
     }
 
     @Override

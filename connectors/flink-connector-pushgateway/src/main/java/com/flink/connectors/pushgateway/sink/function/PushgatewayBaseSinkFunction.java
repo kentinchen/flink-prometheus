@@ -4,6 +4,7 @@ import com.flink.connectors.pushgateway.sink.pushgateway.PushgatewayGaugeEntity;
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Gauge;
 import io.prometheus.client.exporter.PushGateway;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
 import org.apache.flink.streaming.api.functions.sink.SinkFunction;
@@ -13,12 +14,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+@Slf4j
 public abstract class PushgatewayBaseSinkFunction<IN> extends RichSinkFunction<IN> implements ExceptionHolder {
     private final String pushgateway;
-    private transient CollectorRegistry pushRegistry;
-    private transient PushGateway pg;
-    private transient AtomicReference<Exception> exceptionRef = new AtomicReference<>(null);
-    private transient Map<String, Gauge> gaugeMap = new HashMap<>();;
+    private CollectorRegistry pushRegistry;
+    private PushGateway pg;
+    private AtomicReference<Exception> exceptionRef = new AtomicReference<>(null);
+    private Map<String, Gauge> gaugeMap = new HashMap<>();
+    ;
 
     public PushgatewayBaseSinkFunction(String pushgateway) {
         this.pushgateway = pushgateway;
@@ -38,6 +41,7 @@ public abstract class PushgatewayBaseSinkFunction<IN> extends RichSinkFunction<I
 
     public void pushGauge(PushgatewayGaugeEntity gaugeSinkEntity) {
         //System.err.println("write pushgateway: " + pushgateway);
+        log.info(gaugeSinkEntity.toString());
         Gauge gauge = gaugeMap.get(gaugeSinkEntity.metricName);
         if (gauge == null) {
             gauge = Gauge.build().name(gaugeSinkEntity.metricName).help(gaugeSinkEntity.metricHelp).register(pushRegistry);

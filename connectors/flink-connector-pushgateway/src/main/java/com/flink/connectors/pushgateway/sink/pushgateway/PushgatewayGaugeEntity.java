@@ -3,6 +3,7 @@ package com.flink.connectors.pushgateway.sink.pushgateway;
 import com.flink.connectors.pushgateway.utils.DateUtil;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.TreeMap;
 
 public class PushgatewayGaugeEntity implements Serializable {
@@ -40,5 +41,22 @@ public class PushgatewayGaugeEntity implements Serializable {
 
     public long getSizeInBytes() {
         return 40;      //TODO 计算计算大小
+    }
+
+    @Override
+    public String toString() {
+        return "jobName:" + jobName +
+                "timestamp:" + timestamp +
+                "metricName:" + metricName +
+                "metricValue" + metricValue +
+                "groupingKey:[" + getGroupingKey(groupingKey) + "]";
+    }
+
+    private String getGroupingKey(TreeMap<String, String> groupingKey) {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String> entry : groupingKey.entrySet()) {
+            sb.append(entry.getKey()).append(":").append(entry.getValue()).append(",");
+        }
+        return sb.toString();
     }
 }
