@@ -6,10 +6,15 @@ plugins {
 group = properties["GROUP"] as String + ".connectors.pushgateway"
 version = properties["VERSION"]!!
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 repositories {
     mavenCentral()
 }
-val flinkVersion = "1.19.0"
+val flinkVersion = "1.15.4"
 val log4jVersion = "2.17.2"
 val lombokVersion = "1.18.22"
 val junit5Version = "5.10.1"

@@ -44,7 +44,7 @@ public class PushgatewayConverterFactory {
             fieldNames[i] = fieldName;
         }
         if (nameIdx < 0 || valueIdx < 0) {
-            throw new NotEnoughParamsException("`metric` and `timestamp` column must be defined correctly");
+            throw new NotEnoughParamsException("`metric` and `value` column must be defined correctly");
         }
         return new SerializationSchemaElementConverter(nameIdx, valueIdx, tagsIdxMap,serializationSchema);
     }

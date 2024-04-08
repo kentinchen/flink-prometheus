@@ -7,10 +7,12 @@ import org.apache.flink.connector.base.table.AsyncDynamicTableSinkFactory;
 import org.apache.flink.connector.base.table.sink.options.AsyncSinkConfigurationValidator;
 import org.apache.flink.table.connector.sink.DynamicTableSink;
 
+import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewayDynamicSinkConnectorOptions.*;
+import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewayDynamicSinkConnectorOptions.JOB_NAME;
+import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewayDynamicSinkConnectorOptions.PUSHGATEWAY;
 
 public class PushgatewayDynamicTableSinkFactory extends AsyncDynamicTableSinkFactory {
     public static final String IDENTIFIER = "pushgateway";
@@ -39,12 +41,14 @@ public class PushgatewayDynamicTableSinkFactory extends AsyncDynamicTableSinkFac
 
     @Override
     public Set<ConfigOption<?>> requiredOptions() {
-        return Set.of(PUSHGATEWAY);
+        Set<ConfigOption<?>> options = new HashSet<>();
+        options.add(PUSHGATEWAY);
+        return options;
     }
 
     @Override
     public Set<ConfigOption<?>> optionalOptions() {
-        var options = super.optionalOptions();
+        Set<ConfigOption<?>> options = super.optionalOptions();
         options.add(JOB_NAME);
         return options;
     }

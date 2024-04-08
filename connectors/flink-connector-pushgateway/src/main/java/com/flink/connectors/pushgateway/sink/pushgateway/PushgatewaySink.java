@@ -1,8 +1,6 @@
 package com.flink.connectors.pushgateway.sink.pushgateway;
 
 import com.flink.connectors.pushgateway.table.SchemaLifecycleAwareElementConverter;
-import org.apache.flink.api.connector.sink2.SinkWriter;
-import org.apache.flink.api.connector.sink2.WriterInitContext;
 import org.apache.flink.connector.base.sink.AsyncSinkBase;
 import org.apache.flink.connector.base.sink.writer.BufferedRequestState;
 import org.apache.flink.connector.base.sink.writer.ElementConverter;
@@ -46,7 +44,7 @@ public class PushgatewaySink<InputT> extends AsyncSinkBase<InputT, PushgatewayGa
     }
 
     @Override
-    public SinkWriter<InputT> createWriter(InitContext initContext) throws IOException {
+    public StatefulSinkWriter<InputT, BufferedRequestState<PushgatewayGaugeEntity>> createWriter(InitContext initContext) throws IOException {
         ElementConverter<InputT, PushgatewayGaugeEntity> elementConverter = getElementConverter();
         if (elementConverter instanceof SchemaLifecycleAwareElementConverter) {
             // This cast is needed for Flink 1.15.3 build
@@ -65,11 +63,6 @@ public class PushgatewaySink<InputT> extends AsyncSinkBase<InputT, PushgatewayGa
                 Collections.emptyList(),
                 properties
         );
-    }
-
-    @Override
-    public SinkWriter<InputT> createWriter(WriterInitContext context) throws IOException {
-        return super.createWriter(context);
     }
 
     @Override
@@ -93,11 +86,5 @@ public class PushgatewaySink<InputT> extends AsyncSinkBase<InputT, PushgatewayGa
                 recoveredState,
                 properties
         );
-    }
-
-    @Override
-    public StatefulSinkWriter<InputT, BufferedRequestState<PushgatewayGaugeEntity>> restoreWriter(
-            WriterInitContext context, Collection<BufferedRequestState<PushgatewayGaugeEntity>> recoveredState) throws IOException {
-        return super.restoreWriter(context, recoveredState);
     }
 }

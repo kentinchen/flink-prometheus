@@ -6,6 +6,11 @@ plugins {
 group = properties["GROUP"] as String + ".connector"
 version = properties["VERSION"]!!
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 repositories {
     mavenCentral()
 }

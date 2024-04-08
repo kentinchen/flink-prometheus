@@ -18,11 +18,11 @@ public class PushgatewaySinkWriterStateSerializer extends AsyncSinkWriterStateSe
 
     @Override
     protected PushgatewayGaugeEntity deserializeRequestFromStream(long l, DataInputStream in) throws IOException {
-        var jobName = in.readUTF();
-        var timestamp = in.readUTF();
-        var metricName = in.readUTF();
-        var metricHelp = in.readUTF();
-        var metricValue = in.readUTF();
+        String jobName = in.readUTF();
+        String timestamp = in.readUTF();
+        String metricName = in.readUTF();
+        String metricHelp = in.readUTF();
+        Double metricValue = Double.valueOf(in.readUTF());
         return new PushgatewayGaugeEntity(jobName, Long.valueOf(timestamp), metricName, metricHelp, Double.valueOf(metricValue), null);
     }
 

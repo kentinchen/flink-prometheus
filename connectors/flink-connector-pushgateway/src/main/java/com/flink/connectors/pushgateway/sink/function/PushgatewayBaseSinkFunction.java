@@ -17,11 +17,13 @@ public abstract class PushgatewayBaseSinkFunction<IN> extends RichSinkFunction<I
     private final String pushgateway;
     private transient CollectorRegistry pushRegistry;
     private transient PushGateway pg;
-    private transient AtomicReference<Exception> exceptionRef;
-    private transient Map<String, Gauge> gaugeMap;
+    private transient AtomicReference<Exception> exceptionRef = new AtomicReference<>(null);
+    private transient Map<String, Gauge> gaugeMap = new HashMap<>();;
 
     public PushgatewayBaseSinkFunction(String pushgateway) {
         this.pushgateway = pushgateway;
+        this.pg = new PushGateway(this.pushgateway);
+        this.pushRegistry = new CollectorRegistry();
     }
 
     @Override
@@ -65,10 +67,6 @@ public abstract class PushgatewayBaseSinkFunction<IN> extends RichSinkFunction<I
 
     public void open(Configuration parameters) throws Exception {
         System.err.println("open pushgateway: " + pushgateway);
-        this.pg = new PushGateway(this.pushgateway);
-        this.pushRegistry = new CollectorRegistry();
-        this.gaugeMap = new HashMap<>();
-        this.exceptionRef = new AtomicReference<>(null);
     }
 
     public void invoke(IN value, SinkFunction.Context context) throws Exception {
