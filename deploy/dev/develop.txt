@@ -64,3 +64,6 @@ chown 65534:65534 ./tsdb:/data/tsdb
 
 docker-compose -f docker-compose-prom.yml up -d
 docker-compose -f docker-compose-prom.yml down
+
+docker-compose -f docker-compose-flink.yml up -d
+docker-compose -f docker-compose-flink.yml down
