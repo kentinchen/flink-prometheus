@@ -9,8 +9,8 @@ services:
       - '--storage.tsdb.path=/data/tsdb'
       - '--web.enable-lifecycle'
     volumes:
-      - ./prometheus/runtime/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./prometheus/runtime/flink.rules.yml:/etc/prometheus/flink.rules.yml
+      - ./prometheus/prometheus.yml:/prometheus/prometheus.yml
+      - ./prometheus/flink.rules.yml:/prometheus/flink.rules.yml
       - ./tsdb:/data/tsdb
 
   pushgateway:
@@ -28,14 +28,13 @@ services:
     ports:
       - "9093:9093"
     volumes:
-      - ./alertmanager/runtime/alertmanager.yml:/alertmanager/alertmanager.yml
+      - ./alertmanager/alertmanager.yml:/alertmanager/alertmanager.yml
 
   node_exporter:
-    image: prom/alertmanager
+    image: quay.io/prometheus/node-exporter
     container_name: node_exporter
     command:
       - '--web.listen-address=0.0.0.0:9100'
-      - '--collector.textfile.directory=/data/node_exporter'
     ports:
       - "9100:9100"
     volumes:
