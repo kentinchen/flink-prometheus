@@ -10,6 +10,8 @@ services:
       - "9249:9249"
     volumes:
       - state:/state
+      - ../libs:/flink/usrlib
+      - ./flink/out:/opt/flink/scripts
     environment:
       - |
         FLINK_PROPERTIES=
@@ -28,6 +30,7 @@ services:
       - "9250:9249"
     volumes:
       - state:/state
+      - ../libs:/flink/usrlib
     command: taskmanager
     environment:
       - |
@@ -47,6 +50,7 @@ services:
       - "9251:9249"
     volumes:
       - state:/state
+      - ../libs:/flink/usrlib
     command: taskmanager
     environment:
       - |
