@@ -14,9 +14,8 @@ CREATE TEMPORARY TABLE kv_perf_sls (
 );
 
 CREATE TEMPORARY TABLE kv_perf_prom (
-    m_name                 VARCHAR,
-    m_value                DOUBLE,
-    --oid                    VARCHAR,
+    m                 VARCHAR,
+    v                DOUBLE,
     instanceid             VARCHAR
 ) WITH (
     'connector' = 'pushgateway',
@@ -26,9 +25,8 @@ CREATE TEMPORARY TABLE kv_perf_prom (
 
 insert into kv_perf_prom
  select
-    RedisMonitorConvert(`m`) as m_name,
+    RedisMonitorConvert(`m`) as m,
     v,
-    --uuid() as oid,
     instanceId
     from kv_perf_sls
   where v >= 0 and cast(v as VARCHAR) <> 'NaN';

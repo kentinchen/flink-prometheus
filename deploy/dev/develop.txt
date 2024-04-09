@@ -12,36 +12,12 @@ docker run -d  --name=taskmanager \
                --env FLINK_PROPERTIES="${FLINK_PROPERTIES}"     \
                --add-host=ali-tianji-cms-transfer.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com=10.81.200.186 \
                flink:1.15.4-java8 taskmanager
-
-cd /root/flink/
-a=("jobmanager" "taskmanager")
-for cntr in ${a[@]};do
-    docker cp lib/flink-udx-1.0-all.jar $cntr:/opt/flink/lib/;
-    docker cp lib/mysql-connector-java-8.0.11.jar $cntr:/opt/flink/lib/;
-    docker cp lib/flink-connector-jdbc-3.1.2-1.18.jar $cntr:/opt/flink/lib/;
-    docker cp lib/flink-sql-connector-mysql-cdc-2.4.2.jar $cntr:/opt/flink/lib/;
-    docker cp lib/flink-connector-pushgateway-1.0-all.jar  $cntr:/opt/flink/lib/;
-    docker cp lib/ververica-connector-common-1.15-vvr-6.0.7-SNAPSHOT-jar-with-dependencies.jar $cntr:/opt/flink/lib/;
-    docker cp lib/ververica-connector-datahub-1.15-vvr-6.0.7-SNAPSHOT-jar-with-dependencies.jar $cntr:/opt/flink/lib/;
-    docker cp lib/ververica-connector-sls-1.15-vvr-6.0.7-SNAPSHOT-jar-with-dependencies.jar $cntr:/opt/flink/lib/;
-    docker exec $cntr mkdir -p /opt/flink/scripts
-    docker exec $cntr mkdir -p /opt/flink/data;
-    docker cp data/employee.csv $cntr:/opt/flink/data/
-done
-
-docker cp data/sql-client-init.sql jobmanager:/opt/flink/data/
-
-a=("jobmanager" "taskmanager")
-for cntr in ${a[@]};do
-    docker restart $cntr
-    docker exec $cntr cat /etc/hosts
-done
-
 cd /opt/flink/log
 
+bash deploy.sh
 docker exec -it jobmanager bash
-./bin/sql-client.sh -i data/sql-client-init.sql
-./bin/sql-client.sh -f data/sql-client-file.sql
+./bin/sql-client.sh -i scripts/sql-client-init.sql
+./bin/sql-client.sh -f scripts/sls-prom-ecs.sql
 
 apt update
 apt install vim net-tools -y

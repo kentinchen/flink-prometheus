@@ -18,9 +18,8 @@ CREATE TEMPORARY TABLE ecs_perf_sls (
 -- select * from ecs_perf_sls limit 10;
 
 CREATE TEMPORARY TABLE ecs_perf_prom (
-    m_name                 VARCHAR,
-    m_value                DOUBLE,
-    oid                    VARCHAR,
+    m                      VARCHAR,
+    v                      DOUBLE,
     instanceId             VARCHAR
 ) WITH (
     'connector' = 'pushgateway',
@@ -29,9 +28,8 @@ CREATE TEMPORARY TABLE ecs_perf_prom (
 );
 
 insert into ecs_perf_prom
-select m      as m_name,
-       v      as m_value,
-       uuid() as oid,
+select m,
+       v,
        instanceId
 from ecs_perf_sls
 where v >= 0

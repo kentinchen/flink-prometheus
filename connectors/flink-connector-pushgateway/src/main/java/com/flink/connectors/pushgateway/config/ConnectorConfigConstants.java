@@ -18,4 +18,10 @@ public final class ConnectorConfigConstants {
     public static final String CONST_PROM_V_NAME = "prom.v.name";
     public static final String CONST_PROM_H_NAME = "prom.h.name";
     public static final String CONST_PROM_TS_NAME = "prom.ts.name";
+
+    public static final String CONST_M ="m";
+    public static final String CONST_V ="v";
+    public static final String CONST_J ="j";
+    public static final String CONST_H ="h";
+    public static final String CONST_TS ="ts";
 }

@@ -18,15 +18,15 @@ public class PushgatewayDynamicSinkConnectorOptions {
     public static final ConfigOption<String> PROM_TYPE = ConfigOptions.key(CONST_PROM_TYPE).stringType()
             .defaultValue("gauge").withDescription("指标类型");
     public static final ConfigOption<String> PROM_J_NAME = ConfigOptions.key(CONST_PROM_J_NAME).stringType()
-            .defaultValue("").withDescription("作业名字段名");
+            .defaultValue(CONST_J).withDescription("作业名字段名");
     public static final ConfigOption<String> PROM_M_TYPE = ConfigOptions.key(CONST_PROM_M_TYPE).stringType()
             .defaultValue("").withDescription("指标类型字段名");
     public static final ConfigOption<String> PROM_M_NAME = ConfigOptions.key(CONST_PROM_M_NAME).stringType()
-            .defaultValue("m").withDescription("指标名字段名");
+            .defaultValue(CONST_M).withDescription("指标名字段名");
     public static final ConfigOption<String> PROM_V_NAME = ConfigOptions.key(CONST_PROM_V_NAME).stringType()
-            .defaultValue("v").withDescription("指标值字段名");
+            .defaultValue(CONST_V).withDescription("指标值字段名");
     public static final ConfigOption<String> PROM_H_NAME = ConfigOptions.key(CONST_PROM_H_NAME).stringType()
-            .defaultValue("h").withDescription("帮助字段名");
+            .defaultValue(CONST_H).withDescription("帮助字段名");
     public static final ConfigOption<String> PROM_TS_NAME = ConfigOptions.key(CONST_PROM_TS_NAME).stringType()
-            .defaultValue("ts").withDescription("时间戳字段名");
+            .defaultValue(CONST_TS).withDescription("时间戳字段名");
 }
