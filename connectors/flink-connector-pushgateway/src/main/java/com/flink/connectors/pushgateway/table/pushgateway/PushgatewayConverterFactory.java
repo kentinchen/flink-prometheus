@@ -23,8 +23,8 @@ public class PushgatewayConverterFactory {
         Map<Integer, String> tagsIdxMap = new HashMap<>();
         String[] fieldNames = new String[fields.size()];
         TypeInformation[] fieldTypes = new TypeInformation[fields.size()];
-        String jobName = String.valueOf(tableOptions.getOptional(PROM_JOB));
-        String type = String.valueOf(tableOptions.getOptional(PROM_TYPE));
+        String jobName = tableOptions.getOptional(PROM_JOB).orElse(CONST_FLINK);
+        String type = tableOptions.getOptional(PROM_TYPE).orElse(CONST_GAUGE);
         int jobIdx = -1;
         int typeIdx = -1;
         int nameIdx = -1;

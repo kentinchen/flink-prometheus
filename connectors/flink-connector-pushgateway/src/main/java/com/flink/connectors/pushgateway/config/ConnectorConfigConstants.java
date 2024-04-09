@@ -19,6 +19,8 @@ public final class ConnectorConfigConstants {
     public static final String CONST_PROM_H_NAME = "prom.h.name";
     public static final String CONST_PROM_TS_NAME = "prom.ts.name";
 
+    public static final String CONST_FLINK ="flink";
+    public static final String CONST_GAUGE ="gauge";
     public static final String CONST_M ="m";
     public static final String CONST_V ="v";
     public static final String CONST_J ="j";
