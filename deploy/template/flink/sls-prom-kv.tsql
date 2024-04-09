@@ -1,0 +1,34 @@
+CREATE TEMPORARY FUNCTION RedisMonitorConvert AS 'org.flink.udf.function.RedisMonitorConvert';
+CREATE TEMPORARY TABLE kv_perf_sls (
+    instanceId             VARCHAR,
+    ts                     BIGINT,
+    `m`                    VARCHAR,
+    v                      DOUBLE
+) WITH (
+    'connector'= 'sls',
+    'endPoint' = '${sls_endpoint}',
+    'accessid' = '${sls_accessid}',
+    'accesskey' = '${sls_accesskey}',
+    'project' = 'ali-tianji-cms-transfer',
+    'logstore' = 'kvstore'
+);
+
+CREATE TEMPORARY TABLE kv_perf_prom (
+    m_name                 VARCHAR,
+    m_value                DOUBLE,
+    --oid                    VARCHAR,
+    instanceid             VARCHAR
+) WITH (
+    'connector' = 'pushgateway',
+    'format' = 'json',
+    'pushgateway' = '${pushgateway}'
+);
+
+insert into kv_perf_prom
+ select
+    RedisMonitorConvert(`m`) as m_name,
+    v,
+    --uuid() as oid,
+    instanceId
+    from kv_perf_sls
+  where v >= 0 and cast(v as VARCHAR) <> 'NaN';

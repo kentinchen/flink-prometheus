@@ -1,0 +1,41 @@
+---
+services:
+  prometheus:
+    image: prom/prometheus:v2.37.1
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    command:
+      - '--storage.tsdb.path=/data/tsdb'
+      - '--web.enable-lifecycle'
+    volumes:
+      - ./prometheus/runtime/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/runtime/flink.rules.yml:/etc/prometheus/flink.rules.yml
+      - ./tsdb:/data/tsdb
+
+  pushgateway:
+    image: prom/pushgateway
+    container_name: pushgateway
+    ports:
+      - "9091:9091"
+
+  alertmanager:
+    image: prom/alertmanager
+    container_name: alertmanager
+    command:
+      - '--config.file=/alertmanager/alertmanager.yml'
+      - '--cluster.advertise-address=0.0.0.0:9093'
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager/runtime/alertmanager.yml:/alertmanager/alertmanager.yml
+
+  grafana:
+    image: grafana/grafana:8.4.0
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=flink
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/

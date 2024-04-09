@@ -1,0 +1,3 @@
+1、安装jdk8或jdk11, vvp-v1.15引敬只能支持jdk8格式的类
+
+2、到udf\flink-udx目录中进行开发

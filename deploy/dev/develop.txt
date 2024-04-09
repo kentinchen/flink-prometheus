@@ -1,0 +1,57 @@
+docker network create flink-network
+FLINK_PROPERTIES="jobmanager.rpc.address: jobmanager
+                  taskmanager.numberOfTaskSlots: 8"
+docker run -d  --name=jobmanager  \
+               --network flink-network   \
+               --publish 8081:8081     \
+               --add-host=ali-tianji-cms-transfer.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com=10.81.200.186 \
+               --env FLINK_PROPERTIES="${FLINK_PROPERTIES}"     \
+               flink:1.15.4-java8 jobmanager
+docker run -d  --name=taskmanager \
+               --network flink-network     \
+               --env FLINK_PROPERTIES="${FLINK_PROPERTIES}"     \
+               --add-host=ali-tianji-cms-transfer.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com=10.81.200.186 \
+               flink:1.15.4-java8 taskmanager
+
+cd /root/flink/
+a=("jobmanager" "taskmanager")
+for cntr in ${a[@]};do
+    docker cp lib/flink-udx-1.0-all.jar $cntr:/opt/flink/lib/;
+    docker cp lib/mysql-connector-java-8.0.11.jar $cntr:/opt/flink/lib/;
+    docker cp lib/flink-connector-jdbc-3.1.2-1.18.jar $cntr:/opt/flink/lib/;
+    docker cp lib/flink-sql-connector-mysql-cdc-2.4.2.jar $cntr:/opt/flink/lib/;
+    docker cp lib/flink-connector-pushgateway-1.0-all.jar  $cntr:/opt/flink/lib/;
+    docker cp lib/ververica-connector-common-1.15-vvr-6.0.7-SNAPSHOT-jar-with-dependencies.jar $cntr:/opt/flink/lib/;
+    docker cp lib/ververica-connector-datahub-1.15-vvr-6.0.7-SNAPSHOT-jar-with-dependencies.jar $cntr:/opt/flink/lib/;
+    docker cp lib/ververica-connector-sls-1.15-vvr-6.0.7-SNAPSHOT-jar-with-dependencies.jar $cntr:/opt/flink/lib/;
+    docker exec $cntr mkdir -p /opt/flink/scripts
+    docker exec $cntr mkdir -p /opt/flink/data;
+    docker cp data/employee.csv $cntr:/opt/flink/data/
+done
+
+docker cp data/sql-client-init.sql jobmanager:/opt/flink/data/
+
+a=("jobmanager" "taskmanager")
+for cntr in ${a[@]};do
+    docker restart $cntr
+    docker exec $cntr cat /etc/hosts
+done
+
+cd /opt/flink/log
+
+docker exec -it jobmanager bash
+./bin/sql-client.sh -i data/sql-client-init.sql
+./bin/sql-client.sh -f data/sql-client-file.sql
+
+apt update
+apt install vim net-tools -y
+vi /etc/hosts
+100.67.129.113 data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com
+
+mysql -h 10.81.200.185 -u monitor -p123456 monitor
+select * from score_board_target;
+
+http://10.81.200.185:9090/
+http://10.81.200.185:8081/
+http://10.81.69.186:9091/
+http://10.81.69.186:8081/

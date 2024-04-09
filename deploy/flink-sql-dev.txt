@@ -1,0 +1,79 @@
+0、prometheus指标类型
+   prometheus包括四种类型（Counter、Gauge、Histogram、Summary）忽略大小写，一般用gauge
+        Counter：计数类型，值只能增加
+        Gauge: 可变类型，值可以变化
+        Histogram：直方图常用于请求持续时间或者响应大小采样，然后将结果记录到存储桶（bucket）,每个桶为累加数据。
+                   桶累积计数器：<basename>_bucket，
+                   观察值的总和：<basename>_sum，
+                   观察事件计数：<basename>_count
+                   histogram_quantile计算百分位，histogram_quantile函数聚合
+        Summary：与Histogram相似，Summary是直接在客户端计算出了百分位数
+                 φ分位数：<basename>{quantile="<φ>"}，
+                 观察值总和：<basename>_sum，
+                 观察事件数，<basename>_count
+1、pushgateway动态表配置说明
+   动态表会依表配置的connector参数，调用相应sink连接器（例如pushgateway连接器），
+   pushgateway连接器自动按prometheus格式生成监控指标并推送到pushgateway
+   pushgateway类型动态表属性参数如下
+   必填参数名            参数值              语义
+   connector            pushgateway         使用pushgateway连接器，必须填写
+   pushgateway          依现场情况填写         pushgateway地址，允许是slb地址及端口，必须填写
+   job.name             任务名字                 推送任务名，默认为flink
+   prom.m.type          指标类型                 指标类型字列，默认为guage类型, prometheus四种类型，忽略大小写，如果填写非四种中会报错
+   prom.j.name          任务名字段列名            指标名字列，默认为空
+   prom.m.name          指标名字段列名            指标名字列，默认为m
+   prom.v.name          指标值字段名              指标值列，默认为v, 指标值必须为double类型
+   prom.h.name          指标值字段帮助名           指标帮助列，默认为h
+   prom.ts.name         指标timestamp字段名       指标时间列，默认为timestamp,prometheus不支持时间列，暂时不用，格式为10位时间戳
+
+   create TEMPORARY TABLE sample_perf_prom (
+        m                 VARCHAR,
+        v                 DOUBLE,
+        h                 VARCHAR,
+        orgid             VARCHAR,
+        rsid              VARCHAR,
+        vmid              VARCHAR,
+        bus               VARCHAR
+   ) with (
+        'connector' = 'pushgateway',
+        'pushgateway' = '10.81.200.185:9091',
+        'prom.m.type' = 'guage'
+   );
+
+2、数据转换逻辑
+    sample_perf_prom数据如下
+    m          |h             |v       |orgid |rsid  |vmid                 |bus           |
+    cpu_usage  |CPU 使用率     |0.8     |23    |23    |r-mv737f87db8c47d4   |配电系统        |
+
+    转为指标后为：
+    # HELP cpu_usage CPU 使用率
+    # TYPE cpu_usage gauge
+    cpu_usage {orgid="23", rsid="23", vmid="r-mv737f87db8c47d4", bus="配电系统"} 0.8
+
+3、数据要求及类型转换
+    指标名不能有减号，空格等特殊符号，只能是字母、数字、下划线
+    指标名定好之后不能变动，告警与这些指标名强依赖
+    指标名、指标值、指标帮助字段以外字段都会做为label字段，label字段名字及值都必须是字符串类型，源表非字符类型时要转换
+    指标为非double时也要进行类型转换，例如f_random为int时，插入就需要按下面转换。
+    insert into sample_perf_prom
+    select 'gen_metric'                as m,       --指标名为常量
+           cast(f_random as DOUBLE)    as v        --指标值类型转换
+    from gen_perf_null;
+
+4、指标命名原则
+   0）、指标名只能包含ASCII字符，数字下划线和冒号，它必须能被正则表达式[a-zA-Z_:][a-zA-Z0-9_:]*匹配。
+       冒号是为用户自定义的规则保留的。exporter或直接展示的组件都不应使用它们
+   1）、应具有与度量标准所属域相关的(单个单词)应用程序前缀。客户端库有时将该前缀称为namespace。对于特定于应用程序的数据指标，前缀通常是应用程序名称本身。
+       prometheus_***     特指Prometheus服务
+       process_***        客户端库导出
+       http_***           HTTP 请求
+   2）、必须由一个单位
+   3）、应当使用基本单位(如. seconds, bytes, meters
+   4）、应以单位的复数形式进行描述，累加计数还具有total作为后缀，元信息具有_info作为后缀
+   5）、在所有标签维度上表示相同的逻辑事物
+
+5、标签命名原则
+   0）、标签名称可以包含ASCII字符，数字和下划线。它必须能被正则表达式[a-zA-Z_:][a-zA-Z0-9_:]*匹配
+       任何标签值的更改、添加、删除，都会创建一个新的时间序列。
+   1）、标签值可以包含任何Unicode字符，标签值为空的标签被认为等同于不存在的标签
+   2）、不要将标签名称放在度量标准名称中

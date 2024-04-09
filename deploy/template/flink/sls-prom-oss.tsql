@@ -1,0 +1,64 @@
+CREATE TABLE oss_perf_sls (
+    recv_size DOUBLE,
+    send_size DOUBLE,
+    error_403 DOUBLE,
+    error_404 DOUBLE,
+    error_408 DOUBLE,
+    error_499 DOUBLE,
+    error_4xx DOUBLE,
+    error_503 DOUBLE,
+    error_5xx DOUBLE,
+    success_203 DOUBLE,
+    success_2xx DOUBLE,
+    success_3xx DOUBLE,
+    intran_recv_size DOUBLE,
+    intran_send_size DOUBLE,
+    bucket_name VARCHAR
+) WITH (
+    'connector'= 'sls',
+    'endPoint' = '${sls_endpoint}',
+    'accessid' = '${sls_accessid}',
+    'accesskey' = '${sls_accesskey}',
+    'project' = 'aliyun-oss',
+    'logstore' = 'oss_monitor_service',
+    'batchgetsize' = '1000'
+);
+
+CREATE TABLE oss_perf_prom (
+    instanceid             VARCHAR,
+    m                      VARCHAR,
+    v                      DOUBLE
+) WITH (
+      'connector' = 'pushgateway',
+      'format' = 'json',
+      'pushgateway' = '${pushgateway}'
+);
+
+INSERT INTO oss_perf_prom
+select * from (
+    select concat(bucket_name,'') as instanceid,'recv_size' as m,if(cast(recv_size as varchar)='NaN',cast(0 as DOUBLE),recv_size) as v from oss_perf_sls
+    UNION ALL
+    select concat(bucket_name,'') as instanceid,'send_size' as m,if(cast(send_size as varchar)='NaN',cast(0 as DOUBLE),send_size) as v from oss_perf_sls
+    UNION ALL
+    select concat(bucket_name,'') as instanceid,'error_403' as m,if(cast(error_403 as varchar)='NaN',cast(0 as DOUBLE),error_403) as v from oss_perf_sls
+    UNION ALL
+    select concat(bucket_name,'') as instanceid,'error_404' as m,if(cast(error_404 as varchar)='NaN',cast(0 as DOUBLE),error_404) as v from oss_perf_sls
+    UNION ALL
+    select concat(bucket_name,'') as instanceid,'error_408' as m,if(cast(error_408 as varchar)='NaN',cast(0 as DOUBLE),error_408) as v from oss_perf_sls
+    UNION ALL
+    select concat(bucket_name,'') as instanceid,'error_4xx' as m,if(cast(error_4xx as varchar)='NaN',cast(0 as DOUBLE),error_4xx) as v from oss_perf_sls
+    UNION ALL
+    select concat(bucket_name,'') as instanceid,'error_503' as m,if(cast(error_503 as varchar)='NaN',cast(0 as DOUBLE),error_503) as v from oss_perf_sls
+    UNION ALL
+    select concat(bucket_name,'') as instanceid,'error_5xx' as m,if(cast(error_5xx as varchar)='NaN',cast(0 as DOUBLE),error_5xx) as v from oss_perf_sls
+    UNION ALL
+    select concat(bucket_name,'') as instanceid,'success_203' as m,if(cast(success_203 as varchar)='NaN',cast(0 as DOUBLE),success_203) as v from oss_perf_sls
+    UNION ALL
+    select concat(bucket_name,'') as instanceid,'success_2xx' as m,if(cast(success_2xx as varchar)='NaN',cast(0 as DOUBLE),success_2xx) as v from oss_perf_sls
+    UNION ALL
+    select concat(bucket_name,'') as instanceid,'success_3xx' as m,if(cast(success_3xx as varchar)='NaN',cast(0 as DOUBLE),success_3xx) as v from oss_perf_sls
+    UNION ALL
+    select concat(bucket_name,'') as instanceid,'intran_recv_size' as m,if(cast(intran_recv_size as varchar)='NaN',cast(0 as DOUBLE),intran_recv_size) as v from oss_perf_sls
+    UNION ALL
+    select concat(bucket_name,'') as instanceid,'intran_send_size' as m,if(cast(intran_send_size as varchar)='NaN',cast(0 as DOUBLE),intran_send_size) as v from oss_perf_sls
+);
