@@ -102,15 +102,4 @@ public final class ConfigUtils {
                             clazz), e);
         }
     }
-
-    public static Properties getHttpConnectorProperties(Map<String, String> tableOptions) {
-        final Properties httpProperties = new Properties();
-
-        tableOptions.entrySet().stream()
-                .filter(entry ->
-                        entry.getKey().startsWith(ConnectorConfigConstants.GID_CONNECTOR_HTTP))
-                .forEach(entry -> httpProperties.put(entry.getKey(), entry.getValue()));
-
-        return httpProperties;
-    }
 }

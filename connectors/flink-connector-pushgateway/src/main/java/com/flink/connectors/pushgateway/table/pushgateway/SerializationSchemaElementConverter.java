@@ -18,10 +18,24 @@ public class SerializationSchemaElementConverter
     private boolean schemaOpened = false;
     private int metricIdx;
     private int valueIdx;
+    private String jobName;
+    private String jobType;
+    private int jobIdx;
+    private int typeIdx;
+    private int helpIdx;
+    private int tsIdx;
 
-    public SerializationSchemaElementConverter(int metricIdx, int valueIdx, Map<Integer, String> tagsIdxMap, SerializationSchema<RowData> serializationSchema) {
+    public SerializationSchemaElementConverter(String jobName, String jobType, int jobIdx,int typeIdx,
+                                               int metricIdx, int helpIdx,int valueIdx, int tsIdx,
+                                               Map<Integer, String> tagsIdxMap, SerializationSchema<RowData> serializationSchema) {
+        this.jobName = jobName;
+        this.jobType = jobType;
+        this.jobIdx = jobIdx;
+        this.typeIdx = typeIdx;
         this.metricIdx = metricIdx;
+        this.helpIdx = helpIdx;
         this.valueIdx = valueIdx;
+        this.tsIdx = tsIdx;
         this.tagsIdxMap = tagsIdxMap;
         this.serializationSchema = serializationSchema;
     }
@@ -46,7 +60,29 @@ public class SerializationSchemaElementConverter
                 .replace(".", "_");
         Double metricValue = rowData.getDouble(valueIdx);
         System.out.println("metricName:" + metricName + " metricValue:" + metricValue);
-        return new PushgatewayGaugeEntity("jobName", metricName, metricValue, parseTags(rowData));
+        PushgatewayGaugeEntity e = new PushgatewayGaugeEntity(getJobName(rowData), metricName, metricValue, parseTags(rowData));
+        setTs(e, rowData);
+        setHelp(e, rowData);
+        return  e;
+    }
+
+    private void setTs(PushgatewayGaugeEntity e, RowData rowData){
+        if(tsIdx > 0){
+            e.setTimestamp(Long.valueOf(rowData.getString(tsIdx).toString()));
+        }
+    }
+
+    private void setHelp(PushgatewayGaugeEntity e, RowData rowData){
+        if(helpIdx > 0){
+            e.setTimestamp(Long.valueOf(rowData.getString(helpIdx).toString()));
+        }
+    }
+
+    private String getJobName(RowData row){
+        if(jobIdx > 0){
+            return row.getString(jobIdx).toString();
+        }
+        return jobName;
     }
 
     protected TreeMap<String, String> parseTags(RowData row) {

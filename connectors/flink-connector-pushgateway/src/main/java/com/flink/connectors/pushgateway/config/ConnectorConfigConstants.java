@@ -11,6 +11,7 @@ public final class ConnectorConfigConstants {
     public static final String PROP_DELIM = ",";
 
     public static final String CONST_PROM_JOB = "prom.job";
+    public static final String CONST_PROM_TYPE = "prom.type";
     public static final String CONST_PROM_M_TYPE = "prom.m.type";
     public static final String CONST_PROM_J_NAME = "prom.j.name";
     public static final String CONST_PROM_M_NAME = "prom.m.name";

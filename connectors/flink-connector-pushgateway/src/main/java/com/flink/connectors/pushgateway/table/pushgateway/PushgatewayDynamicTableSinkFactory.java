@@ -1,6 +1,5 @@
 package com.flink.connectors.pushgateway.table.pushgateway;
 
-import com.flink.connectors.pushgateway.utils.ConfigUtils;
 import org.apache.flink.configuration.ConfigOption;
 import org.apache.flink.configuration.ReadableConfig;
 import org.apache.flink.connector.base.table.AsyncDynamicTableSinkFactory;
@@ -11,8 +10,7 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewayDynamicSinkConnectorOptions.JOB_NAME;
-import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewayDynamicSinkConnectorOptions.PUSHGATEWAY;
+import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewayDynamicSinkConnectorOptions.*;
 
 public class PushgatewayDynamicTableSinkFactory extends AsyncDynamicTableSinkFactory {
     public static final String IDENTIFIER = "pushgateway";
@@ -23,13 +21,11 @@ public class PushgatewayDynamicTableSinkFactory extends AsyncDynamicTableSinkFac
         ReadableConfig tableOptions = factoryContext.getTableOptions();
         Properties asyncSinkProperties = new AsyncSinkConfigurationValidator(tableOptions).getValidatedConfigurations();
         // generics type erasure, so we have to do an unchecked cast
-        Properties connectorProperties = ConfigUtils.getHttpConnectorProperties(context.getCatalogTable().getOptions());
         PushgatewayDynamicSink.PushgatewayDynamicTableSinkBuilder builder =
                 new PushgatewayDynamicSink.PushgatewayDynamicTableSinkBuilder()
                         .setTableOptions(tableOptions)
                         .setEncodingFormat(factoryContext.getEncodingFormat())
-                        .setConsumedDataType(factoryContext.getPhysicalDataType())
-                        .setProperties(connectorProperties);
+                        .setConsumedDataType(factoryContext.getPhysicalDataType());
         addAsyncOptionsToBuilder(asyncSinkProperties, builder);
         return builder.build();
     }
@@ -49,7 +45,13 @@ public class PushgatewayDynamicTableSinkFactory extends AsyncDynamicTableSinkFac
     @Override
     public Set<ConfigOption<?>> optionalOptions() {
         Set<ConfigOption<?>> options = super.optionalOptions();
-        options.add(JOB_NAME);
+        options.add(PROM_JOB);
+        options.add(PROM_M_TYPE);
+        options.add(PROM_J_NAME);
+        options.add(PROM_M_NAME);
+        options.add(PROM_V_NAME);
+        options.add(PROM_H_NAME);
+        options.add(PROM_TS_NAME);
         return options;
     }
 }

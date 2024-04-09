@@ -25,19 +25,16 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGau
     private final DataType consumedDataType;
     private final EncodingFormat<SerializationSchema<RowData>> encodingFormat;
     private final ReadableConfig tableOptions;
-    private final Properties properties;
 
     protected PushgatewayDynamicSink(@Nullable Integer maxBatchSize, @Nullable Integer maxInFlightRequests,
                                      @Nullable Integer maxBufferedRequests, @Nullable Long maxBufferSizeInBytes,
                                      @Nullable Long maxTimeInBufferMS, DataType consumedDataType,
                                      EncodingFormat<SerializationSchema<RowData>> encodingFormat,
-                                     ReadableConfig tableOptions,
-                                     Properties properties) {
+                                     ReadableConfig tableOptions) {
         super(maxBatchSize, maxInFlightRequests, maxBufferedRequests, maxBufferSizeInBytes, maxTimeInBufferMS);
         this.consumedDataType = Preconditions.checkNotNull(consumedDataType, "Consumed data type must not be null");
         this.encodingFormat = Preconditions.checkNotNull(encodingFormat, "Encoding format must not be null");
         this.tableOptions = Preconditions.checkNotNull(tableOptions, "Table options must not be null");
-        this.properties = properties;
     }
 
     @Override
@@ -55,8 +52,7 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGau
         PushgatewaySinkBuilder<RowData> builder = PushgatewaySink
                 .<RowData>builder()
                 .setEndpointUrl(tableOptions.get(PUSHGATEWAY))
-                .setElementConverter(PushgatewayConverterFactory.create(consumedDataType,serializationSchema))
-                .setProperties(properties);
+                .setElementConverter(PushgatewayConverterFactory.create(tableOptions,consumedDataType,serializationSchema));
         addAsyncOptionsToSinkBuilder(builder);
         return SinkV2Provider.of(builder.build());
     }
@@ -71,8 +67,7 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGau
                 maxTimeInBufferMS,
                 consumedDataType,
                 encodingFormat,
-                tableOptions,
-                properties
+                tableOptions
         );
     }
 
@@ -122,8 +117,7 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGau
                     getMaxTimeInBufferMS(),
                     consumedDataType,
                     encodingFormat,
-                    tableOptions,
-                    properties
+                    tableOptions
             );
         }
     }

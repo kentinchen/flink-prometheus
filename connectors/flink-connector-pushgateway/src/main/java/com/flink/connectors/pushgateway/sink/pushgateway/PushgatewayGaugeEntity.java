@@ -1,11 +1,15 @@
 package com.flink.connectors.pushgateway.sink.pushgateway;
 
 import com.flink.connectors.pushgateway.utils.DateUtil;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
 
+@Getter
+@Setter
 public class PushgatewayGaugeEntity implements Serializable {
     public String jobName;
     public Long timestamp;
