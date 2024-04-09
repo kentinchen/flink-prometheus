@@ -55,3 +55,7 @@ http://10.81.200.185:9090/
 http://10.81.200.185:8081/
 http://10.81.69.186:9091/
 http://10.81.69.186:8081/
+
+curl https://github.com/docker/compose/releases/download/v2.26.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+docker-compose version
