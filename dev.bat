@@ -21,11 +21,7 @@ docker-compose up -d
 nc -lk 9999
 INSERT|Alice|12
 
-
 https://mirrors.cloud.tencent.com/gradle/
-
-Caused by: org.apache.flink.client.program.ProgramInvocationException: The main method caused an error:
-Table sink 'default_catalog.default_database.ecs_perf_tsdb' doesn't support consuming delete changes which is produced by node TableSourceScan(table=[[default_catalog, default_database, ecs_perf_sls]], fields=[ts, m_type, m_name, m_value, vm_id])
 
 for %%cntr in ("jobmanager" "taskmanager") do (
   echo %%cntr
@@ -39,3 +35,14 @@ foreach ($cntr in $cntrs) {
     docker exec $cntr mkdir -p /opt/flink/scripts
     docker exec $cntr mkdir -p /opt/flink/data;
 }
+
+安装go-jsonnet及jb
+https://github.com/google/go-jsonnet/releases
+go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
+
+https://github.com/grafana/grafonnet
+初始化目录并增加依赖
+jb init
+jb install github.com/grafana/grafonnet/gen/grafonnet-latest@main
+编写文件并生成json
+jsonnet -J vendor dashboard.jsonnet > dashboadd.json
