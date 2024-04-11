@@ -8,6 +8,7 @@ services:
     ports:
       - "8081:8081"
       - "9249:9249"
+    restart: always
     volumes:
       - state:/state
       - ../libs:/flink/usrlib
@@ -28,6 +29,7 @@ services:
     container_name: taskmanager1
     ports:
       - "9250:9249"
+    restart: always
     volumes:
       - state:/state
       - ../libs:/flink/usrlib
@@ -48,6 +50,7 @@ services:
     container_name: taskmanager2
     ports:
       - "9251:9249"
+    restart: always
     volumes:
       - state:/state
       - ../libs:/flink/usrlib
