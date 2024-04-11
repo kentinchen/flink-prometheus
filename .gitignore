@@ -13,3 +13,4 @@
 /deploy/libs/
 /jb/vendor/
 /jb/jsonnetfile.lock.json
+/jb/out/

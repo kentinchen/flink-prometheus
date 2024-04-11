@@ -8,4 +8,4 @@ jb init
 jb install github.com/grafana/grafonnet/gen/grafonnet-latest@main
 
 编写文件并生成json
-jsonnet -J vendor dashboard.jsonnet > dashboadd.json
+jsonnet -J vendor src\dashboard.jsonnet > out\dashboadd.json
