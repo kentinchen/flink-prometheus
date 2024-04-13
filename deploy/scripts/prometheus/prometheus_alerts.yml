@@ -7,7 +7,7 @@
       "runbook_url": "https://github.com"
       "summary": "Target disappeared from Prometheus target discovery."
     "expr": |
-      absent(up{product="ecs"} == 1)
+      absent(vm_CPUUtilization{product="ecs"})
     "for": "5m"
     "labels":
       "severity": "critical"
@@ -19,7 +19,7 @@
       "runbook_url": "https://github.com"
       "summary": "Target disappeared from Prometheus target discovery."
     "expr": |
-      absent(up{product="oss"} == 1)
+      absent(vm_CPUUtilization{product="kvs"})
     "for": "5m"
     "labels":
       "severity": "critical"
@@ -31,7 +31,7 @@
       "runbook_url": "https://github.com"
       "summary": "Target disappeared from Prometheus target discovery."
     "expr": |
-      absent(up{product="oss"} == 1)
+      absent(vm_CPUUtilization{product="oss"})
     "for": "5m"
     "labels":
       "severity": "critical"
@@ -43,7 +43,7 @@
       "runbook_url": "https://github.com"
       "summary": "Target disappeared from Prometheus target discovery."
     "expr": |
-      absent(up{product="rds"} == 1)
+      absent(Queries_ps{product="rds"})
     "for": "5m"
     "labels":
       "severity": "critical"
@@ -55,7 +55,55 @@
       "runbook_url": "https://github.com"
       "summary": "Target disappeared from Prometheus target discovery."
     "expr": |
-      absent(up{product="slb"} == 1)
+      absent(vm_CPUUtilization{product="slb"})
+    "for": "5m"
+    "labels":
+      "severity": "critical"
+- "name": "pushgateway未上报"
+  "rules":
+  - "alert": "pushgateway作业未启动"
+    "annotations":
+      "description": "pushgateway has disappeared from Prometheus target discovery."
+      "runbook_url": "https://github.com"
+      "summary": "Target disappeared from Prometheus target discovery."
+    "expr": |
+      absent(up{job="pushgateway"} == 1)
+    "for": "5m"
+    "labels":
+      "severity": "critical"
+- "name": "prometheus未上报"
+  "rules":
+  - "alert": "prometheus作业未启动"
+    "annotations":
+      "description": "prometheus has disappeared from Prometheus target discovery."
+      "runbook_url": "https://github.com"
+      "summary": "Target disappeared from Prometheus target discovery."
+    "expr": |
+      absent(up{job="prometheus"} == 1)
+    "for": "5m"
+    "labels":
+      "severity": "critical"
+- "name": "alertmanager未上报"
+  "rules":
+  - "alert": "alertmanager作业未启动"
+    "annotations":
+      "description": "alertmanager has disappeared from Prometheus target discovery."
+      "runbook_url": "https://github.com"
+      "summary": "Target disappeared from Prometheus target discovery."
+    "expr": |
+      absent(up{job="alertmanager"} == 1)
+    "for": "5m"
+    "labels":
+      "severity": "critical"
+- "name": "node-exporter未上报"
+  "rules":
+  - "alert": "node-exporter作业未启动"
+    "annotations":
+      "description": "node-exporter has disappeared from Prometheus target discovery."
+      "runbook_url": "https://github.com"
+      "summary": "Target disappeared from Prometheus target discovery."
+    "expr": |
+      absent(up{job="node_exporter"} == 1)
     "for": "5m"
     "labels":
       "severity": "critical"
