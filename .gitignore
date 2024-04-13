@@ -16,3 +16,5 @@
 /jb/out/
 /mixin/vendor/
 /mixin/out/
+/mixin/prometheus_alerts.yaml
+/mixin/prometheus_rules.yaml

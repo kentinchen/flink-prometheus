@@ -1,28 +1,40 @@
-安装go-jsonnet及jb
-https://github.com/google/go-jsonnet/releases
-go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
+0、安装go-jsonnet及jb
+   https://github.com/google/go-jsonnet/releases
+   go install github.com/google/go-jsonnet/cmd/jsonnet@latest
+   go install github.com/google/go-jsonnet/cmd/jsonnet-lint@latest
+   go install github.com/google/go-jsonnet/cmd/jsonnetfmt@latest
+   go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
+   go env GOPATH
 
-https://github.com/grafana/grafonnet
-初始化目录并增加依赖
-jb init
-jb install github.com/grafana/grafonnet/gen/grafonnet-latest@main
+   # 初始化目录并增加依赖
+   # jb init
+   # jb install github.com/grafana/grafonnet/gen/grafonnet-latest@main
+   # jb install https://github.com/grafana/jsonnet-libs/grafana-builder@master
 
-1、当前目录中安装依赖（只需做一次）
-jb install
+1、当前目录中安装依赖（clone之后只需做一次）
+   jb install
 
-2、生成dashboard
-jsonnet -J vendor -m out lib/dashboards.jsonnet
+2、生成dashboard、prometheus规则(alerts目录为告警规则，rules为记录规则）
+   jsonnet -J vendor -m out lib/dashboards.jsonnet
+   jsonnet -J vendor -S lib/rules.jsonnet >  prometheus_rules.yaml
+   jsonnet -J vendor -S lib/alerts.jsonnet >  prometheus_alerts.yaml
 
 3、格式化
-find . -name 'vendor' -prune -o -name '*.libsonnet' -print -o -name '*.jsonnet' -print | \
-xargs -n 1 -- jsonnetfmt -n 2 --max-blank-lines 2 --string-style s --comment-style s
+   find . -name 'vendor' -prune -o -name '*.libsonnet' -print -o -name '*.jsonnet' -print | \
+   xargs -n 1 -- jsonnetfmt -n 2 --max-blank-lines 2 --string-style s --comment-style s
 
 4、jsonnet语法
-:: 定义的字段是隐藏的(不会被输出到最后的 JSON 结果中)
-local 关键字也可以定义变量
-self 关键字: 指向当前对象
-$    关键字: 指向根对象
+   :: 定义的字段是隐藏的(不会被输出到最后的JSON结果中)
+   local 关键字可以定义变量
+   self关键字: 指向当前对象
+   $   关键字: 指向根对象
+   函数(或方法)在Jsonnet中是一等公民，定义与引用方式与变量相同
+   Jsonnet使用组合来实现面向对象的特性，+运算符来组合两个对象, 假如有字段冲突, 使用右侧对象(子对象)中的字段
+   子对象中使用super关键字可以引用父对象
 
-函数(或方法)在Jsonnet中是一等公民，定义与引用方式与变量相同
-Jsonnet使用组合来实现面向对象的特性，+运算符来组合两个对象, 假如有字段冲突, 使用右侧对象(子对象)中的字段
-子对象中使用super关键字可以引用父对象
+5、Prometheus规则配置
+   Prometheus支持记录规则与警报规则类型的Rules，可以对其进行配置，然后定期进行运算
+   recording rules记录规则与alerting rules警报规则，记录规则文件的计算频率与警报规则计算频率一致
+   recording rules是提前设置好一个比较花费大量时间运算或经常运算的表达式，其结果保存成一组新的时间序列数据。
+   当需要查询的时候直接会返回已经计算好的结果，这样会比直接查询快，同时也减轻了PromQl的计算压力，同时对可视化查询的时候也很有用，可视化展示每次只需要刷新重复查询相同的表达式即可。
+   在配置的时候，除却记录规则的record: <string>需要注意，其他的基本上是一样的

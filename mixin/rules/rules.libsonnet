@@ -1,3 +1,1 @@
-{
-
-}
+(import './ecs/ecs-rules.libsonnet')
