@@ -12,6 +12,8 @@ services:
     volumes:
       - ./prometheus/prometheus.yml:/prometheus/prometheus.yml
       - ./prometheus/flink.rules.yml:/prometheus/flink.rules.yml
+      - ./prometheus/prometheus_rules.yml:/prometheus/prometheus_rules.yml
+      - ./prometheus/prometheus_alerts.yml:/prometheus/prometheus_alerts.yml
       - ./tsdb:/data/tsdb
 
   pushgateway:

@@ -35,15 +35,15 @@
     "for": "5m"
     "labels":
       "severity": "critical"
-- "name": "oss作业未启动"
+- "name": "rds作业未启动"
   "rules":
-  - "alert": "oss作业未启动"
+  - "alert": "rds作业未启动"
     "annotations":
-      "description": "oss has disappeared from Prometheus target discovery."
+      "description": "rds has disappeared from Prometheus target discovery."
       "runbook_url": "https://github.com"
       "summary": "Target disappeared from Prometheus target discovery."
     "expr": |
-      absent(up{product="oss"} == 1)
+      absent(up{product="rds"} == 1)
     "for": "5m"
     "labels":
       "severity": "critical"
