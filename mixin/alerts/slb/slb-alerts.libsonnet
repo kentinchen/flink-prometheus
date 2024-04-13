@@ -1,16 +1,16 @@
 {
     _config+:: {
-      ecsSelector: error '必须提供ecs产品选择器',
+      slbSelector: error '必须提供slb产品选择器',
     },
 
     prometheusAlerts+:: {
         groups+: [
               {
-                name: 'ecs作业未启动',
+                name: 'slb作业未启动',
                 rules: [
                   (import '../lib/utils/absent_alert.libsonnet') {
-                    componentName:: 'ecs',
-                    selector:: $._config.ecsSelector,
+                    componentName:: 'slb',
+                    selector:: $._config.slbSelector,
                   },
                 ],
               },

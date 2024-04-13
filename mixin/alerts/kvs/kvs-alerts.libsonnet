@@ -1,16 +1,16 @@
 {
     _config+:: {
-      ecsSelector: error '必须提供ecs产品选择器',
+      ossSelector: error '必须提供kvs产品选择器',
     },
 
     prometheusAlerts+:: {
         groups+: [
               {
-                name: 'ecs作业未启动',
+                name: 'kvs作业未启动',
                 rules: [
                   (import '../lib/utils/absent_alert.libsonnet') {
-                    componentName:: 'ecs',
-                    selector:: $._config.ecsSelector,
+                    componentName:: 'kvs',
+                    selector:: $._config.ossSelector,
                   },
                 ],
               },

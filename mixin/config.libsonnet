@@ -1,6 +1,16 @@
 {
     _config+:: {
         // Config for the Grafana dashboards in the Kubernetes Mixin
+        SLOs: {
+
+        },
+
+        ecsSelector: 'product="ecs"',
+        rdsSelector: 'product="rds"',
+        kvsSelector: 'product="kvs"',
+        ossSelector: 'product="oss"',
+        slbSelector: 'product="slb"',
+
         grafana: {
           dashboardNamePrefix: 'CRE / ',
           dashboardTags: ['CRE Dashboard'],
