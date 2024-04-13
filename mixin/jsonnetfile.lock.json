@@ -4,6 +4,46 @@
     {
       "source": {
         "git": {
+          "remote": "https://github.com/crdsonnet/alertmanager-libsonnet.git",
+          "subdir": "alertmanagerConfig"
+        }
+      },
+      "version": "f7965acdc795e42cfd849f5a98c30df5f1d04a1d",
+      "sum": "AHKaf98npad1PQng6kApalb4BnmzlMVcM9kW73+eLdU="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/crdsonnet/astsonnet.git",
+          "subdir": ""
+        }
+      },
+      "version": "a771663cb9594cd10b30815933fe55554e6a3755",
+      "sum": "k/SJ+F+jjdg+dBMKczPEjcYCEuQ6v0BROdXKdXOCi9o="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/crdsonnet/crdsonnet.git",
+          "subdir": "crdsonnet"
+        }
+      },
+      "version": "d0c2bea1cfa97b69d00acd2507e89802dd763790",
+      "sum": "zNOFzroEVuERFyHsV6nVqlQoFyUMHgiceLOQvuGc2Rk="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/crdsonnet/validate-libsonnet.git",
+          "subdir": ""
+        }
+      },
+      "version": "a78ca15fbfece3110c4807d1f059132ece01d97b",
+      "sum": "qYLH56MqvmgxE4YMNeTbuJ1XSsCpl1sumHN5x8IQv2I="
+    },
+    {
+      "source": {
+        "git": {
           "remote": "https://github.com/grafana/grafonnet.git",
           "subdir": "gen/grafonnet-latest"
         }

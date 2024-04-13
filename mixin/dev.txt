@@ -18,6 +18,7 @@
    jsonnet -J vendor -m out lib/dashboards.jsonnet
    jsonnet -J vendor -S lib/rules.jsonnet >   ../deploy/scripts/prometheus/prometheus_rules.yml
    jsonnet -J vendor -S lib/alerts.jsonnet >  ../deploy/scripts/prometheus/prometheus_alerts.yml
+   jsonnet -J vendor -S alertmanager/alertmanager.libsonnet
 
 3、格式化
    find . -name 'vendor' -prune -o -name '*.libsonnet' -print -o -name '*.jsonnet' -print | \
