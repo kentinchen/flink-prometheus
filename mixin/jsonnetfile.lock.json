@@ -14,6 +14,16 @@
     {
       "source": {
         "git": {
+          "remote": "https://github.com/crdsonnet/alertmanager-libsonnet.git",
+          "subdir": "alertmanagerKube"
+        }
+      },
+      "version": "f7965acdc795e42cfd849f5a98c30df5f1d04a1d",
+      "sum": "tzrKX9ZqX98PwC/1iBzEPslyy1j5EKK/W3ni32PWEk4="
+    },
+    {
+      "source": {
+        "git": {
           "remote": "https://github.com/crdsonnet/astsonnet.git",
           "subdir": ""
         }
@@ -70,6 +80,16 @@
       },
       "version": "cee0123922f4877b37804d95f3ee2c975a66b31e",
       "sum": "+z5VY+bPBNqXcmNAV8xbJcbsRA+pro1R3IM7aIY8OlU="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/grafana/jsonnet-libs.git",
+          "subdir": "ksonnet-util"
+        }
+      },
+      "version": "cee0123922f4877b37804d95f3ee2c975a66b31e",
+      "sum": "0y3AFX9LQSpfWTxWKSwoLgbt0Wc9nnCwhMH2szKzHv0="
     },
     {
       "source": {

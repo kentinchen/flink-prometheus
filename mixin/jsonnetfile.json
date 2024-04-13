@@ -13,6 +13,15 @@
     {
       "source": {
         "git": {
+          "remote": "https://github.com/crdsonnet/alertmanager-libsonnet.git",
+          "subdir": "alertmanagerKube"
+        }
+      },
+      "version": "master"
+    },
+    {
+      "source": {
+        "git": {
           "remote": "https://github.com/grafana/grafonnet.git",
           "subdir": "gen/grafonnet-latest"
         }
