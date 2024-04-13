@@ -6,7 +6,8 @@ CREATE TEMPORARY TABLE ecs_perf_sls (
     v                      DOUBLE,
     mountpoint             VARCHAR,
     diskname               VARCHAR,
-    state                  VARCHAR
+    `state`                VARCHAR,
+    `period`               VARCHAR
 ) WITH (
     'connector' = 'sls',
     'endpoint' = 'http://data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com',
@@ -15,13 +16,18 @@ CREATE TEMPORARY TABLE ecs_perf_sls (
     'project' = 'ali-tianji-cms-transfer',
     'logStore' = 'ecs'
 );
--- select * from ecs_perf_sls limit 10;
 
 CREATE TEMPORARY TABLE ecs_perf_prom (
-    m_name                 VARCHAR,
-    m_value                DOUBLE,
-    oid                    VARCHAR,
-    instanceId             VARCHAR
+    instanceid             VARCHAR,
+    ts                     BIGINT,
+    product                VARCHAR,
+    m                      VARCHAR,
+    netname                VARCHAR,
+    v                      DOUBLE,
+    mountpoint             VARCHAR,
+    diskname               VARCHAR,
+    `state`                VARCHAR,
+    `period`               VARCHAR
 ) WITH (
     'connector' = 'pushgateway',
     'format' = 'json',
@@ -29,12 +35,18 @@ CREATE TEMPORARY TABLE ecs_perf_prom (
 );
 
 insert into ecs_perf_prom
-select m      as m_name,
-       v      as m_value,
-       uuid() as oid,
-       instanceId
+select
+    instanceId,
+    ts,
+    'ecs',
+    `m`,
+    netname,
+    cast(v as DOUBLE),
+    mountpoint,
+    diskname,
+    `state`,
+    `period`
 from ecs_perf_sls
-where v >= 0
-  and cast(v as VARCHAR) <> 'NaN';
+where cast(v as VARCHAR) <> 'NaN' and cast(v as DOUBLE) >= 0.0;
 
 

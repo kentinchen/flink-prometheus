@@ -1,0 +1,76 @@
+---
+services:
+  job-cluster:
+    # build: .
+    image: flink:1.15.4-java8
+    container_name: jobmanager
+    restart: always
+    command: jobmanager
+    ports:
+      - "8081:8081"
+      - "9249:9249"
+    volumes:
+      - state:/state
+      - ../libs:/flink/usrlib
+      - ./flink/out:/opt/flink/scripts
+      - ./flink/sql:/opt/flink/sql
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 20
+        state.checkpoints.dir: file:///state
+    extra_hosts:
+      - "ali-tianji-cms-transfer.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+      - "oss_monitor_service.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+      - "aliyun-oss.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+      - "noc.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+
+  taskmanager1:
+    # build: .
+    image: flink:1.15.4-java8
+    container_name: taskmanager1
+    restart: always
+    ports:
+      - "9250:9249"
+    volumes:
+      - state:/state
+      - ../libs:/flink/usrlib
+    command: taskmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 20
+        state.checkpoints.dir: file:///state
+    extra_hosts:
+      - "ali-tianji-cms-transfer.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+      - "oss_monitor_service.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+      - "aliyun-oss.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+      - "noc.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+
+  taskmanager2:
+    # build: .
+    image: flink:1.15.4-java8
+    container_name: taskmanager2
+    restart: always
+    ports:
+      - "9251:9249"
+    volumes:
+      - state:/state
+      - ../libs:/flink/usrlib
+    command: taskmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 20
+        state.checkpoints.dir: file:///state
+    extra_hosts:
+      - "ali-tianji-cms-transfer.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+      - "oss_monitor_service.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+      - "aliyun-oss.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+      - "noc.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+
+volumes:
+  state:

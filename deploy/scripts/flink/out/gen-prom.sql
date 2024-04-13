@@ -22,7 +22,7 @@ create TEMPORARY TABLE gen_perf_prom (
 ) with (
     'connector' = 'pushgateway',
     'format' = 'json',
-    'pushgateway' = '${pushgateway}'
+    'pushgateway' = '10.81.200.185:9091'
 );
 
 insert into gen_perf_prom

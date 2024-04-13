@@ -1,0 +1,6 @@
+export ENV='iut'
+
+export sls_endpoint='http://data.cn-qingdao-env17e-d01.sls.inter.env17e.shuguang.com'
+export sls_accessid='ujRRDyzkf87M6Me1'
+export sls_accesskey='xgoboBaZhRURNytcHg9sgnQLME9pPs'
+export pushgateway='43.17.4.75:9091'

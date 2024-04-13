@@ -17,9 +17,9 @@ CREATE TEMPORARY TABLE oss_perf_sls (
     bucket_name VARCHAR
 ) WITH (
     'connector'= 'sls',
-    'endPoint' = '${sls_endpoint}',
-    'accessid' = '${sls_accessid}',
-    'accesskey' = '${sls_accesskey}',
+    'endPoint' = 'http://data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com',
+    'accessid' = 'OLIDBuPuCROXJt52',
+    'accesskey' = '9LoXpXIN5by9M8Gzz2CWgSIkGIbxyI',
     'project' = 'aliyun-oss',
     'logstore' = 'oss_monitor_service',
     'batchgetsize' = '1000'
@@ -34,7 +34,7 @@ CREATE TEMPORARY TABLE oss_perf_prom (
 ) WITH (
       'connector' = 'pushgateway',
       'format' = 'json',
-      'pushgateway' = '${pushgateway}',
+      'pushgateway' = '10.81.200.185:9091',
       'prom.ts.name' = 'timestamp'
 );
 

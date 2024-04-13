@@ -18,7 +18,7 @@
    必填参数名            参数值              语义
    connector            pushgateway         使用pushgateway连接器，必须填写
    pushgateway          依现场情况填写         pushgateway地址，允许是slb地址及端口，必须填写
-   prom.job             任务名字                 推送任务名，默认为flink
+   job.name             任务名字                 推送任务名，默认为flink
    prom.m.type          指标类型                 指标类型字列，默认为guage类型, prometheus四种类型，忽略大小写，如果填写非四种中会报错
    prom.j.name          任务名字段列名            指标名字列，默认为空
    prom.m.name          指标名字段列名            指标名字列，默认为m

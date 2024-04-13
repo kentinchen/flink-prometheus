@@ -1,5 +1,10 @@
 export ENV='dev'
 
+export mysql_address='10.81.200.185:3306'
+export mysql_database='monitor'
+export mysql_username='monitor'
+export mysql_password='123456'
+
 export sls_endpoint='http://data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com'
 export sls_accessid='OLIDBuPuCROXJt52'
 export sls_accesskey='9LoXpXIN5by9M8Gzz2CWgSIkGIbxyI'

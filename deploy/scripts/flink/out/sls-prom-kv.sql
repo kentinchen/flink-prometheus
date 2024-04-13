@@ -6,9 +6,9 @@ CREATE TEMPORARY TABLE kv_perf_sls (
     v                      DOUBLE
 ) WITH (
     'connector'= 'sls',
-    'endPoint' = '${sls_endpoint}',
-    'accessid' = '${sls_accessid}',
-    'accesskey' = '${sls_accesskey}',
+    'endPoint' = 'http://data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com',
+    'accessid' = 'OLIDBuPuCROXJt52',
+    'accesskey' = '9LoXpXIN5by9M8Gzz2CWgSIkGIbxyI',
     'project' = 'ali-tianji-cms-transfer',
     'logstore' = 'kvstore'
 );
@@ -22,7 +22,7 @@ CREATE TEMPORARY TABLE kv_perf_prom (
 ) WITH (
     'connector' = 'pushgateway',
     'format' = 'json',
-    'pushgateway' = '${pushgateway}'
+    'pushgateway' = '10.81.200.185:9091'
 );
 
 insert into kv_perf_prom

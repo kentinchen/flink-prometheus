@@ -1,0 +1,18 @@
+cms来源指标，尽量兼容cms指标名，减少沟通代价。
+   ecs产品（acs_ecs_dashboard）
+       ECS基础监控数据，无需安装插件即可查询监控数据。
+       Project为acs_ecs_dashboard，采样周期为60s，Period赋值为60或60的整数倍。
+       标签中的instanceId赋值ecs实例的instanceId。
+       Metric            监控项描述      单位
+       InternetInRate    公网流入带宽    bit/s
+       IntranetInRate    私网流入带宽    bit/s
+       IntranetOutRate   私网流出带宽    bit/s
+       DiskReadBPS       系统磁盘总读BPS Bps
+       DiskWriteBPS      系统磁盘总写BPS Bps
+       DiskReadIOPS      系统磁盘读IOPS  Count/Second
+       DiskWriteIOPS     系统磁盘写IOPS  Count/Second
+   rds产品
+
+   oss产品
+
+   slb产品

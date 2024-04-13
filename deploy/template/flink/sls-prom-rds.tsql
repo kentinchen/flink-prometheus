@@ -1,0 +1,42 @@
+CREATE TEMPORARY FUNCTION RdsMonitorConvert AS 'org.flink.udf.function.RdsMonitorConvert';
+CREATE TEMPORARY FUNCTION dateFormatT08 AS 'org.flink.udf.function.DateFormatT08';
+
+CREATE TEMPORARY TABLE rds_perf_sls (
+    instanceId             VARCHAR,
+    __timestamp__          BIGINT,
+    `metricName`           VARCHAR,
+    `uptime`               VARCHAR,
+    `type`                 VARCHAR,
+    v                      DOUBLE
+) WITH (
+    'connector'= 'sls',
+    'endpoint' = '${sls_endpoint}',
+    'accessid' = '${sls_accessid}',
+    'accesskey' = '${sls_accesskey}',
+    'project' = 'ali-tianji-cms-transfer',
+    'logstore' = 'data-rdsmysql'
+);
+
+CREATE TEMPORARY TABLE rds_perf_prom (
+    instanceid             VARCHAR,
+    ts                     BIGINT,
+    m                      VARCHAR,
+    product                VARCHAR,
+    `type`                 VARCHAR,
+    v                      DOUBLE
+) WITH (
+        'connector' = 'pushgateway',
+        'format' = 'json',
+        'pushgateway' = '${pushgateway}'
+);
+
+insert into rds_perf_prom
+select
+    instanceId,
+    CAST(dateFormatT08(`uptime`) as BIGINT) as ts,
+    'rds',
+    RdsMonitorConvert(`type`) as `m`,
+    `type`,
+    CAST(v as DOUBLE)
+from rds_perf_sls
+where v >= 0 and v is not null;

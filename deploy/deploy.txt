@@ -1,0 +1,64 @@
+--------------------------------prometheus相关-----------------------------------------
+0. 准备环境prometheus环境（ECS配置与机器数量及指标有关）
+   1)ECS 4核8G
+   2)分配200G磁盘（需要存储tsdb时序数据）
+   3)安装docker最新版
+   4）tsdb目录及权限
+       mkdir -p ${env}/tsdb
+       chown -R 65534:65534 ${env}/tsdb
+1. 启动prometheus环境
+   docker-compose -f docker-compose-prom.yml up -d
+      * docker-compose -f docker-compose-prom.yml down
+      * docker ps 查检容器都正常启动
+2. 检查prometheus容器(主要功能是去各种export及pushgateway上采集数据）
+   curl http://localhost:9090
+   curl -X POST http://localhost:9090/-/reload  不重启prometheus重新加载配置
+3. 检查pushgateway容器(主要接收flink任务推送，然后暴露http给prometheus采集）
+   curl http://localhost:9091/metrics
+   echo "test_metric 123456" | curl --data-binary @- http://localhost:9091/metrics/job/test_job
+4. 检查alertmanager容器(主要功能是告警去重、分组、路由等信息在alertmanager.yml)
+   curl http://localhost:9093
+5. 检查grafana
+   curl http://localhost:3000
+   默认为admin/flink
+
+---------------------------------flink任务相关---------------------------------------------
+一、本地部署方式（无flink产品场景）
+    0. 准备环境flink环境（ECS配置与采集任务数有关，如果量少可以与prometheus部在同一机器上）
+       1)ECS 4核8G
+       2)分配 200G磁盘（主要记录运行时日志）
+       3)安装docker最新版
+       4)做sls的single tunnel到ecs，另外需要在docker-compose中加上sls域名解析
+    1. 启动flink采集应用(需要在compose中修改extra_hosts，配置sls域名解析）
+       cd ${env}
+       docker-compose -f docker-compose-flink.yml up -d
+          * docker-compose -f docker-compose-flink.yml restart （重启，里面lib不会掉）
+          * docker-compose -f docker-compose-flink.yml down (销毁，下次启动时会是新环境，要重新部署lib及jobs)
+          * 修改docker-compose-flink.yml需要先销毁，然后重新部署一次，主要是增加host域名解析 //TODO尽量优化不重新部署
+    2. 部署connector、udf函数到容器并重启容器使jar生效（jobmanager及taskmanager都需要复制）
+       cd ${env}
+       ./flink/deploy-flink-libs.sh
+          * 更新connector及udf jar时都需要重做这一步
+          * 更新方法是把jar放到libs目录，然后更新libs，更新完之后要重新部署一次flink作业（下面一步）
+    4. 部署flink作业（只需把作文件复制到jobmanager）
+        cd scripts
+        source ../env/dev
+        ./flink/deploy-flink-jobs.sh
+           * 每跑一次，默认job会全部自动提交一次
+           * 不重新用模板生成sql，需要重新部署out目录中脚本
+             docker exec jobmanager bash /flink/usrlib/deploy-jobs.sh
+           * 单作业启动方式可以用下面方法提交
+             docker exec -it jobmanager /opt/flink/bin/sql-client.sh -f /opt/flink/scripts/gen-prom.sql
+           * 修改模板后，先生成作业sql，然后用单作业启动方式
+             以template/flink/sls-prom-slb.sql为例，修改模板，然后重新生成作业sql，flink/out在容器启动时自动挂到容器中的/opt/flink/scripts目录
+             cd ${env}
+             ./flink/gen-flink-sql.sh
+             docker exec -it jobmanager /opt/flink/bin/sql-client.sh -f /opt/flink/scripts/sls-prom-slb.sql
+
+    5. 检查flink作业是否正常运行。
+
+二、flink vvp部署方式（现场有flink vvp产品时，截图看flink-vvp部署.docx）
+    1、作业开发\connectors, 点连接器上面的+, 然后选择flink-connector-pushgateway-1.0-all.jar，后面参数全部默认，然后完成。
+    2、作业开发\UDF，点UDF注册，选择flink-udx-1.0-all.jar，系统会自动扫描包中的函数
+    3、作业开发\Drafts，然后按flink/out/目录中需要的脚本依次手动创建作业，语法验证无误后提交运行
+    4、检查作业运行正常，数据抽取正常。
