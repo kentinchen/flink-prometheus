@@ -16,8 +16,8 @@
 
 2、生成dashboard、prometheus规则(alerts目录为告警规则，rules为记录规则）
    jsonnet -J vendor -m out lib/dashboards.jsonnet
-   jsonnet -J vendor -S lib/rules.jsonnet >   prometheus_rules.yaml
-   jsonnet -J vendor -S lib/alerts.jsonnet >  prometheus_alerts.yaml
+   jsonnet -J vendor -S lib/rules.jsonnet >   ../deploy/scripts/prometheus/prometheus_rules.yml
+   jsonnet -J vendor -S lib/alerts.jsonnet >  ../deploy/scripts/prometheus/prometheus_alerts.yml
 
 3、格式化
    find . -name 'vendor' -prune -o -name '*.libsonnet' -print -o -name '*.jsonnet' -print | \

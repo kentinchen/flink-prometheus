@@ -5,6 +5,8 @@ global:
 
 rule_files:
   - flink.rules.yml
+  - prometheus_alerts.yml
+  - prometheus_rules.yml
 
 scrape_configs:
   - job_name: 'flink'

@@ -1,0 +1,61 @@
+"groups":
+- "name": "ecs作业未启动"
+  "rules":
+  - "alert": "ecs作业未启动"
+    "annotations":
+      "description": "ecs has disappeared from Prometheus target discovery."
+      "runbook_url": "https://github.com"
+      "summary": "Target disappeared from Prometheus target discovery."
+    "expr": |
+      absent(up{product="ecs"} == 1)
+    "for": "5m"
+    "labels":
+      "severity": "critical"
+- "name": "kvs作业未启动"
+  "rules":
+  - "alert": "kvs作业未启动"
+    "annotations":
+      "description": "kvs has disappeared from Prometheus target discovery."
+      "runbook_url": "https://github.com"
+      "summary": "Target disappeared from Prometheus target discovery."
+    "expr": |
+      absent(up{product="oss"} == 1)
+    "for": "5m"
+    "labels":
+      "severity": "critical"
+- "name": "oss作业未启动"
+  "rules":
+  - "alert": "oss作业未启动"
+    "annotations":
+      "description": "oss has disappeared from Prometheus target discovery."
+      "runbook_url": "https://github.com"
+      "summary": "Target disappeared from Prometheus target discovery."
+    "expr": |
+      absent(up{product="oss"} == 1)
+    "for": "5m"
+    "labels":
+      "severity": "critical"
+- "name": "oss作业未启动"
+  "rules":
+  - "alert": "oss作业未启动"
+    "annotations":
+      "description": "oss has disappeared from Prometheus target discovery."
+      "runbook_url": "https://github.com"
+      "summary": "Target disappeared from Prometheus target discovery."
+    "expr": |
+      absent(up{product="oss"} == 1)
+    "for": "5m"
+    "labels":
+      "severity": "critical"
+- "name": "slb作业未启动"
+  "rules":
+  - "alert": "slb作业未启动"
+    "annotations":
+      "description": "slb has disappeared from Prometheus target discovery."
+      "runbook_url": "https://github.com"
+      "summary": "Target disappeared from Prometheus target discovery."
+    "expr": |
+      absent(up{product="slb"} == 1)
+    "for": "5m"
+    "labels":
+      "severity": "critical"
