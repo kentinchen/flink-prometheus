@@ -1,0 +1,28 @@
+安装go-jsonnet及jb
+https://github.com/google/go-jsonnet/releases
+go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
+
+https://github.com/grafana/grafonnet
+初始化目录并增加依赖
+jb init
+jb install github.com/grafana/grafonnet/gen/grafonnet-latest@main
+
+1、当前目录中安装依赖（只需做一次）
+jb install
+
+2、生成dashboard
+jsonnet -J vendor -m out lib/dashboards.jsonnet
+
+3、格式化
+find . -name 'vendor' -prune -o -name '*.libsonnet' -print -o -name '*.jsonnet' -print | \
+xargs -n 1 -- jsonnetfmt -n 2 --max-blank-lines 2 --string-style s --comment-style s
+
+4、jsonnet语法
+:: 定义的字段是隐藏的(不会被输出到最后的 JSON 结果中)
+local 关键字也可以定义变量
+self 关键字: 指向当前对象
+$    关键字: 指向根对象
+
+函数(或方法)在Jsonnet中是一等公民，定义与引用方式与变量相同
+Jsonnet使用组合来实现面向对象的特性，+运算符来组合两个对象, 假如有字段冲突, 使用右侧对象(子对象)中的字段
+子对象中使用super关键字可以引用父对象

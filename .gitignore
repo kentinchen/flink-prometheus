@@ -14,3 +14,5 @@
 /jb/vendor/
 /jb/jsonnetfile.lock.json
 /jb/out/
+/mixin/vendor/
+/mixin/out/
