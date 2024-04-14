@@ -11,3 +11,4 @@ providers:
     updateIntervalSeconds: 3
     options:
       path: /etc/grafana/provisioning/dashboards
+      foldersFromFilesStructure: true

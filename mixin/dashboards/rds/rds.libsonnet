@@ -6,7 +6,7 @@ local queries = import './queries.libsonnet';
 
 {
     grafanaDashboards+:: {
-        'rds-summary.json':
+        'cms/rds-summary.json':
            g.dashboard.new('rds主机监控')
            + g.dashboard.withDescription(|||
               RDS主机监控

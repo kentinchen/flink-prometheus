@@ -1,5 +1,5 @@
 {
-   "description": "ECS主机监控\n",
+   "description": "RDS主机监控\n",
    "graphTooltip": 1,
    "panels": [
       {
@@ -12,7 +12,7 @@
          },
          "id": 1,
          "panels": [ ],
-         "title": "使用率",
+         "title": "延迟",
          "type": "row"
       },
       {
@@ -54,12 +54,12 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_CPUUtilization {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
+               "expr": "active_session {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
          ],
-         "title": "CPU",
+         "title": "活动连接数",
          "type": "timeseries"
       },
       {
@@ -101,12 +101,12 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_MemoryUtilization {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
+               "expr": "Queries_ps {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
          ],
-         "title": "MEM",
+         "title": "查询数",
          "type": "timeseries"
       },
       {
@@ -148,12 +148,273 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_DiskUtilization {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
+               "expr": "Slow_queries_ps {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
          ],
-         "title": "Disk",
+         "title": "慢sql数",
+         "type": "timeseries"
+      },
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 9
+         },
+         "id": 5,
+         "panels": [ ],
+         "title": "流量",
+         "type": "row"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "short"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 10
+         },
+         "id": 6,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "TPS {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{instanceid}}\n"
+            }
+         ],
+         "title": "事务数",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "short"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 8,
+            "y": 10
+         },
+         "id": 7,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "QPS {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{instanceid}}\n"
+            }
+         ],
+         "title": "事务数",
+         "type": "timeseries"
+      },
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 18
+         },
+         "id": 8,
+         "panels": [ ],
+         "title": "使用率",
+         "type": "row"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "short"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 19
+         },
+         "id": 9,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "CpuUsage {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{instanceid}}\n"
+            }
+         ],
+         "title": "CPU使用率",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "short"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 8,
+            "y": 19
+         },
+         "id": 10,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "MemoryUsage {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{instanceid}}\n"
+            }
+         ],
+         "title": "内存使用率",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "short"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 16,
+            "y": 19
+         },
+         "id": 11,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "DiskUsage {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{instanceid}}\n"
+            }
+         ],
+         "title": "磁盘使用率",
          "type": "timeseries"
       },
       {
@@ -175,9 +436,9 @@
             "h": 8,
             "w": 8,
             "x": 0,
-            "y": 9
+            "y": 27
          },
-         "id": 5,
+         "id": 12,
          "interval": "1m",
          "options": {
             "legend": {
@@ -195,12 +456,12 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_DiskIusedUtilization {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
+               "expr": "IOPSUsage {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
          ],
-         "title": "Inode",
+         "title": "IO使用率",
          "type": "timeseries"
       },
       {
@@ -209,9 +470,9 @@
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 17
+            "y": 35
          },
-         "id": 6,
+         "id": 13,
          "panels": [ ],
          "title": "饱和度",
          "type": "row"
@@ -235,9 +496,9 @@
             "h": 8,
             "w": 8,
             "x": 0,
-            "y": 18
+            "y": 36
          },
-         "id": 7,
+         "id": 14,
          "interval": "1m",
          "options": {
             "legend": {
@@ -255,12 +516,12 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_LoadAverage {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
+               "expr": "Key_usage_ratio {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}-{{period}}\n"
+               "legendFormat": "{{instanceid}}\n"
             }
          ],
-         "title": "Load",
+         "title": "索引使用率",
          "type": "timeseries"
       },
       {
@@ -282,9 +543,9 @@
             "h": 8,
             "w": 8,
             "x": 8,
-            "y": 18
+            "y": 36
          },
-         "id": 8,
+         "id": 15,
          "interval": "1m",
          "options": {
             "legend": {
@@ -302,12 +563,12 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_DiskIORead {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
+               "expr": "Key_read_hit_ratio {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
          ],
-         "title": "磁盘读",
+         "title": "索引查询使用率",
          "type": "timeseries"
       },
       {
@@ -329,9 +590,9 @@
             "h": 8,
             "w": 8,
             "x": 16,
-            "y": 18
+            "y": 36
          },
-         "id": 9,
+         "id": 16,
          "interval": "1m",
          "options": {
             "legend": {
@@ -349,213 +610,12 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_DiskIOWrite {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
+               "expr": "Key_write_hit_ratio {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
          ],
-         "title": "磁盘写",
-         "type": "timeseries"
-      },
-      {
-         "datasource": {
-            "type": "datasource",
-            "uid": "-- Mixed --"
-         },
-         "fieldConfig": {
-            "defaults": {
-               "custom": {
-                  "fillOpacity": 10,
-                  "showPoints": "never"
-               },
-               "decimals": 0,
-               "unit": "short"
-            }
-         },
-         "gridPos": {
-            "h": 8,
-            "w": 8,
-            "x": 0,
-            "y": 26
-         },
-         "id": 10,
-         "interval": "1m",
-         "options": {
-            "legend": {
-               "calcs": [
-                  "lastNotNull",
-                  "max"
-               ],
-               "displayMode": "table"
-            }
-         },
-         "pluginVersion": "v10.4.0",
-         "targets": [
-            {
-               "datasource": {
-                  "type": "prometheus",
-                  "uid": "$datasource"
-               },
-               "expr": "vm_InternetNetworkRX {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
-               "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
-            }
-         ],
-         "title": "网络接收",
-         "type": "timeseries"
-      },
-      {
-         "datasource": {
-            "type": "datasource",
-            "uid": "-- Mixed --"
-         },
-         "fieldConfig": {
-            "defaults": {
-               "custom": {
-                  "fillOpacity": 10,
-                  "showPoints": "never"
-               },
-               "decimals": 0,
-               "unit": "short"
-            }
-         },
-         "gridPos": {
-            "h": 8,
-            "w": 8,
-            "x": 8,
-            "y": 26
-         },
-         "id": 11,
-         "interval": "1m",
-         "options": {
-            "legend": {
-               "calcs": [
-                  "lastNotNull",
-                  "max"
-               ],
-               "displayMode": "table"
-            }
-         },
-         "pluginVersion": "v10.4.0",
-         "targets": [
-            {
-               "datasource": {
-                  "type": "prometheus",
-                  "uid": "$datasource"
-               },
-               "expr": "vm_InternetNetworkTX {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
-               "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}-{{netname}}\n"
-            }
-         ],
-         "title": "网络发送",
-         "type": "timeseries"
-      },
-      {
-         "collapsed": false,
-         "gridPos": {
-            "h": 1,
-            "w": 24,
-            "x": 0,
-            "y": 34
-         },
-         "id": 12,
-         "panels": [ ],
-         "title": "错误",
-         "type": "row"
-      },
-      {
-         "datasource": {
-            "type": "datasource",
-            "uid": "-- Mixed --"
-         },
-         "fieldConfig": {
-            "defaults": {
-               "custom": {
-                  "fillOpacity": 10,
-                  "showPoints": "never"
-               },
-               "decimals": 0,
-               "unit": "short"
-            }
-         },
-         "gridPos": {
-            "h": 8,
-            "w": 8,
-            "x": 0,
-            "y": 35
-         },
-         "id": 13,
-         "interval": "1m",
-         "options": {
-            "legend": {
-               "calcs": [
-                  "lastNotNull",
-                  "max"
-               ],
-               "displayMode": "table"
-            }
-         },
-         "pluginVersion": "v10.4.0",
-         "targets": [
-            {
-               "datasource": {
-                  "type": "prometheus",
-                  "uid": "$datasource"
-               },
-               "expr": "vm_ProcessCount {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
-               "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
-            }
-         ],
-         "title": "进程数",
-         "type": "timeseries"
-      },
-      {
-         "datasource": {
-            "type": "datasource",
-            "uid": "-- Mixed --"
-         },
-         "fieldConfig": {
-            "defaults": {
-               "custom": {
-                  "fillOpacity": 10,
-                  "showPoints": "never"
-               },
-               "decimals": 0,
-               "unit": "short"
-            }
-         },
-         "gridPos": {
-            "h": 8,
-            "w": 8,
-            "x": 8,
-            "y": 35
-         },
-         "id": 14,
-         "interval": "1m",
-         "options": {
-            "legend": {
-               "calcs": [
-                  "lastNotNull",
-                  "max"
-               ],
-               "displayMode": "table"
-            }
-         },
-         "pluginVersion": "v10.4.0",
-         "targets": [
-            {
-               "datasource": {
-                  "type": "prometheus",
-                  "uid": "$datasource"
-               },
-               "expr": "vm_TcpCount {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
-               "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}-{{state}}\n"
-            }
-         ],
-         "title": "连接数",
+         "title": "索引写入使用率",
          "type": "timeseries"
       }
    ],
@@ -579,7 +639,7 @@
             "includeAll": true,
             "multi": true,
             "name": "instances",
-            "query": "label_values(vm_LoadAverage, instanceid)",
+            "query": "label_values(TPS, instanceId)",
             "type": "query"
          }
       ]
@@ -589,6 +649,6 @@
       "to": "now"
    },
    "timezone": "Asia/Shanghai",
-   "title": "ecs主机监控",
-   "uid": "c7dfb402f76dba47ed7e02c6a535c86e"
+   "title": "rds主机监控",
+   "uid": "7dd28de30bb4a76ab8d814fdb95460eb"
 }

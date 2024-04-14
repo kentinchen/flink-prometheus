@@ -12,7 +12,7 @@ local query = grafana.query;
 
 {
   grafanaDashboards+:: {
-    'gen-dashboard.json':
+    'system/gen-dashboard.json':
        dashboard.new('Gen Dashboard')
        + dashboard.withUid('gen-prom')
        + dashboard.withDescription('Dashboard for gen-prom')

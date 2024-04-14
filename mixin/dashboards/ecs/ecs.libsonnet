@@ -7,7 +7,7 @@ local queries = import './queries.libsonnet';
 {
     # 增加dashboard文件
     grafanaDashboards+:: {
-        'ecs-summary.json':
+        'cms/ecs-summary.json':
            g.dashboard.new('ecs主机监控')
            + g.dashboard.withDescription(|||
               ECS主机监控
