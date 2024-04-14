@@ -31,6 +31,8 @@ foreach ($cntr in $cntrs) {
     docker exec $cntr mkdir -p /opt/flink/data;
 }
 
+promtool check config prometheus.yml
+
 http://localhost:8060/ui
 curl -XPOST http://localhost:8060/-/reload
 
