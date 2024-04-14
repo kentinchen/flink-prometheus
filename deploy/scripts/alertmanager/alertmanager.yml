@@ -7,7 +7,7 @@ route:
 receivers:
   - name: 'web.hook'
     webhook_configs:
-      - url: 'http://10.81.200.185:8060/dingtalk/webhook1/send/'
+      - url: 'http://10.81.200.185:8060/dingtalk/webhook1/send'
 inhibit_rules:
   - source_match:
       severity: 'critical'
