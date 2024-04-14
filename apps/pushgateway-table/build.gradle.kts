@@ -40,7 +40,7 @@ tasks.test {
 
 var copyJar = task("copyJar", type = Copy::class) {
     from("build/libs")
-    into(rootProject.projectDir.absolutePath + "/libs")
+    into(rootProject.projectDir.absolutePath + "/deploy/libs")
     include("*.jar")
 }
 

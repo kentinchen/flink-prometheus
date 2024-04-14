@@ -1,6 +1,5 @@
-del libs/*.jar
 .\gradlew clean
-.\gradlew jar
+.\gradlew jar --rerun-tasks
 .\gradlew shadow
 docker/build-dev.bat
 docker-compose up -d
