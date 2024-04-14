@@ -8,7 +8,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        active_session {instanceid=~"$instances",job=~"pushgateway", product="rds"}
+        active_session {instanceId=~"$instances",job=~"pushgateway", product="rds"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -19,7 +19,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        TPS {instanceid=~"$instances",job=~"pushgateway", product="rds"}
+        TPS {instanceId=~"$instances",job=~"pushgateway", product="rds"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -30,7 +30,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        QPS {instanceid=~"$instances",job=~"pushgateway", product="rds"}
+        QPS {instanceId=~"$instances",job=~"pushgateway", product="rds"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -41,7 +41,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        CpuUsage {instanceid=~"$instances",job=~"pushgateway", product="rds"}
+        CpuUsage {instanceId=~"$instances",job=~"pushgateway", product="rds"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -52,7 +52,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        DiskUsage {instanceid=~"$instances",job=~"pushgateway", product="rds"}
+        DiskUsage {instanceId=~"$instances",job=~"pushgateway", product="rds"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -63,7 +63,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        IOPSUsage {instanceid=~"$instances",job=~"pushgateway", product="rds"}
+        IOPSUsage {instanceId=~"$instances",job=~"pushgateway", product="rds"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -74,7 +74,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        MemoryUsage {instanceid=~"$instances",job=~"pushgateway", product="rds"}
+        MemoryUsage {instanceId=~"$instances",job=~"pushgateway", product="rds"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -86,7 +86,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        Queries_ps {instanceid=~"$instances",job=~"pushgateway", product="rds"}
+        Queries_ps {instanceId=~"$instances",job=~"pushgateway", product="rds"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -97,7 +97,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        Slow_queries_ps {instanceid=~"$instances",job=~"pushgateway", product="rds"}
+        Slow_queries_ps {instanceId=~"$instances",job=~"pushgateway", product="rds"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -108,7 +108,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        Key_usage_ratio {instanceid=~"$instances",job=~"pushgateway", product="rds"}
+        Key_usage_ratio {instanceId=~"$instances",job=~"pushgateway", product="rds"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -119,7 +119,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        Key_read_hit_ratio {instanceid=~"$instances",job=~"pushgateway", product="rds"}
+        Key_read_hit_ratio {instanceId=~"$instances",job=~"pushgateway", product="rds"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -130,7 +130,7 @@ local variables = import './variables.libsonnet';
      prometheusQuery.new(
        '$' + variables.datasource.name,
        |||
-         Key_write_hit_ratio {instanceid=~"$instances",job=~"pushgateway", product="rds"}
+         Key_write_hit_ratio {instanceId=~"$instances",job=~"pushgateway", product="rds"}
        |||
      )
      + prometheusQuery.withIntervalFactor(2)

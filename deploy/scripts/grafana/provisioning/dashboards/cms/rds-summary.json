@@ -54,7 +54,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "active_session {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "active_session {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -101,7 +101,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "Queries_ps {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "Queries_ps {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -148,7 +148,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "Slow_queries_ps {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "Slow_queries_ps {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -208,7 +208,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "TPS {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "TPS {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -255,7 +255,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "QPS {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "QPS {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -315,7 +315,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "CpuUsage {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "CpuUsage {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -362,7 +362,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "MemoryUsage {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "MemoryUsage {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -409,7 +409,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "DiskUsage {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "DiskUsage {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -456,7 +456,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "IOPSUsage {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "IOPSUsage {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -516,7 +516,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "Key_usage_ratio {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "Key_usage_ratio {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -563,7 +563,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "Key_read_hit_ratio {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "Key_read_hit_ratio {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -610,7 +610,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "Key_write_hit_ratio {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "Key_write_hit_ratio {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
