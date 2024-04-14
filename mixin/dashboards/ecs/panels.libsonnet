@@ -30,7 +30,17 @@ local g = import '../g.libsonnet';
       + custom.scaleDistribution.withType('log')
       + custom.scaleDistribution.withLog(10),
 
-    cpuUsage: self.seconds,
+    cpuUsage: self.short,
+    memUsage: self.short,
+    diskUsage: self.short,
+    diskInodeUsage: self.short,
+    vmProcessCount: self.short,
+    vmLoadAverage: self.short,
+    vmDiskIORead: self.short,
+    vmDiskIOWrite: self.seconds,
+    vmInternetNetworkRX: self.short,
+    vmInternetNetworkTX: self.short,
+    vmTcpConn: self.short,
 
     bytes(title, targets):
       self.base(title, targets,)
