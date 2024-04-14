@@ -68,7 +68,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceid}}-{{period}}
     |||),
   vmDiskIORead:
     prometheusQuery.new(
@@ -112,17 +112,17 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceid}}-{{netname}}
     |||),
   vmTcpConn:
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        vm_LoadAverage {instanceid=~"$instances",job=~"pushgateway", product="ecs"}
+        vm_TcpCount {instanceid=~"$instances",job=~"pushgateway", product="ecs"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceid}}-{{state}}
     |||),
 }

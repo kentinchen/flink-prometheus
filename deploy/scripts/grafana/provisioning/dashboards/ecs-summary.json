@@ -257,7 +257,7 @@
                },
                "expr": "vm_LoadAverage {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceid}}-{{period}}\n"
             }
          ],
          "title": "Load",
@@ -448,7 +448,7 @@
                },
                "expr": "vm_InternetNetworkTX {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceid}}-{{netname}}\n"
             }
          ],
          "title": "网络发送",
@@ -553,9 +553,9 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_LoadAverage {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
+               "expr": "vm_TcpCount {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceid}}-{{state}}\n"
             }
          ],
          "title": "连接数",
