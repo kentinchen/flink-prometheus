@@ -15,7 +15,7 @@
    jb install
 
 2、生成dashboard、prometheus规则(alerts目录为告警规则，rules为记录规则）
-   jsonnet -J vendor -m out lib/dashboards.jsonnet
+   jsonnet -J vendor lib/dashboards.jsonnet -m ../deploy/scripts/grafana/provisioning/dashboards
    jsonnet -J vendor -S lib/rules.jsonnet >   ../deploy/scripts/prometheus/prometheus_rules.yml
    jsonnet -J vendor -S lib/alerts.jsonnet >  ../deploy/scripts/prometheus/prometheus_alerts.yml
    jsonnet -J vendor -S alertmanager/alertmanager.libsonnet
