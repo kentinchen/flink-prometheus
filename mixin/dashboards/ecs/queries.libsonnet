@@ -13,7 +13,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
   memUsage:
     prometheusQuery.new(
@@ -24,7 +24,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
   diskUsage:
     prometheusQuery.new(
@@ -35,7 +35,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
   diskInodeUsage:
     prometheusQuery.new(
@@ -46,7 +46,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
   vmProcessCount:
     prometheusQuery.new(
@@ -57,7 +57,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
   vmLoadAverage:
     prometheusQuery.new(
@@ -68,7 +68,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}-{{period}}
+      {{instanceId}}-{{period}}
     |||),
   vmDiskIORead:
     prometheusQuery.new(
@@ -79,7 +79,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
   vmDiskIOWrite:
     prometheusQuery.new(
@@ -90,7 +90,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
   vmInternetNetworkRX:
     prometheusQuery.new(
@@ -101,7 +101,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
   vmInternetNetworkTX:
     prometheusQuery.new(
@@ -112,7 +112,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}-{{netname}}
+      {{instanceId}}-{{netname}}
     |||),
   vmTcpConn:
     prometheusQuery.new(
@@ -123,6 +123,6 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}-{{state}}
+      {{instanceId}}-{{state}}
     |||),
 }

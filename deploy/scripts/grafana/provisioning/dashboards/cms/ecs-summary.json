@@ -56,7 +56,7 @@
                },
                "expr": "vm_CPUUtilization {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\n"
             }
          ],
          "title": "CPU",
@@ -103,7 +103,7 @@
                },
                "expr": "vm_MemoryUtilization {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\n"
             }
          ],
          "title": "MEM",
@@ -150,7 +150,7 @@
                },
                "expr": "vm_DiskUtilization {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\n"
             }
          ],
          "title": "Disk",
@@ -197,7 +197,7 @@
                },
                "expr": "vm_DiskIusedUtilization {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\n"
             }
          ],
          "title": "Inode",
@@ -257,7 +257,7 @@
                },
                "expr": "vm_LoadAverage {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}-{{period}}\n"
+               "legendFormat": "{{instanceId}}-{{period}}\n"
             }
          ],
          "title": "Load",
@@ -304,7 +304,7 @@
                },
                "expr": "vm_DiskIORead {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\n"
             }
          ],
          "title": "磁盘读",
@@ -351,7 +351,7 @@
                },
                "expr": "vm_DiskIOWrite {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\n"
             }
          ],
          "title": "磁盘写",
@@ -398,7 +398,7 @@
                },
                "expr": "vm_InternetNetworkRX {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\n"
             }
          ],
          "title": "网络接收",
@@ -445,7 +445,7 @@
                },
                "expr": "vm_InternetNetworkTX {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}-{{netname}}\n"
+               "legendFormat": "{{instanceId}}-{{netname}}\n"
             }
          ],
          "title": "网络发送",
@@ -505,7 +505,7 @@
                },
                "expr": "vm_ProcessCount {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\n"
             }
          ],
          "title": "进程数",
@@ -552,7 +552,7 @@
                },
                "expr": "vm_TcpCount {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}-{{state}}\n"
+               "legendFormat": "{{instanceId}}-{{state}}\n"
             }
          ],
          "title": "连接数",
@@ -579,7 +579,7 @@
             "includeAll": true,
             "multi": true,
             "name": "instances",
-            "query": "label_values(vm_LoadAverage, instanceid)",
+            "query": "label_values(vm_LoadAverage, instanceId)",
             "type": "query"
          }
       ]

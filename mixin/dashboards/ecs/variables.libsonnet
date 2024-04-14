@@ -9,7 +9,7 @@ local var = g.dashboard.variable;
       var.query.new('instances')
       + var.query.withDatasourceFromVariable(self.datasource)
       + var.query.queryTypes.withLabelValues(
-        'instanceid',
+        'instanceId',
         'vm_LoadAverage',
       )
       + var.query.selectionOptions.withMulti()
