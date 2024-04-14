@@ -15,7 +15,7 @@ local queries = import './queries.libsonnet';
            + g.dashboard.graphTooltip.withSharedCrosshair()
            + g.dashboard.withVariables([
              variables.datasource,
-             variables.instanceid,
+             variables.instances,
            ])
            + g.dashboard.withPanels(
              g.util.grid.makeGrid([

@@ -5,21 +5,23 @@ local var = g.dashboard.variable;
     datasource:
       var.datasource.new('datasource', 'prometheus'),
 
-    instanceid:
-      var.query.new('targets')
+    instances:
+      var.query.new('instances')
       + var.query.withDatasourceFromVariable(self.datasource)
       + var.query.queryTypes.withLabelValues(
         'instanceid',
         'vm_LoadAverage',
-      ),
+      )
+      + var.query.selectionOptions.withMulti()
+      + var.query.selectionOptions.withIncludeAll(),
 
     toArray: [
       self.datasource,
       self.targets,
     ],
 
-    selector:
-      'instanceid="$%s"' % [
-        self.targets,
+    ecsSelector:
+      'instanceid=~"$%s",job=~"pushgateway"' % [
+        self.instances,
       ],
 }

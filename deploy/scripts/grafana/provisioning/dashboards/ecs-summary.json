@@ -54,7 +54,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_CPUUtilization\n",
+               "expr": "vm_CPUUtilization {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -101,7 +101,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_MemoryUtilization\n",
+               "expr": "vm_MemoryUtilization {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -148,7 +148,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_DiskUtilization\n",
+               "expr": "vm_DiskUtilization {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -195,7 +195,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_DiskIusedUtilization\n",
+               "expr": "vm_DiskIusedUtilization {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -255,7 +255,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_LoadAverage\n",
+               "expr": "vm_LoadAverage {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -302,7 +302,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_DiskIORead\n",
+               "expr": "vm_DiskIORead {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -352,7 +352,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_DiskIOWrite\n",
+               "expr": "vm_DiskIOWrite {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -399,7 +399,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_InternetNetworkRX\n",
+               "expr": "vm_InternetNetworkRX {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -446,7 +446,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_InternetNetworkTX\n",
+               "expr": "vm_InternetNetworkTX {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -506,7 +506,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_ProcessCount\n",
+               "expr": "vm_ProcessCount {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -553,7 +553,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "vm_LoadAverage\n",
+               "expr": "vm_LoadAverage {instanceid=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\n",
                "intervalFactor": 2,
                "legendFormat": "{{instanceid}}\n"
             }
@@ -579,7 +579,9 @@
                "type": "prometheus",
                "uid": "${datasource}"
             },
-            "name": "targets",
+            "includeAll": true,
+            "multi": true,
+            "name": "instances",
             "query": "label_values(vm_LoadAverage, instanceid)",
             "type": "query"
          }

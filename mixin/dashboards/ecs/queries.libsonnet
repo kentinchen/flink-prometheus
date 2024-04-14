@@ -8,7 +8,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        vm_CPUUtilization
+        vm_CPUUtilization {instanceid=~"$instances",job=~"pushgateway", product="ecs"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -19,7 +19,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        vm_MemoryUtilization
+        vm_MemoryUtilization {instanceid=~"$instances",job=~"pushgateway", product="ecs"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -30,7 +30,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        vm_DiskUtilization
+        vm_DiskUtilization {instanceid=~"$instances",job=~"pushgateway", product="ecs"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -41,7 +41,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        vm_DiskIusedUtilization
+        vm_DiskIusedUtilization {instanceid=~"$instances",job=~"pushgateway", product="ecs"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -52,7 +52,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        vm_ProcessCount
+        vm_ProcessCount {instanceid=~"$instances",job=~"pushgateway", product="ecs"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -63,7 +63,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        vm_LoadAverage
+        vm_LoadAverage {instanceid=~"$instances",job=~"pushgateway", product="ecs"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -74,7 +74,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        vm_DiskIORead
+        vm_DiskIORead {instanceid=~"$instances",job=~"pushgateway", product="ecs"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -85,7 +85,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        vm_DiskIOWrite
+        vm_DiskIOWrite {instanceid=~"$instances",job=~"pushgateway", product="ecs"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -96,7 +96,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        vm_InternetNetworkRX
+        vm_InternetNetworkRX {instanceid=~"$instances",job=~"pushgateway", product="ecs"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -107,7 +107,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        vm_InternetNetworkTX
+        vm_InternetNetworkTX {instanceid=~"$instances",job=~"pushgateway", product="ecs"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -118,7 +118,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        vm_LoadAverage
+        vm_LoadAverage {instanceid=~"$instances",job=~"pushgateway", product="ecs"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
