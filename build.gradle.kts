@@ -16,16 +16,6 @@ buildscript {
     }
 }
 
-plugins {
-    java
-    id("com.github.spotbugs") version "6.0.9"
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
 allprojects {
     repositories {
         google()
