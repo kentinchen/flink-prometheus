@@ -37,7 +37,7 @@ local g = import '../g.libsonnet';
     vmProcessCount: self.short,
     vmLoadAverage: self.short,
     vmDiskIORead: self.short,
-    vmDiskIOWrite: self.seconds,
+    vmDiskIOWrite: self.short,
     vmInternetNetworkRX: self.short,
     vmInternetNetworkTX: self.short,
     vmTcpConn: self.short,

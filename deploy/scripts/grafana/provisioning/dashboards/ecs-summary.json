@@ -319,13 +319,10 @@
             "defaults": {
                "custom": {
                   "fillOpacity": 10,
-                  "scaleDistribution": {
-                     "log": 10,
-                     "type": "log"
-                  },
                   "showPoints": "never"
                },
-               "unit": "s"
+               "decimals": 0,
+               "unit": "short"
             }
          },
          "gridPos": {
