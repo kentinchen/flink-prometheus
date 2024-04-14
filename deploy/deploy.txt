@@ -4,8 +4,12 @@
    2)分配200G磁盘（需要存储tsdb时序数据）
    3)安装docker最新版
    4）tsdb目录及权限
-       mkdir -p ${env}/tsdb
-       chown -R 65534:65534 ${env}/tsdb
+       mkdir -p ../data/tsdb
+       chown -R 65534:65534 ../data/tsdb
+       mkdir -p ../data/grafana/data
+       mkdir -p ../data/grafana/log
+       mkdir -p ../data/grafana/conf
+       chown -R 472:472  ../data/grafana
 1. 启动prometheus环境
    docker-compose -f docker-compose-prom.yml up -d
       * docker-compose -f docker-compose-prom.yml down

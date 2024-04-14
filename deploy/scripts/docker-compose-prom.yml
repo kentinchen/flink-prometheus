@@ -14,7 +14,7 @@ services:
       - ./prometheus/flink.rules.yml:/prometheus/flink.rules.yml
       - ./prometheus/prometheus_rules.yml:/prometheus/prometheus_rules.yml
       - ./prometheus/prometheus_alerts.yml:/prometheus/prometheus_alerts.yml
-      - ./tsdb:/data/tsdb
+      - ../data/tsdb:/data/tsdb
 
   pushgateway:
     image: prom/pushgateway
@@ -68,3 +68,5 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=flink
     volumes:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
+      - ../data/grafana/data:/var/lib/grafana
+      - ../data/grafana/log:/var/log/grafana

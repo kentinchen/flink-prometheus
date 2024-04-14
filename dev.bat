@@ -43,3 +43,8 @@ https://oapi.dingtalk.com/robot/send?access_token=e342ee0d808536f5120b3370303710
 告警
 
 curl -XPOST -d"{}" http://localhost:8060/dingtalk/webhook1/send
+curl -XPOST -d"{}" http://10.81.200.185:8060/dingtalk/webhook1/send
+
+
+curl -XPOST http://10.81.200.185:9093/-/reload
+https://www.prometheus.io/webtools/alerting/routing-tree-editor/
