@@ -18,7 +18,7 @@ CREATE TEMPORARY TABLE rds_perf_sls (
 );
 
 CREATE TEMPORARY TABLE rds_perf_prom (
-    instanceid             VARCHAR,
+    instanceId             VARCHAR,
     ts                     BIGINT,
     m                      VARCHAR,
     product                VARCHAR,
@@ -34,9 +34,8 @@ insert into rds_perf_prom
 select
     instanceId,
     CAST(dateFormatT08(`uptime`) as BIGINT) as ts,
-    'rds',
-    RdsMonitorConvert(`type`) as `m`,
+    RdsMonitorConvert(`type`) as m,
+    'rds' as product,
     `type`,
-    CAST(v as DOUBLE)
-from rds_perf_sls
-where v >= 0 and v is not null;
+    CAST(v as DOUBLE) as v
+from rds_perf_sls;
