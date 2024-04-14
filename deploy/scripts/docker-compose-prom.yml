@@ -35,6 +35,18 @@ services:
     volumes:
       - ./alertmanager/alertmanager.yml:/alertmanager/alertmanager.yml
 
+  webhook-dingtalk:
+    image: timonwong/prometheus-webhook-dingtalk
+    container_name: webhook-dingtalk
+    restart: always
+    ports:
+      - "8060:8060"
+    volumes:
+      - ./dingtalk/config.yml:/config/config.yaml
+    command:
+      - '--config.file=/config/config.yaml'
+      - '--web.enable-ui'
+
   node_exporter:
     image: quay.io/prometheus/node-exporter
     container_name: node_exporter

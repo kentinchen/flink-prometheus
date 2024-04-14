@@ -74,6 +74,17 @@ services:
     ports:
       - "9093:9093"
 
+  webhook-dingtalk:
+    image: timonwong/prometheus-webhook-dingtalk
+    container_name: webhook-dingtalk
+    ports:
+      - "8060:8060"
+    volumes:
+      - ./deploy/scripts/dingtalk/config.yml:/config/config.yaml
+    command:
+      - '--config.file=/config/config.yaml'
+      - '--web.enable-ui'
+
   grafana:
     image: grafana/grafana:8.4.0
     container_name: grafana
