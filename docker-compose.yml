@@ -59,8 +59,8 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./prometheus/flink.rules.yml:/etc/prometheus/flink.rules.yml
+      - ./deploy/scripts/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./deploy/scripts/prometheus/flink.rules.yml:/etc/prometheus/flink.rules.yml
 
   pushgateway:
     image: prom/pushgateway
@@ -82,7 +82,7 @@ services:
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=flink
     volumes:
-      - ./grafana/provisioning/:/etc/grafana/provisioning/
+      - ./deploy/scripts/grafana/provisioning/:/etc/grafana/provisioning/
 
 volumes:
   state:
