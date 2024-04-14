@@ -18,7 +18,7 @@ CREATE TEMPORARY TABLE ecs_perf_sls (
 );
 
 CREATE TEMPORARY TABLE ecs_perf_prom (
-    instanceid             VARCHAR,
+    instanceId             VARCHAR,
     ts                     BIGINT,
     product                VARCHAR,
     m                      VARCHAR,
