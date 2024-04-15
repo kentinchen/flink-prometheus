@@ -1,7 +1,7 @@
 {
     _config+:: {
       ossSelector: error '必须提供oss产品选择器',
-      ossmetricName: 'vm_CPUUtilization'
+      ossmetricName: 'intran_recv_size'
     },
 
     prometheusAlerts+:: {
