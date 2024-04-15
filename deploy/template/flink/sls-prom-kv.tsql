@@ -14,7 +14,7 @@ CREATE TEMPORARY TABLE kv_perf_sls (
 );
 
 CREATE TEMPORARY TABLE kv_perf_prom (
-    instanceid             VARCHAR,
+    instanceId             VARCHAR,
     ts                     BIGINT,
     `m`                    VARCHAR,
     product                VARCHAR,
@@ -30,7 +30,6 @@ select
     instanceId,
     ts,
     RedisMonitorConvert(`m`) as m,
-    'kv',
+    'kv' as product,
     v
-from kv_perf_sls
-where v >= 0 and cast(v as VARCHAR) <> 'NaN';
+from kv_perf_sls;
