@@ -1,3 +1,5 @@
+SET 'pipeline.name' = 'kvs_perf_prom';
+
 CREATE TEMPORARY FUNCTION RedisMonitorConvert AS 'org.flink.udf.function.RedisMonitorConvert';
 CREATE TEMPORARY TABLE kv_perf_sls (
     instanceId             VARCHAR,

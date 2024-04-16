@@ -1,3 +1,5 @@
+SET 'pipeline.name' = 'rds_perf_prom';
+
 CREATE TEMPORARY FUNCTION RdsMonitorConvert AS 'org.flink.udf.function.RdsMonitorConvert';
 CREATE TEMPORARY FUNCTION dateFormatT08 AS 'org.flink.udf.function.DateFormatT08';
 

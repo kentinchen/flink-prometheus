@@ -1,3 +1,5 @@
+SET 'pipeline.name' = 'oss_perf_prom';
+
 CREATE TEMPORARY TABLE oss_perf_sls (
     recv_size DOUBLE,
     send_size DOUBLE,
@@ -48,9 +50,8 @@ CREATE TEMPORARY TABLE oss_perf_prom (
       'format' = 'json',
       'pushgateway' = '${pushgateway}',
       'prom.ts.name' = 'timestamp',
-      'prom.debug' = 'T',
+      'prom.debug' = 'F',
       'prom.mode' = 'column',
-      'prom.group' = 'product,bucket_name',
       'prom.m.name' = 'recv_size,send_size,error_403,error_404,error_408,error_499,error_4xx,error_503,error_5xx,success_203,success_2xx,success_3xx,intran_recv_size,intran_send_size'
 );
 

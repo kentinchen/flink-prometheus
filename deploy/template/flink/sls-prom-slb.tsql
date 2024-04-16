@@ -1,3 +1,5 @@
+SET 'pipeline.name' = 'slb_perf_prom';
+
 CREATE TEMPORARY TABLE slb_perf_sls (
     connsPS DOUBLE,
     `count` DOUBLE,
@@ -55,9 +57,8 @@ CREATE TEMPORARY TABLE slb_perf_prom (
     'connector' = 'pushgateway',
     'format' = 'json',
     'pushgateway' = '${pushgateway}',
-    'prom.debug' = 'T',
+    'prom.debug' = 'F',
     'prom.mode' = 'column',
-    'prom.group' = 'product,lbId,vport',
     'prom.ts.name' = 'msTimestamp',
     'prom.m.name' = 'connsPS,`count`, dropConnPS,failConnPS,\
                      inActConnPS,inBitsPS,inDBitesPS,inDPktsPS,inPktsPS,\

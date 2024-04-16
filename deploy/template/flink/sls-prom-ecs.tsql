@@ -1,3 +1,5 @@
+SET 'pipeline.name' = 'ecs_perf_prom';
+
 CREATE TEMPORARY TABLE ecs_perf_sls (
     instanceId             VARCHAR,
     ts                     BIGINT,

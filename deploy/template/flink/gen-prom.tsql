@@ -1,3 +1,5 @@
+SET 'pipeline.name' = 'gen_prom';
+
 create TEMPORARY TABLE gen_perf_null (
  f_sequence INT,
  f_random INT,
