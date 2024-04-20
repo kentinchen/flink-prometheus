@@ -10,8 +10,8 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 repositories { mavenCentral() }
@@ -90,10 +90,10 @@ spotless {
 
 var copyJar = task("copyJar", type = Copy::class) {
     from("build/libs")
-    into(rootProject.projectDir.absolutePath + "/libs")
+    into(rootProject.projectDir.absolutePath + "/deploy/libs")
     include("*.jar")
 }
 
-/*tasks.named("jar") {
+tasks.named("jar") {
     finalizedBy(copyJar)
-}*/
+}
