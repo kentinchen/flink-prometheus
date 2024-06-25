@@ -1,63 +1,507 @@
 "groups":
-- "name": "ecs作业未启动"
+- "name": "ecs告警规则集"
   "rules":
   - "alert": "ecs作业未启动"
     "annotations":
       "description": "ecs has disappeared from Prometheus target discovery."
+      "message": "ecs作业未启动"
       "runbook_url": "https://github.com"
       "summary": "Target disappeared from Prometheus target discovery."
     "expr": |
       absent(vm_CPUUtilization{product="ecs"})
     "for": "5m"
     "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "product": "ecs"
       "severity": "critical"
-- "name": "kvs作业未启动"
-  "rules":
-  - "alert": "kvs作业未启动"
+  - "alert": "CPU使用率告警"
     "annotations":
-      "description": "kvs has disappeared from Prometheus target discovery."
+      "description": "ecs: {{ $labels.instanceId }} CPU使用率为: {{ $value }}%"
+      "runbook_url": "https://github.com"
+      "summary": "CPU使用率太高"
+    "expr": |
+      vm_CPUUtilization {product="ecs",instanceId != "i-4fo01h7fs2dopprubc0k|i-4fo01h7fs2dopprubc0j|i-4fo01h7fs2dopprubc0i|i-4fo01o4le2mk2k46qxa4"}> 70
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "CPU使用率告警"
+    "annotations":
+      "description": "ecs: {{ $labels.instanceId }} CPU使用率为: {{ $value }}%"
+      "runbook_url": "https://github.com"
+      "summary": "CPU使用率太高"
+    "expr": |
+      vm_CPUUtilization {product="ecs",instanceId = "i-4fo01h7fs2dopprubc0k|i-4fo01h7fs2dopprubc0j|i-4fo01h7fs2dopprubc0i"}> 80
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "CPU使用率告警"
+    "annotations":
+      "description": "ecs: {{ $labels.instanceId }} CPU使用率为: {{ $value }}%"
+      "runbook_url": "https://github.com"
+      "summary": "CPU使用率太高"
+    "expr": |
+      vm_CPUUtilization {product="ecs",instanceId = "i-4fo01o4le2mk2k46qxa4"}> 75
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "内存使用率告警"
+    "annotations":
+      "description": "ecs: {{ $labels.instanceId }} 内存使用率为: {{ $value }}%"
+      "runbook_url": "https://github.com"
+      "summary": "内存使用率太高"
+    "expr": |
+      vm_MemoryUtilization {product="ecs",instanceId != "i-4fo01h7fs2dopprubc0k|i-4fo01h7fs2dopprubc0j|i-4fo01h7fs2dopprubc0i|i-4fo01o4le2mk2k46qxa4"}> 70
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "内存使用率告警"
+    "annotations":
+      "description": "ecs: {{ $labels.instanceId }} 内存使用率为: {{ $value }}%"
+      "runbook_url": "https://github.com"
+      "summary": "内存使用率太高"
+    "expr": |
+      vm_MemoryUtilization {product="ecs",instanceId = "i-4fo01h7fs2dopprubc0k|i-4fo01h7fs2dopprubc0j|i-4fo01h7fs2dopprubc0i"}> 80
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "内存使用率告警"
+    "annotations":
+      "description": "ecs: {{ $labels.instanceId }} 内存使用率为: {{ $value }}%"
+      "runbook_url": "https://github.com"
+      "summary": "内存使用率太高"
+    "expr": |
+      vm_MemoryUtilization {product="ecs",instanceId = "i-4fo01o4le2mk2k46qxa4"}> 75
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "磁盘使用率告警"
+    "annotations":
+      "description": "ecs: {{ $labels.instanceId }} 分区:{{$labels.mountpoint}} 使用率为: {{ $value }}%"
+      "runbook_url": "https://github.com"
+      "summary": "磁盘使用率太高"
+    "expr": |
+      vm_DiskUtilization {product="ecs",instanceId != "i-4fo01h7fs2f4irqk6i6d|i-4fo01h7fs2f4irqk6i64|i-4fo01h7fs2dopprubc0k|i-4fo01h7fs2dopprubc0j|i-4fo01h7fs2dopprubc0i|i-4fo01h7fs2dopnst7a1d"}> 70
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "磁盘使用率告警"
+    "annotations":
+      "description": "ecs: {{ $labels.instanceId }} 分区:{{$labels.mountpoint}} 使用率为: {{ $value }}%"
+      "runbook_url": "https://github.com"
+      "summary": "磁盘使用率太高"
+    "expr": |
+      vm_DiskUtilization {product="ecs" ,instanceId = "i-4fo01h7fs2f4irqk6i6d|i-4fo01h7fs2f4irqk6i64|i-4fo01h7fs2dopprubc0k|i-4fo01h7fs2dopprubc0j|i-4fo01h7fs2dopprubc0i|i-4fo01h7fs2dopnst7a1d"}> 70
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "Inode过高告警"
+    "annotations":
+      "description": "ecs: {{ $labels.instanceId }}  使用率为: {{ $value }}%"
+      "runbook_url": "https://github.com"
+      "summary": "Ionde过高"
+    "expr": |
+      vm_DiskIusedUtilization {product="ecs"}> 60
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "连接数过高告警"
+    "annotations":
+      "description": "ecs: {{ $labels.instanceId }}  连接数为: {{ $value }}"
+      "runbook_url": "https://github.com"
+      "summary": "tcp连接数过高"
+    "expr": |
+      vm_TcpCount {product="ecs",instanceId = "i-4fo01h7fs2dopprubc0k"}> 10000
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "连接数过高告警"
+    "annotations":
+      "description": "ecs: {{ $labels.instanceId }}  连接数为: {{ $value }}"
+      "runbook_url": "https://github.com"
+      "summary": "tcp连接数过高"
+    "expr": |
+      vm_TcpCount {product="ecs",instanceId != "i-4fo01h7fs2dopprubc0k"}> 6000
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "进程数过高告警"
+    "annotations":
+      "description": "ecs: {{ $labels.instanceId }}  进程数为: {{ $value }}"
+      "runbook_url": "https://github.com"
+      "summary": "进程数数过高"
+    "expr": |
+      vm_ProcessCount {product="ecs",instanceId = "i-4fo01h7fs2dopprubc0k"}> 5000
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "进程数过高告警"
+    "annotations":
+      "description": "ecs: {{ $labels.instanceId }}  进程数为: {{ $value }}"
+      "runbook_url": "https://github.com"
+      "summary": "进程数数过高"
+    "expr": |
+      vm_ProcessCount {product="ecs",instanceId != "i-4fo01h7fs2dopprubc0k"}> 1500
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+- "name": "kv作业未启动"
+  "rules":
+  - "alert": "kv作业未启动"
+    "annotations":
+      "description": "kv has disappeared from Prometheus target discovery."
+      "message": "kv作业未启动"
       "runbook_url": "https://github.com"
       "summary": "Target disappeared from Prometheus target discovery."
     "expr": |
-      absent(vm_CPUUtilization{product="kvs"})
+      absent(CpuUsage{product="kv"})
     "for": "5m"
     "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "product": "kv"
+      "severity": "critical"
+  - "alert": "CPU使用率告警"
+    "annotations":
+      "description": "redis: {{ $labels.instanceId }} CPU使用率为: {{ $value }}%"
+      "runbook_url": "https://github.com"
+      "summary": "CPU使用率太高"
+    "expr": |
+      CpuUsage {product="kv"}> 70
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "连接失败数告警"
+    "annotations":
+      "description": "redis: {{ $labels.instanceId }} 连接失败数为: {{ $value }}"
+      "runbook_url": "https://github.com"
+      "summary": "连接失败数太高"
+    "expr": |
+      FailedCount {product="kv"}> 10
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "内存使用率告警"
+    "annotations":
+      "description": "redis: {{ $labels.instanceId }} 内存使用率为: {{ $value }}%"
+      "runbook_url": "https://github.com"
+      "summary": "内存使用率太高了"
+    "expr": |
+      MemoryUsage {product="kv"}> 70
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "连接使用率告警"
+    "annotations":
+      "description": "redis: {{ $labels.instanceId }} 使用率为: {{ $value }}%"
+      "runbook_url": "https://github.com"
+      "summary": "连接使用率太高了"
+    "expr": |
+      ConnectionUsage {product="kv"}> 80
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+- "name": "mq告警规则集"
+  "rules":
+  - "alert": "MQ作业未启动"
+    "annotations":
+      "description": "MQ has disappeared from Prometheus target discovery."
+      "message": "mq作业未启动"
+      "runbook_url": "https://github.com"
+      "summary": "Target disappeared from Prometheus target discovery."
+    "expr": |
+      absent(online{product="MQ"})
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "product": "MQ"
+      "severity": "critical"
+  - "alert": "消费速度告警"
+    "annotations":
+      "description": "MQ: {{ $labels.instance_id }} 消费速度为: {{ $value }} 条/s"
+      "runbook_url": "https://github.com"
+      "summary": "消费速度太高"
+    "expr": |
+      okTps {product="MQ"} > 2000
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "消息堆积量告警"
+    "annotations":
+      "description": "MQ: {{ $labels.instance_id }} 消息堆积量为: {{ $value }} 条"
+      "runbook_url": "https://github.com"
+      "summary": "消息堆积量太高"
+    "expr": |
+      totalDiff {product="MQ"}> 1500
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "消息延时时间告警"
+    "annotations":
+      "description": "MQ: {{ $labels.instance_id }} 消息延时时间为: {{ $value }} s"
+      "runbook_url": "https://github.com"
+      "summary": "消息延时时间太长"
+    "expr": |
+      delayTime {product="MQ"}> 300
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
       "severity": "critical"
 - "name": "oss作业未启动"
   "rules":
   - "alert": "oss作业未启动"
     "annotations":
       "description": "oss has disappeared from Prometheus target discovery."
+      "message": "oss作业未启动"
       "runbook_url": "https://github.com"
       "summary": "Target disappeared from Prometheus target discovery."
     "expr": |
-      absent(vm_CPUUtilization{product="oss"})
+      absent(recv_size{product="oss"})
     "for": "5m"
     "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "product": "oss"
+      "severity": "critical"
+  - "alert": "5xx错误数告警"
+    "annotations":
+      "description": "oss: {{ $labels.instanceId }} 5xx错误数为: {{ $value }}"
+      "runbook_url": "https://github.com"
+      "summary": "5xx错误数太高了"
+    "expr": |
+      error_5xx {product="oss"}> 10
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "4xx错误数告警"
+    "annotations":
+      "description": "oss: {{ $labels.instanceId }} 4xx错误数为: {{ $value }}"
+      "runbook_url": "https://github.com"
+      "summary": "4xx错误数太高了"
+    "expr": |
+      error_4xx {product="oss"} > 10
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "用量告警"
+    "annotations":
+      "description": "oss: {{ $labels.instanceId }} 已用内存为: {{ $value }} (TB)"
+      "runbook_url": "https://github.com"
+      "summary": "剩余内存告警"
+    "expr": |
+       (storage {product="oss"}) /1099511627776 > 8
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "用量环比告警(与昨天同时刻比较)"
+    "annotations":
+      "description": "oss: {{ $labels.instanceId }} 已用内存为: {{ $value }} (byte)"
+      "runbook_url": "https://github.com"
+      "summary": "用量波动幅度告警"
+    "expr": |
+      100 * (( storage {product="oss"} - (storage {product="oss"} offset 1d)) / storage {product="oss"} offset 1d) <= -10
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
       "severity": "critical"
 - "name": "rds作业未启动"
   "rules":
   - "alert": "rds作业未启动"
     "annotations":
       "description": "rds has disappeared from Prometheus target discovery."
+      "message": "rds作业未启动"
       "runbook_url": "https://github.com"
       "summary": "Target disappeared from Prometheus target discovery."
     "expr": |
-      absent(Queries_ps{product="rds"})
+      absent(MemoryUsage{product="rds"})
     "for": "5m"
     "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "product": "rds"
+      "severity": "critical"
+  - "alert": "CPU使用率告警"
+    "annotations":
+      "description": "rds: {{ $labels.instanceId }} CPU使用率为: {{ $value }}%"
+      "runbook_url": "https://github.com"
+      "summary": "CPU使用率太高"
+    "expr": |
+      CpuUsage {product="rds"}> 70
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "内存使用率告警"
+    "annotations":
+      "description": "rds: {{ $labels.instanceId }} 内存使用率为: {{ $value }}%"
+      "runbook_url": "https://github.com"
+      "summary": "内存使用率太高"
+    "expr": |
+      MemoryUsage {product="rds"}> 70
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "磁盘使用率告警"
+    "annotations":
+      "description": "rds: {{ $labels.instanceId }} 分区:{{$labels.mountpoint}} 磁盘使用率为: {{ $value }}%"
+      "runbook_url": "https://github.com"
+      "summary": "磁盘使用率太高"
+    "expr": |
+      DiskUsage {product="rds"}> 70
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "慢SQL告警"
+    "annotations":
+      "description": "慢SQL: {{ $labels.sql_rendered }}  执行时间为: {{ $value | humanizeDuration }}"
+      "runbook_url": "https://github.com"
+      "summary": "慢SQL执行时间太长"
+    "expr": |
+      (slow_sql {product="slow_sql"})/1000000 > 10
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
       "severity": "critical"
 - "name": "slb作业未启动"
   "rules":
   - "alert": "slb作业未启动"
     "annotations":
       "description": "slb has disappeared from Prometheus target discovery."
+      "message": "slb作业未启动"
       "runbook_url": "https://github.com"
       "summary": "Target disappeared from Prometheus target discovery."
     "expr": |
-      absent(vm_CPUUtilization{product="slb"})
+      absent(sumOutBytes{product="slb"})
     "for": "5m"
     "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "product": "slb"
+      "severity": "critical"
+  - "alert": "丢失连接数"
+    "annotations":
+      "description": "slb: {{ $labels.instanceId }} 丢失连接数为: {{ $value }}"
+      "runbook_url": "https://github.com"
+      "summary": "丢失连接数太高了"
+    "expr": |
+      dropConnPS {product="slb"} > 10
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "建联失败数"
+    "annotations":
+      "description": "slb: {{ $labels.instanceId }} 建联失败数为: {{ $value }}"
+      "runbook_url": "https://github.com"
+      "summary": "建联失败数太高了"
+    "expr": |
+      failConnPS {product="slb"}> 10
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "最大并发连接数过高告警"
+    "annotations":
+      "description": "slb: {{ $labels.instanceId }} 建联失败数为: {{ $value }}"
+      "runbook_url": "https://github.com"
+      "summary": "最大并发连接数过高告警"
+    "expr": |
+      maxConnsPs {product="slb"}> 30000
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "流入带宽较前1分钟降低50%告警"
+    "annotations":
+      "description": "lsb: {{ $labels.instanceId }} 流入带宽: {{ $value }} (byte)"
+      "runbook_url": "https://github.com"
+      "summary": "流入带宽波动幅度告警"
+    "expr": |
+      100 * (( inBitsPS {product="slb"} - (inBitsPS {product="slb"} offset 1m)) / inBitsPS {product="slb"} offset 1m) <= -50
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "流出带宽较前1分钟降低50%告警"
+    "annotations":
+      "description": "lsb: {{ $labels.instanceId }} 流出带宽: {{ $value }} (byte)"
+      "runbook_url": "https://github.com"
+      "summary": "流出带宽波动幅度告警"
+    "expr": |
+      100 * (( outBitsPS {product="slb"} - (outBitsPS {product="slb"} offset 1m)) / outBitsPS {product="slb"} offset 1m) <= -50
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
+      "severity": "critical"
+  - "alert": "最大并发连接较前1分钟降低50%告警"
+    "annotations":
+      "description": "lsb: {{ $labels.instanceId }} 最大并发连接: {{ $value }} (byte)"
+      "runbook_url": "https://github.com"
+      "summary": "最大并发连接波动幅度告警"
+    "expr": |
+      100 * (( maxConnsPs {product="slb"} - (maxConnsPs {product="slb"} offset 1m)) / maxConnsPs {product="slb"} offset 1m) <= -50
+    "for": "5m"
+    "labels":
+      "category": "平台运维"
+      "notify_identity": "OPS"
       "severity": "critical"
 - "name": "pushgateway未上报"
   "rules":

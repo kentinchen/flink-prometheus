@@ -1,6 +1,7 @@
 SET 'pipeline.name' = 'ecs_perf_prom';
 
 CREATE TEMPORARY TABLE ecs_perf_sls (
+    userId                 VARCHAR,
     instanceId             VARCHAR,
     ts                     BIGINT,
     m                      VARCHAR,
@@ -9,18 +10,36 @@ CREATE TEMPORARY TABLE ecs_perf_sls (
     mountpoint             VARCHAR,
     diskname               VARCHAR,
     `state`                VARCHAR,
-    `period`               VARCHAR
+    `period`               VARCHAR,
+    proctime as PROCTIME()   -- 通过计算列产生一个处理时间列
 ) WITH (
     'connector' = 'sls',
     'endpoint' = '${sls_endpoint}',
     'accessid' = '${sls_accessid}',
     'accesskey' = '${sls_accesskey}',
     'project' = 'ali-tianji-cms-transfer',
-    'logStore' = 'ecs'
+    'logStore' = 'ecs',
+    'batchGetSize' = '1000'
+);
+
+CREATE TEMPORARY TABLE dim_ecs (
+    vm_id                 VARCHAR,  -- 实例id
+    vm_ip                 VARCHAR,  -- 实例IP
+    vm_name               VARCHAR   -- 实例名称
+) WITH (
+    'connector' = 'jdbc',
+    'url' = 'jdbc:mysql://${mysql_address}/${mysql_database}',
+    'table-name' = 'ecs_info',
+    'username' = '${mysql_username}',
+    'password' = '${mysql_password}',
+    'lookup.cache.max-rows' = '5000',
+    'lookup.cache.ttl' = '10min'
 );
 
 CREATE TEMPORARY TABLE ecs_perf_prom (
+    userId                 VARCHAR,
     instanceId             VARCHAR,
+    instanceIp             VARCHAR,
     ts                     BIGINT,
     product                VARCHAR,
     m                      VARCHAR,
@@ -33,22 +52,28 @@ CREATE TEMPORARY TABLE ecs_perf_prom (
 ) WITH (
     'connector' = 'pushgateway',
     'format' = 'json',
-    'pushgateway' = '${pushgateway}'
+    'pushgateway' = '${pushgateway}',
+    'prom.debug' = 'F',
+    'prom.batch_size' = '50000'
 );
 
 insert into ecs_perf_prom
 select
+    userId,
     instanceId,
+    if(d.vm_ip is NOT NULL, d.vm_ip, 'no-ip') as instanceIp,
     ts,
     'ecs',
-    `m`,
+    m,
     netname,
-    cast(v as DOUBLE),
+    v,
     mountpoint,
     diskname,
     `state`,
     `period`
-from ecs_perf_sls
-where cast(v as VARCHAR) <> 'NaN' and cast(v as DOUBLE) >= 0.0;
+from ecs_perf_sls as s
+LEFT JOIN dim_ecs FOR SYSTEM_TIME AS OF s.proctime as d
+  ON s.instanceId = d.vm_id
+where userId <> '1000000007';
 
 

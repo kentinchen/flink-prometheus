@@ -10,21 +10,24 @@ services:
       - "8081:8081"
       - "9249:9249"
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - state:/state
       - ../libs:/flink/usrlib
       - ./flink/out:/opt/flink/scripts
       - ./flink/sql:/opt/flink/sql
     environment:
+      - TZ=Asia/Shanghai  # 设置时区为上海
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
-        taskmanager.numberOfTaskSlots: 20
         state.checkpoints.dir: file:///state
+        env.java.opts: -Xloggc:/flink/usrlib/gc.log
     extra_hosts:
-      - "ali-tianji-cms-transfer.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "oss_monitor_service.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "aliyun-oss.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "noc.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+      - "ali-tianji-cms-transfer.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
+      - "oss_monitor_service.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
+      - "aliyun-oss.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
+      - "noc.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
+      - "rds-project.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
 
   taskmanager1:
     # build: .
@@ -34,20 +37,24 @@ services:
     ports:
       - "9250:9249"
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - state:/state
       - ../libs:/flink/usrlib
     command: taskmanager
     environment:
+      - TZ=Asia/Shanghai  # 设置时区为上海
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
-        taskmanager.numberOfTaskSlots: 20
+        taskmanager.numberOfTaskSlots: 3
         state.checkpoints.dir: file:///state
+        env.java.opts: -Xloggc:/flink/usrlib/gc.log
     extra_hosts:
-      - "ali-tianji-cms-transfer.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "oss_monitor_service.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "aliyun-oss.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "noc.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+      - "ali-tianji-cms-transfer.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
+      - "oss_monitor_service.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
+      - "aliyun-oss.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
+      - "noc.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
+      - "rds-project.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
 
   taskmanager2:
     # build: .
@@ -57,20 +64,51 @@ services:
     ports:
       - "9251:9249"
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - state:/state
       - ../libs:/flink/usrlib
     command: taskmanager
     environment:
+      - TZ=Asia/Shanghai  # 设置时区为上海
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
-        taskmanager.numberOfTaskSlots: 20
+        taskmanager.numberOfTaskSlots: 3
         state.checkpoints.dir: file:///state
+        env.java.opts: -Xloggc:/flink/usrlib/gc.log
     extra_hosts:
-      - "ali-tianji-cms-transfer.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "oss_monitor_service.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "aliyun-oss.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "noc.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+      - "ali-tianji-cms-transfer.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
+      - "oss_monitor_service.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
+      - "aliyun-oss.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
+      - "noc.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
+      - "rds-project.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
+
+  taskmanager3:
+    # build: .
+    image: flink:1.15.4-java8
+    container_name: taskmanager3
+    restart: always
+    ports:
+      - "9252:9249"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - state:/state
+      - ../libs:/flink/usrlib
+    command: taskmanager
+    environment:
+      - TZ=Asia/Shanghai  # 设置时区为上海
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 3
+        state.checkpoints.dir: file:///state
+        env.java.opts: -Xloggc:/flink/usrlib/gc.log
+    extra_hosts:
+      - "ali-tianji-cms-transfer.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
+      - "oss_monitor_service.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
+      - "aliyun-oss.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
+      - "noc.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
+      - "rds-project.data.cn-cq-xczwy-d01.sls.res.alicloud.cqxczwy.com:10.48.154.20"
 
 volumes:
   state:

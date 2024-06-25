@@ -1,7 +1,6 @@
 package com.flink.connectors.pushgateway.utils;
 
 import com.flink.connectors.pushgateway.config.ConfigException;
-import com.flink.connectors.pushgateway.config.ConnectorConfigConstants;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.flink.util.StringUtils;

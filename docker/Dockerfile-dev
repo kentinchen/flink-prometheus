@@ -1,6 +1,5 @@
 FROM flink:1.19.0-java11
-#FROM flink:1.15.4-java8
 RUN echo "metrics.reporters: prom" >> "$FLINK_HOME/conf/config.yaml"; \
     echo "metrics.reporter.prom.factory.class: org.apache.flink.metrics.prometheus.PrometheusReporterFactory" >> "$FLINK_HOME/conf/config.yaml"
-ADD ../deploy/libs/*.jar $FLINK_HOME/lib/
+ADD ../libs/*.jar $FLINK_HOME/usrlib/
 RUN mkdir /state && chown flink:flink /state  # workaround for https://github.com/docker/compose/issues/3270

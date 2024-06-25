@@ -16,9 +16,11 @@
 
 ## Targets, previously was known as "profiles"
 targets:
-  webhook1:
-    url: https://oapi.dingtalk.com/robot/send?access_token=9336388adedf15d84421a0a9347df939cdcaca77bc2970cd711e3140883bfb64
+  webhook_test:
+    url: https://oapi.dingtalk.com/robot/send?access_token=9166c1bd632d2953eace571a2000b2421671192bbf62f6d940c5032c3bb82a1b
     # secret for signature
-    secret: SECfefb5520fdfb065b30fcee229f2415c4d9b74af285107c4379ccd49bf6ebf273
-  webhook2:
-    url: https://oapi.dingtalk.com/robot/send?access_token=e342ee0d808536f5120b3370303710807594c43758f380fc565045149dd986d9
+    secret: SECa28a46d74c51b13a6149e96deab499e7ac761af9d6fe9d10bdb5271adf6b799f
+  webhook_ruxue:
+    url: https://oapi.dingtalk.com/robot/send?access_token=7f965e6da9dbf78e111ef95f7a818f8bacbece2f17ff537ffeb87cf5d245aa34
+    # secret for signature
+    secret: SEC9f0a39e743d376e451ce66491f00f8a17a2517958c2ef94386a7864fdf924102

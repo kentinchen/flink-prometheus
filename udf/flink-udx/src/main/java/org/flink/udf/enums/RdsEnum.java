@@ -10,8 +10,8 @@ public enum RdsEnum {
     CONN(Constants.conn_usage, Constants.ConnectionUsage),
     PG_DISK("local_fs_size_usage", "DiskUsage");
 
-    private String newCode;
-    private String oldCode;
+    private final String newCode;
+    private final String oldCode;
 
     RdsEnum(String newCode, String oldCode) {
         this.newCode = newCode;

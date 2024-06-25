@@ -1,0 +1,17 @@
+ssh -NCPf root@10.81.69.186 -p 10022 -L 3888:10.81.200.185:3306
+mysql -P 3888 -u root -p
+
+LOAD DATA
+INFILE '/var/lib/mysql-files/ecs.csv'
+INTO TABLE ecs_info
+
+show variables like '%secure_file_priv%';
++------------------+-----------------------+
+| Variable_name    | Value                 |
++------------------+-----------------------+
+| secure_file_priv | /var/lib/mysql-files/ |
++------------------+-----------------------+
+
+update ecs_info set vm_id='i-6qn01jm03dxlrz482g48' where vm_id='i-g2p018q7imbdjqp84wqh';
+select node,org_name,rs_name,vm_id,vm_ip,vm_name,vm_cpu,vm_mem,vm_os
+from monitor.ecs_info

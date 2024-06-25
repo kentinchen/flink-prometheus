@@ -16,6 +16,11 @@ buildscript {
     }
 }
 
+plugins {
+    java
+    id("com.github.spotbugs") version "6.0.9"
+}
+
 allprojects {
     repositories {
         google()

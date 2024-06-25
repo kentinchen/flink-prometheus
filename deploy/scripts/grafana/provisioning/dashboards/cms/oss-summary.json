@@ -1,0 +1,798 @@
+{
+   "description": "oss Bucket监控\r\n",
+   "graphTooltip": 1,
+   "panels": [
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 0
+         },
+         "id": 1,
+         "panels": [ ],
+         "title": "存储",
+         "type": "row"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "scaleDistribution": {
+                     "log": 2,
+                     "type": "log"
+                  },
+                  "showPoints": "never"
+               },
+               "unit": "bytes"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 1
+         },
+         "id": 2,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "storage {bucket_name=~\"$buckets\", product=\"oss\"}\r\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{bucket_name}}\r\n"
+            }
+         ],
+         "title": "已使用存储",
+         "type": "timeseries"
+      },
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 9
+         },
+         "id": 3,
+         "panels": [ ],
+         "title": "流量",
+         "type": "row"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "bytes"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 10
+         },
+         "id": 4,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "recv_size {bucket_name=~\"$buckets\", product=\"oss\"}\r\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{bucket_name}}\r\n"
+            }
+         ],
+         "title": "公网流入流量(byte)",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "bytes"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 8,
+            "y": 10
+         },
+         "id": 5,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "send_size {bucket_name=~\"$buckets\", product=\"oss\"}\r\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{bucket_name}}\r\n"
+            }
+         ],
+         "title": "公网流出流量(byte)",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "bytes"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 16,
+            "y": 10
+         },
+         "id": 6,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "intran_recv_size {bucket_name=~\"$buckets\", product=\"oss\"}\r\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{bucket_name}}\r\n"
+            }
+         ],
+         "title": "内网流入流量(byte)",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "bytes"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 18
+         },
+         "id": 7,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "intran_send_size {bucket_name=~\"$buckets\", product=\"oss\"}\r\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{bucket_name}}\r\n"
+            }
+         ],
+         "title": "内网流出流量(byte)",
+         "type": "timeseries"
+      },
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 26
+         },
+         "id": 8,
+         "panels": [ ],
+         "title": "成功请求",
+         "type": "row"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "short"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 27
+         },
+         "id": 9,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "success_203 {bucket_name=~\"$buckets\", product=\"oss\"}\r\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{bucket_name}}\r\n"
+            }
+         ],
+         "title": "203返回数",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "short"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 8,
+            "y": 27
+         },
+         "id": 10,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "success_2xx {bucket_name=~\"$buckets\", product=\"oss\"}\r\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{bucket_name}}\r\n"
+            }
+         ],
+         "title": "2xx返回数",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "short"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 16,
+            "y": 27
+         },
+         "id": 11,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "success_3xx {bucket_name=~\"$buckets\", product=\"oss\"}\r\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{bucket_name}}\r\n"
+            }
+         ],
+         "title": "3xx返回数",
+         "type": "timeseries"
+      },
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 35
+         },
+         "id": 12,
+         "panels": [ ],
+         "title": "错误请求",
+         "type": "row"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "short"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 36
+         },
+         "id": 13,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "error_403 {bucket_name=~\"$buckets\", product=\"oss\"}\r\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{bucket_name}}\r\n"
+            }
+         ],
+         "title": "403返回量",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "short"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 8,
+            "y": 36
+         },
+         "id": 14,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "error_404 {bucket_name=~\"$buckets\", product=\"oss\"}\r\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{bucket_name}}\r\n"
+            }
+         ],
+         "title": "404返回量",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "short"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 16,
+            "y": 36
+         },
+         "id": 15,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "error_408 {bucket_name=~\"$buckets\", product=\"oss\"}\r\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{bucket_name}}\r\n"
+            }
+         ],
+         "title": "408返回量",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "short"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 44
+         },
+         "id": 16,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "error_499 {bucket_name=~\"$buckets\", product=\"oss\"}\r\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{bucket_name}}\r\n"
+            }
+         ],
+         "title": "499返回量",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "short"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 8,
+            "y": 44
+         },
+         "id": 17,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "error_4xx {bucket_name=~\"$buckets\", product=\"oss\"}\r\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{bucket_name}}\r\n"
+            }
+         ],
+         "title": "4xx返回量",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "short"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 16,
+            "y": 44
+         },
+         "id": 18,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "error_503 {bucket_name=~\"$buckets\", product=\"oss\"}\r\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{bucket_name}}\r\n"
+            }
+         ],
+         "title": "503返回量",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 0,
+               "unit": "short"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 52
+         },
+         "id": 19,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "error_5xx {bucket_name=~\"$buckets\", product=\"oss\"}\r\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{bucket_name}}\r\n"
+            }
+         ],
+         "title": "5xx返回量",
+         "type": "timeseries"
+      }
+   ],
+   "refresh": "10s",
+   "schemaVersion": 36,
+   "tags": [
+      "CRE Dashboard"
+   ],
+   "templating": {
+      "list": [
+         {
+            "name": "datasource",
+            "query": "prometheus",
+            "type": "datasource"
+         },
+         {
+            "datasource": {
+               "type": "mysql",
+               "uid": "MySQL"
+            },
+            "includeAll": true,
+            "multi": true,
+            "name": "buckets",
+            "query": "select bucket_id from monitor.oss_info",
+            "type": "query"
+         }
+      ]
+   },
+   "time": {
+      "from": "now-6h",
+      "to": "now"
+   },
+   "timezone": "Asia/Shanghai",
+   "title": "oss Bucket监控",
+   "uid": "39405404b4c8322164e6dc9eebba80bf"
+}

@@ -4,6 +4,7 @@ CREATE TEMPORARY FUNCTION RdsMonitorConvert AS 'org.flink.udf.function.RdsMonito
 CREATE TEMPORARY FUNCTION dateFormatT08 AS 'org.flink.udf.function.DateFormatT08';
 
 CREATE TEMPORARY TABLE rds_perf_sls (
+    userId                 VARCHAR,
     instanceId             VARCHAR,
     __timestamp__          BIGINT,
     `metricName`           VARCHAR,
@@ -20,6 +21,7 @@ CREATE TEMPORARY TABLE rds_perf_sls (
 );
 
 CREATE TEMPORARY TABLE rds_perf_prom (
+    userId                 VARCHAR,
     instanceId             VARCHAR,
     ts                     BIGINT,
     m                      VARCHAR,
@@ -29,15 +31,18 @@ CREATE TEMPORARY TABLE rds_perf_prom (
 ) WITH (
         'connector' = 'pushgateway',
         'format' = 'json',
-        'pushgateway' = '${pushgateway}'
+        'pushgateway' = '${pushgateway}',
+        'prom.batch_size' = '10000'
 );
 
 insert into rds_perf_prom
 select
+    userId,
     instanceId,
     CAST(dateFormatT08(`uptime`) as BIGINT) as ts,
     RdsMonitorConvert(`type`) as m,
     'rds' as product,
     `type`,
     CAST(v as DOUBLE) as v
-from rds_perf_sls;
+from rds_perf_sls
+where userId <> '1000000007' and userId <> '1944084960014972';

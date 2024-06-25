@@ -22,7 +22,7 @@ public class JSQLParseUtils {
     }
 
     public static String parseToPlaceholder(String sql) {
-        Statement statement = null;
+        Statement statement;
         try {
             statement = CCJSqlParserUtil.parse(sql);
             if (statement instanceof Select) {
@@ -96,7 +96,7 @@ public class JSQLParseUtils {
     private static Expression replaceExpression(Expression expression) {
         LongValue value = new LongValue("?");
         if (expression instanceof LongValue || expression instanceof net.sf.jsqlparser.expression.StringValue || expression instanceof net.sf.jsqlparser.expression.HexValue || expression instanceof net.sf.jsqlparser.expression.DoubleValue)
-            return (Expression) value;
+            return value;
         return expression;
     }
 }

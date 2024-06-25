@@ -1,0 +1,74 @@
+SET 'pipeline.name' = 'rds_perf_prom';
+
+CREATE TABLE prd_rds_sql (
+    __topic__      VARCHAR,
+    check_rows     VARCHAR,
+    db             VARCHAR,
+    fail           VARCHAR,
+    `hash`         VARCHAR,
+    `ip`           VARCHAR,
+    isbind         VARCHAR,
+    latency        VARCHAR,
+    origin_time    VARCHAR,
+    return_rows    VARCHAR,
+    `root`         VARCHAR,
+    `sql`          VARCHAR,
+    tid            VARCHAR,
+    update_rows    VARCHAR,
+    `user`         VARCHAR
+) WITH (
+    'connector' = 'sls',
+    'endpoint' = '${sls_endpoint}',
+    'accessid' = '${sls_accessid_rds}',
+    'accesskey' = '${sls_accesskey_rds}',
+    'project' = 'rds-project',
+    'logStore' = 'prd_rds_sql',
+    'batchGetSize' = '100'
+);
+
+
+CREATE TEMPORARY TABLE slowsql_perf_logstore (
+    __topic__      VARCHAR,
+    check_rows     VARCHAR,
+    db             VARCHAR,
+    fail           VARCHAR,
+    `hash`         VARCHAR,
+    `ip`           VARCHAR,
+    isbind         VARCHAR,
+    latency        VARCHAR,
+    origin_time    VARCHAR,
+    return_rows    VARCHAR,
+    `root`         VARCHAR,
+    `sql`          VARCHAR,
+    tid            VARCHAR,
+    update_rows    VARCHAR,
+    `user`         VARCHAR
+) WITH (
+    'connector' = 'pushgateway',
+    'format' = 'json',
+    'pushgateway' = '${pushgateway}',
+    'prom.method' = 'direct',
+    'prom.debug' = 'F',
+    'prom.batch_size' = '1000'
+);
+
+
+insert into slowsql_perf_logstore
+select
+    __topic__    ,
+    check_rows   ,
+    db           ,
+    fail         ,
+    `hash`       ,
+    `ip`         ,
+    isbind       ,
+    latency      ,
+    origin_time  ,
+    return_rows  ,
+    `root`       ,
+    `sql`        ,
+    tid          ,
+    update_rows  ,
+    `user`
+from prd_rds_sql
+where userId <> '1000000007';

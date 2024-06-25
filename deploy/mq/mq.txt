@@ -1,0 +1,11 @@
+1、准备mq-exporter配置文件(每个消息队列一个文件）
+   * exporter服务端口不能冲突(server.port及grpc.server.port)
+   * namesrvAddr需要做singletunnel到监控ecs
+   * 使用消息队列一级组织的ak,sk
+
+2、修改mq.sh并运行exporter，然后向pushgateway推送指标
+   主要修改spring.config.location、exporter端口、pushgateway地址
+   #nohup java -jar -Dspring.config.location=./mq1-application.yml ./rocketmq-exporter-0.0.3-SNAPSHOT.jar &
+   #nohup java -jar -Dserver.port=5557 rocketmq-exporter-0.0.3-SNAPSHOT.jar --spring.config.location=file:./application-prod.yml,file:./application-dev.yml &
+
+#3、修改prometheus.yaml，直接采集expoter也可以

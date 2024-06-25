@@ -15,8 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class FlinkMetricsExposingMapFunctionTest {
     private static final Integer TEST_VALUE = 42;
     @InjectMocks
-    private final FlinkMetricsExposingMapFunction flinkMetricsExposingMapFunction =
-            new FlinkMetricsExposingMapFunction();
+    private final FlinkMetricsExposingMapFunction flinkMetricsExposingMapFunction = new FlinkMetricsExposingMapFunction();
     @Mock
     private Counter eventCounter;
     @Mock

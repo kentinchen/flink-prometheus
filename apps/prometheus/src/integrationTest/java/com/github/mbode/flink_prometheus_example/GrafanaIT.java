@@ -7,23 +7,18 @@ import static org.awaitility.Awaitility.await;
 
 class GrafanaIT {
     private static final String GRAFANA_URL =
-            "http://"
-                    + System.getProperty("grafana.host")
-                    + ":"
-                    + Integer.getInteger("grafana.tcp.3000")
-                    + "/";
+            "http://" + System.getProperty("grafana.host") + ":" + Integer.getInteger("grafana.tcp.3000") + "/";
 
     @Test
     void flinkDashboardHasBeenImported() {
-        await()
-                .until(
-                        () -> {
-                            final String responseBody =
-                                    Unirest.get(GRAFANA_URL + "api/dashboards/uid/veLveEOiz")
-                                            .basicAuth("admin", "flink")
-                                            .asString()
-                                            .getBody();
-                            return responseBody.contains("Flink");
-                        });
+        await().until(
+                () -> {
+                    final String responseBody =
+                            Unirest.get(GRAFANA_URL + "api/dashboards/uid/veLveEOiz")
+                                    .basicAuth("admin", "flink")
+                                    .asString()
+                                    .getBody();
+                    return responseBody.contains("Flink");
+                });
     }
 }

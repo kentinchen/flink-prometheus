@@ -1,0 +1,50 @@
+server:
+  port: 5557
+spring:
+  main:
+    allow-circular-references: true
+  application:
+    name: rocketmq-exporter
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+logging:
+  config: classpath:logback.xml
+
+rocketmq:
+  config:
+    webTelemetryPath: /metrics
+    namesrvAddr: MQ_INST_1546415671451540_Bj3IscUQ.cn-wulan-env212-d01.mq.namesrv.inter.env212.shuguang.com:9876
+    rocketmqVersion: 4_9_4
+    enableCollect: true
+    enableACL: true # if >=4.4.0
+    accessKey: rXCMwDQ1aLR9wGsV # if >=4.4.0
+    secretKey: XfH5RgNe23GQdehS0H8fb7RdHgJLoO # if >=4.4.0
+    outOfTimeSeconds: 60 # Cache clear time with no update
+
+grpc:
+  server:
+    port: 5559
+
+threadpool:
+  collect-client-metric-executor:
+    core-pool-size: 10
+    maximum-pool-size: 10
+    keep-alive-time: 3000
+    queueSize: 5000
+task:
+  count: 5 # num of scheduled-tasks
+  collectTopicOffset:
+    cron: 15 0/1 * * * ?
+  collectProducer:
+    cron: 15 0/1 * * * ?
+  collectConsumerOffset:
+    cron: 15 0/1 * * * ?
+  collectBrokerStatsTopic:
+    cron: 15 0/1 * * * ?
+  collectBrokerStats:
+    cron: 15 0/1 * * * ?
+  collectBrokerRuntimeStats:
+    cron: 15 0/1 * * * ?

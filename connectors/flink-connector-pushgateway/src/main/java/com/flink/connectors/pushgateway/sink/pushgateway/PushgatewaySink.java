@@ -9,16 +9,19 @@ import org.apache.flink.core.io.SimpleVersionedSerializer;
 import org.apache.flink.util.Preconditions;
 import org.apache.flink.util.StringUtils;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Properties;
 
 @Slf4j
-public class PushgatewaySink<InputT> extends AsyncSinkBase<InputT, PushgatewayGaugeEntity> {
+public class PushgatewaySink<InputT> extends AsyncSinkBase<InputT, ArrayList<PushgatewayGaugeEntity>> {
     private final Properties properties;
     private final String pushgateway;
-    private final ElementConverter<InputT, PushgatewayGaugeEntity> elementConverter;
+    private final String method;
+    private final int batchSize;
+    private final boolean debug;
+    private final ElementConverter<InputT, ArrayList<PushgatewayGaugeEntity>> elementConverter;
 
     public PushgatewaySink(int maxBatchSize,
                            int maxInFlightRequests,
@@ -26,7 +29,9 @@ public class PushgatewaySink<InputT> extends AsyncSinkBase<InputT, PushgatewayGa
                            long maxBatchSizeInBytes,
                            long maxTimeInBufferMS,
                            long maxRecordSizeInBytes,
-                           String pushgateway, Properties properties, ElementConverter<InputT, PushgatewayGaugeEntity> elementConverter) {
+                           String pushgateway, String method, int batchSize, boolean debug,
+                           Properties properties,
+                           ElementConverter<InputT, ArrayList<PushgatewayGaugeEntity>> elementConverter) {
         super(elementConverter,
                 maxBatchSize,
                 maxInFlightRequests,
@@ -37,6 +42,9 @@ public class PushgatewaySink<InputT> extends AsyncSinkBase<InputT, PushgatewayGa
         );
         Preconditions.checkArgument(!StringUtils.isNullOrWhitespaceOnly(pushgateway), "The endpoint URL must be set when initializing pushgateway Sink.");
         this.pushgateway = pushgateway;
+        this.method = method;
+        this.batchSize = batchSize;
+        this.debug = debug;
         this.properties = properties;
         this.elementConverter = elementConverter;
     }
@@ -46,8 +54,8 @@ public class PushgatewaySink<InputT> extends AsyncSinkBase<InputT, PushgatewayGa
     }
 
     @Override
-    public StatefulSinkWriter<InputT, BufferedRequestState<PushgatewayGaugeEntity>> createWriter(InitContext initContext) throws IOException {
-        ElementConverter<InputT, PushgatewayGaugeEntity> elementConverter = getElementConverter();
+    public StatefulSinkWriter<InputT, BufferedRequestState<ArrayList<PushgatewayGaugeEntity>>> createWriter(InitContext initContext) {
+        ElementConverter<InputT, ArrayList<PushgatewayGaugeEntity>> elementConverter = getElementConverter();
         if (elementConverter instanceof SchemaLifecycleAwareElementConverter) {
             // This cast is needed for Flink 1.15.3 build
             ((SchemaLifecycleAwareElementConverter<?, ?>) elementConverter).open(initContext);
@@ -61,20 +69,20 @@ public class PushgatewaySink<InputT> extends AsyncSinkBase<InputT, PushgatewayGa
                 getMaxBatchSizeInBytes(),
                 getMaxTimeInBufferMS(),
                 getMaxRecordSizeInBytes(),
-                pushgateway,
+                pushgateway, method, batchSize, debug,
                 Collections.emptyList(),
                 properties
         );
     }
 
     @Override
-    public SimpleVersionedSerializer<BufferedRequestState<PushgatewayGaugeEntity>> getWriterStateSerializer() {
+    public SimpleVersionedSerializer<BufferedRequestState<ArrayList<PushgatewayGaugeEntity>>> getWriterStateSerializer() {
         return new PushgatewaySinkWriterStateSerializer();
     }
 
     @Override
-    public StatefulSinkWriter<InputT, BufferedRequestState<PushgatewayGaugeEntity>> restoreWriter(
-            InitContext context, Collection<BufferedRequestState<PushgatewayGaugeEntity>> recoveredState) throws IOException {
+    public StatefulSinkWriter<InputT, BufferedRequestState<ArrayList<PushgatewayGaugeEntity>>> restoreWriter(
+            InitContext context, Collection<BufferedRequestState<ArrayList<PushgatewayGaugeEntity>>> recoveredState) {
         return new PushgatewaySinkWriter<>(
                 elementConverter,
                 context,
@@ -84,7 +92,7 @@ public class PushgatewaySink<InputT> extends AsyncSinkBase<InputT, PushgatewayGa
                 getMaxBatchSizeInBytes(),
                 getMaxTimeInBufferMS(),
                 getMaxRecordSizeInBytes(),
-                pushgateway,
+                pushgateway, method, batchSize, debug,
                 recoveredState,
                 properties
         );

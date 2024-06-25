@@ -27,8 +27,7 @@ CREATE TEMPORARY TABLE slb_perf_sls (
     'accessid' = '${sls_accessid}',
     'accesskey' = '${sls_accesskey}',
     'project' = 'noc',
-    'logstore' = 'agg-slb-vs-stats-log',
-    'batchGetSize' = '1000'
+    'logstore' = 'agg-slb-vs-stats-log'
 );
 
 CREATE TEMPORARY TABLE slb_perf_prom (
@@ -64,7 +63,8 @@ CREATE TEMPORARY TABLE slb_perf_prom (
                      inActConnPS,inBitsPS,inDBitesPS,inDPktsPS,inPktsPS,\
                      maxConnsPs,\
                      outBitsPS,outDBitesPS,outDPktsPS,outPktsPS,\
-                     sumInBytes,sumOutBytes'
+                     sumInBytes,sumOutBytes',
+    'prom.batch_size' = '20000'
 );
 
 INSERT INTO slb_perf_prom

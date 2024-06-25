@@ -4,7 +4,7 @@ CREATE TEMPORARY FUNCTION RedisMonitorConvert AS 'org.flink.udf.function.RedisMo
 CREATE TEMPORARY TABLE kv_perf_sls (
     instanceId             VARCHAR,
     ts                     BIGINT,
-    `m`                    VARCHAR,
+    m                      VARCHAR,
     v                      DOUBLE
 ) WITH (
     'connector'= 'sls',
@@ -18,20 +18,21 @@ CREATE TEMPORARY TABLE kv_perf_sls (
 CREATE TEMPORARY TABLE kv_perf_prom (
     instanceId             VARCHAR,
     ts                     BIGINT,
-    `m`                    VARCHAR,
+    m                      VARCHAR,
     product                VARCHAR,
     v                      DOUBLE
 ) WITH (
     'connector' = 'pushgateway',
     'format' = 'json',
-    'pushgateway' = '${pushgateway}'
+    'pushgateway' = '${pushgateway}',
+    'prom.batch_size' = '10000'
 );
 
 insert into kv_perf_prom
 select
     instanceId,
     ts,
-    RedisMonitorConvert(`m`) as m,
+    RedisMonitorConvert(m) as m,
     'kv' as product,
     v
 from kv_perf_sls;

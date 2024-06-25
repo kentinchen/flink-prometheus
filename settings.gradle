@@ -2,12 +2,11 @@ rootProject.name = 'flink-prometheus'
 
 include(':apps')
 include(':apps:prometheus')
-include(':apps:prometheus-table')
 include(':apps:pushgateway-table')
 
 include(':connectors')
 include(':connectors:flink-connector-pushgateway')
-include(':connectors:blink-connector-pushgateway')
+include(':connectors:flink-connector-asapi')
 
 include(':udf')
 include(':udf:flink-udx')

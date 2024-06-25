@@ -35,7 +35,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceId}}
+      {{instanceId}}-{{mountpoint}}
     |||),
   diskInodeUsage:
     prometheusQuery.new(
@@ -46,7 +46,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceId}}
+      {{instanceId}}-{{mountpoint}}
     |||),
   vmProcessCount:
     prometheusQuery.new(
@@ -63,7 +63,18 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        vm_LoadAverage {instanceId=~"$instances",job=~"pushgateway", product="ecs"}
+        vm_LoadAverage {instanceId=~"$instances",job=~"pushgateway",period="1min", product="ecs"}
+      |||
+    )
+    + prometheusQuery.withIntervalFactor(2)
+    + prometheusQuery.withLegendFormat(|||
+      {{instanceId}}-{{period}}
+    |||),
+  vmLoadAverage5:
+    prometheusQuery.new(
+      '$' + variables.datasource.name,
+      |||
+        vm_LoadAverage {instanceId=~"$instances",job=~"pushgateway", period="5min", product="ecs"}
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -79,7 +90,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceId}}
+      {{instanceId}}-{{diskname}}
     |||),
   vmDiskIOWrite:
     prometheusQuery.new(
@@ -90,7 +101,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceId}}
+      {{instanceId}}-{{diskname}}
     |||),
   vmInternetNetworkRX:
     prometheusQuery.new(
@@ -101,7 +112,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceId}}
+      {{instanceId}}-{{netname}}
     |||),
   vmInternetNetworkTX:
     prometheusQuery.new(

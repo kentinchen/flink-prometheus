@@ -1,0 +1,99 @@
+{
+   "description": "ECS主机监控\r\n",
+   "graphTooltip": 1,
+   "panels": [
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 0
+         },
+         "id": 1,
+         "panels": [ ],
+         "title": "使用率",
+         "type": "row"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "decimals": 2,
+               "unit": "short"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 1
+         },
+         "id": 2,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v10.4.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "vm_CPUUtilization {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"ecs\"}\r\n",
+               "intervalFactor": 2,
+               "legendFormat": "{{instanceId}}\r\n"
+            }
+         ],
+         "title": "CPU",
+         "type": "timeseries"
+      }
+   ],
+   "refresh": "10s",
+   "schemaVersion": 36,
+   "tags": [
+      "CRE Dashboard"
+   ],
+   "templating": {
+      "list": [
+         {
+            "hide": 2,
+            "name": "datasource",
+            "query": "prometheus",
+            "type": "datasource"
+         },
+         {
+            "datasource": {
+               "type": "mysql",
+               "uid": "MySQL"
+            },
+            "includeAll": true,
+            "multi": true,
+            "name": "instances",
+            "query": "select vm_id from monitor.ecs_info",
+            "type": "query"
+         }
+      ]
+   },
+   "time": {
+      "from": "now-6h",
+      "to": "now"
+   },
+   "timezone": "Asia/Shanghai",
+   "title": "ecs主机监控",
+   "uid": "ebbeaec6b8ee8418fcf4e43437db330d"
+}

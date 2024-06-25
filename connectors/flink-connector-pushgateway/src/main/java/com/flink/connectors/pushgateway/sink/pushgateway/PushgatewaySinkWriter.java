@@ -5,24 +5,17 @@ import org.apache.flink.api.connector.sink2.Sink;
 import org.apache.flink.connector.base.sink.writer.AsyncSinkWriter;
 import org.apache.flink.connector.base.sink.writer.BufferedRequestState;
 import org.apache.flink.connector.base.sink.writer.ElementConverter;
-import org.apache.flink.metrics.Counter;
 import org.apache.flink.metrics.groups.SinkWriterMetricGroup;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.function.Consumer;
 
-public class PushgatewaySinkWriter<InputT> extends AsyncSinkWriter<InputT, PushgatewayGaugeEntity> {
-    private final Counter numRecordsSendCounter;
-    private final Counter numRecordsSendErrorsCounter;
-    private PushgatewaySinkGaugeFunction pushgatewaySinkGaugeFunction;
-    private Properties properties;
+public class PushgatewaySinkWriter<InputT> extends AsyncSinkWriter<InputT, ArrayList<PushgatewayGaugeEntity>> {
+    private final PushgatewaySinkGaugeFunction pushgatewaySinkGaugeFunction;
 
     public PushgatewaySinkWriter(
-            ElementConverter<InputT, PushgatewayGaugeEntity> elementConverter,
+            ElementConverter<InputT, ArrayList<PushgatewayGaugeEntity>> elementConverter,
             Sink.InitContext context,
             int maxBatchSize,
             int maxInFlightRequests,
@@ -30,31 +23,28 @@ public class PushgatewaySinkWriter<InputT> extends AsyncSinkWriter<InputT, Pushg
             long maxBatchSizeInBytes,
             long maxTimeInBufferMS,
             long maxRecordSizeInBytes,
-            String pushgateway,
-            Collection<BufferedRequestState<PushgatewayGaugeEntity>> bufferedRequestStates,
+            String pushgateway, String method, int batchSize, boolean debug,
+            Collection<BufferedRequestState<ArrayList<PushgatewayGaugeEntity>>> bufferedRequestStates,
             Properties properties) {
         super(elementConverter, context, maxBatchSize, maxInFlightRequests, maxBufferedRequests,
                 maxBatchSizeInBytes, maxTimeInBufferMS, maxRecordSizeInBytes, bufferedRequestStates);
-        this.properties = properties;
         SinkWriterMetricGroup metrics = context.metricGroup();
-        this.numRecordsSendErrorsCounter = metrics.getNumRecordsSendErrorsCounter();
-        this.numRecordsSendCounter = metrics.getNumRecordsSendCounter();
-        pushgatewaySinkGaugeFunction = new PushgatewaySinkGaugeFunction(pushgateway);
+        pushgatewaySinkGaugeFunction = new PushgatewaySinkGaugeFunction(pushgateway, method, batchSize, debug);
     }
 
     @Override
-    protected void submitRequestEntries(List<PushgatewayGaugeEntity> list, Consumer<List<PushgatewayGaugeEntity>> consumer) {
-        for (PushgatewayGaugeEntity pushgatewayGaugeEntity : list) {
-            if (pushgatewayGaugeEntity != null) {
-                pushgatewaySinkGaugeFunction.constructPoint(pushgatewayGaugeEntity);
+    protected void submitRequestEntries(List<ArrayList<PushgatewayGaugeEntity>> list, Consumer<List<ArrayList<PushgatewayGaugeEntity>>> consumer) {
+        for (ArrayList<PushgatewayGaugeEntity> pushgatewayGaugeEntityList : list) {
+            if (pushgatewayGaugeEntityList != null) {
+                pushgatewaySinkGaugeFunction.constructPoint(pushgatewayGaugeEntityList);
             }
         }
         consumer.accept(Collections.emptyList());
     }
 
     @Override
-    protected long getSizeInBytes(PushgatewayGaugeEntity pushgatewayGaugeEntity) {
-        return pushgatewayGaugeEntity.getSizeInBytes();
+    protected long getSizeInBytes(ArrayList<PushgatewayGaugeEntity> pushgatewayGaugeEntity) {
+        return pushgatewayGaugeEntity.get(0).getSizeInBytes() * pushgatewayGaugeEntity.size();
     }
 
     @Override

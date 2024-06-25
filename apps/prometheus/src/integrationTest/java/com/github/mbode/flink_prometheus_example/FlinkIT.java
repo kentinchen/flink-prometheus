@@ -15,11 +15,7 @@ import static org.awaitility.Awaitility.await;
 
 class FlinkIT {
     private static final String FLINK_URL =
-            "http://"
-                    + System.getProperty("job-cluster.host")
-                    + ":"
-                    + Integer.getInteger("job-cluster.tcp.8081")
-                    + "/";
+            "http://" + System.getProperty("job-cluster.host") + ":" + Integer.getInteger("job-cluster.tcp.8081") + "/";
     private static final String JOB_ID = "00000000000000000000000000000000";
 
     private static String getActiveTaskManager() throws UnirestException {
@@ -48,17 +44,11 @@ class FlinkIT {
 
     @Test
     void jobCanBeRestartedFromCheckpoint() throws UnirestException {
-        await()
-                .atMost(1, TimeUnit.MINUTES)
-                .ignoreException(JSONException.class)
+        await().atMost(1, TimeUnit.MINUTES).ignoreException(JSONException.class)
                 .untilAsserted(() -> assertThat(getActiveTaskManager()).doesNotContain("unassigned"));
-
         final String firstActiveTaskManager = getActiveTaskManager();
-
         DockerClientBuilder.getInstance().build().killContainerCmd(firstActiveTaskManager).exec();
-
-        await()
-                .atMost(1, TimeUnit.MINUTES)
+        await().atMost(1, TimeUnit.MINUTES)
                 .untilAsserted(
                         () -> assertThat(getActiveTaskManager()).isNotEqualTo(firstActiveTaskManager));
     }

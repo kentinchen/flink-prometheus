@@ -24,6 +24,7 @@ create TEMPORARY TABLE gen_perf_prom (
 ) with (
     'connector' = 'pushgateway',
     'format' = 'json',
+    'prom.batch_size' = '75',
     'pushgateway' = '${pushgateway}'
 );
 

@@ -3,6 +3,7 @@ package com.flink.connectors.pushgateway.table.pushgateway;
 import com.flink.connectors.pushgateway.sink.pushgateway.PushgatewayGaugeEntity;
 import com.flink.connectors.pushgateway.sink.pushgateway.PushgatewaySink;
 import com.flink.connectors.pushgateway.sink.pushgateway.PushgatewaySinkBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.serialization.SerializationSchema;
 import org.apache.flink.configuration.ReadableConfig;
 import org.apache.flink.connector.base.table.sink.AsyncDynamicTableSink;
@@ -17,11 +18,15 @@ import org.apache.flink.types.RowKind;
 import org.apache.flink.util.Preconditions;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Properties;
 
-import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewayDynamicSinkConnectorOptions.PUSHGATEWAY;
+import static com.flink.connectors.pushgateway.config.ConnectorConfigConstants.CONST_F;
+import static com.flink.connectors.pushgateway.config.ConnectorConfigConstants.CONST_T;
+import static com.flink.connectors.pushgateway.table.pushgateway.PushgatewayDynamicSinkConnectorOptions.*;
 
-public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGaugeEntity> {
+@Slf4j
+public class PushgatewayDynamicSink extends AsyncDynamicTableSink<ArrayList<PushgatewayGaugeEntity>> {
     private final DataType consumedDataType;
     private final EncodingFormat<SerializationSchema<RowData>> encodingFormat;
     private final ReadableConfig tableOptions;
@@ -49,10 +54,16 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGau
     @Override
     public SinkRuntimeProvider getSinkRuntimeProvider(Context context) {
         SerializationSchema<RowData> serializationSchema = encodingFormat.createRuntimeEncoder(context, consumedDataType);
+        String debugOpt = tableOptions.getOptional(PROM_DEBUG).orElse(CONST_F);
+        boolean debug = debugOpt.equalsIgnoreCase(CONST_T);
+        int batchSize = tableOptions.getOptional(PROM_BATCH_SIZE).orElse(100);
         PushgatewaySinkBuilder<RowData> builder = PushgatewaySink
                 .<RowData>builder()
-                .setEndpointUrl(tableOptions.get(PUSHGATEWAY))
-                .setElementConverter(PushgatewayConverterFactory.create(tableOptions,consumedDataType,serializationSchema));
+                .setPushgateway(tableOptions.get(PUSHGATEWAY))
+                .setMethod(tableOptions.get(PROM_METHOD))
+                .setBatchSize(batchSize)
+                .setDebug(debug)
+                .setElementConverter(PushgatewayConverterFactory.create(tableOptions, consumedDataType, serializationSchema));
         addAsyncOptionsToSinkBuilder(builder);
         return SinkV2Provider.of(builder.build());
     }
@@ -76,7 +87,7 @@ public class PushgatewayDynamicSink extends AsyncDynamicTableSink<PushgatewayGau
         return "PushgatewayDynamicSink";
     }
 
-    public static class PushgatewayDynamicTableSinkBuilder extends AsyncDynamicTableSinkBuilder<PushgatewayGaugeEntity, PushgatewayDynamicTableSinkBuilder> {
+    public static class PushgatewayDynamicTableSinkBuilder extends AsyncDynamicTableSinkBuilder<ArrayList<PushgatewayGaugeEntity>, PushgatewayDynamicTableSinkBuilder> {
         private final Properties properties = new Properties();
         private ReadableConfig tableOptions;
         private DataType consumedDataType;

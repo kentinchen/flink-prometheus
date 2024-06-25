@@ -52,7 +52,8 @@ CREATE TEMPORARY TABLE oss_perf_prom (
       'prom.ts.name' = 'timestamp',
       'prom.debug' = 'F',
       'prom.mode' = 'column',
-      'prom.m.name' = 'recv_size,send_size,error_403,error_404,error_408,error_499,error_4xx,error_503,error_5xx,success_203,success_2xx,success_3xx,intran_recv_size,intran_send_size'
+      'prom.m.name' = 'recv_size,send_size,error_403,error_404,error_408,error_499,error_4xx,error_503,error_5xx,success_203,success_2xx,success_3xx,intran_recv_size,intran_send_size',
+      'prom.batch_size' = '10000'
 );
 
 INSERT INTO oss_perf_prom

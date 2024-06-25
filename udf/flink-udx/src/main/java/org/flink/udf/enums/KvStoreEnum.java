@@ -4,8 +4,8 @@ public enum KvStoreEnum {
     AVGRT("AvgRt", "AvgRT"),
     HITRATE("HitRate", "hit_rate");
 
-    private String newCode;
-    private String oldCode;
+    private final String newCode;
+    private final String oldCode;
 
     KvStoreEnum(String newCode, String oldCode) {
         this.newCode = newCode;

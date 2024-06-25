@@ -1,5 +1,5 @@
 {
-   "description": "RDS主机监控\n",
+   "description": "RDS主机监控\r\n",
    "graphTooltip": 1,
    "panels": [
       {
@@ -26,7 +26,7 @@
                   "fillOpacity": 10,
                   "showPoints": "never"
                },
-               "decimals": 0,
+               "decimals": 2,
                "unit": "short"
             }
          },
@@ -54,9 +54,9 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "active_session {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "active_session {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\r\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\r\n"
             }
          ],
          "title": "活动连接数",
@@ -101,9 +101,9 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "Queries_ps {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "Queries_ps {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\r\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\r\n"
             }
          ],
          "title": "查询数",
@@ -120,7 +120,7 @@
                   "fillOpacity": 10,
                   "showPoints": "never"
                },
-               "decimals": 0,
+               "decimals": 2,
                "unit": "short"
             }
          },
@@ -148,9 +148,9 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "Slow_queries_ps {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "Slow_queries_ps {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\r\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\r\n"
             }
          ],
          "title": "慢sql数",
@@ -208,9 +208,9 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "TPS {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "TPS {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\r\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\r\n"
             }
          ],
          "title": "事务数",
@@ -255,9 +255,9 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "QPS {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "QPS {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\r\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\r\n"
             }
          ],
          "title": "事务数",
@@ -287,7 +287,7 @@
                   "fillOpacity": 10,
                   "showPoints": "never"
                },
-               "decimals": 0,
+               "decimals": 2,
                "unit": "short"
             }
          },
@@ -315,9 +315,9 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "CpuUsage {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "CpuUsage {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\r\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\r\n"
             }
          ],
          "title": "CPU使用率",
@@ -334,7 +334,7 @@
                   "fillOpacity": 10,
                   "showPoints": "never"
                },
-               "decimals": 0,
+               "decimals": 2,
                "unit": "short"
             }
          },
@@ -362,9 +362,9 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "MemoryUsage {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "MemoryUsage {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\r\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\r\n"
             }
          ],
          "title": "内存使用率",
@@ -381,7 +381,7 @@
                   "fillOpacity": 10,
                   "showPoints": "never"
                },
-               "decimals": 0,
+               "decimals": 2,
                "unit": "short"
             }
          },
@@ -409,9 +409,9 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "DiskUsage {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "DiskUsage {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\r\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\r\n"
             }
          ],
          "title": "磁盘使用率",
@@ -428,7 +428,7 @@
                   "fillOpacity": 10,
                   "showPoints": "never"
                },
-               "decimals": 0,
+               "decimals": 2,
                "unit": "short"
             }
          },
@@ -456,9 +456,9 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "IOPSUsage {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "IOPSUsage {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\r\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\r\n"
             }
          ],
          "title": "IO使用率",
@@ -488,7 +488,7 @@
                   "fillOpacity": 10,
                   "showPoints": "never"
                },
-               "decimals": 0,
+               "decimals": 2,
                "unit": "short"
             }
          },
@@ -516,9 +516,9 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "Key_usage_ratio {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "Key_usage_ratio {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\r\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\r\n"
             }
          ],
          "title": "索引使用率",
@@ -535,7 +535,7 @@
                   "fillOpacity": 10,
                   "showPoints": "never"
                },
-               "decimals": 0,
+               "decimals": 2,
                "unit": "short"
             }
          },
@@ -563,9 +563,9 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "Key_read_hit_ratio {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "Key_read_hit_ratio {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\r\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\r\n"
             }
          ],
          "title": "索引查询使用率",
@@ -582,7 +582,7 @@
                   "fillOpacity": 10,
                   "showPoints": "never"
                },
-               "decimals": 0,
+               "decimals": 2,
                "unit": "short"
             }
          },
@@ -610,9 +610,9 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "Key_write_hit_ratio {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\n",
+               "expr": "Key_write_hit_ratio {instanceId=~\"$instances\",job=~\"pushgateway\", product=\"rds\"}\r\n",
                "intervalFactor": 2,
-               "legendFormat": "{{instanceid}}\n"
+               "legendFormat": "{{instanceId}}\r\n"
             }
          ],
          "title": "索引写入使用率",

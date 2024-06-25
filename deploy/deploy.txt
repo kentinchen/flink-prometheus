@@ -34,18 +34,16 @@
        3)安装docker最新版
        4)做sls的single tunnel到ecs，另外需要在docker-compose中加上sls域名解析
     1. 启动flink采集应用(需要在compose中修改extra_hosts，配置sls域名解析）
-       cd ${env}
        docker-compose -f docker-compose-flink.yml up -d
           * docker-compose -f docker-compose-flink.yml restart （重启，里面lib不会掉）
           * docker-compose -f docker-compose-flink.yml down (销毁，下次启动时会是新环境，要重新部署lib及jobs)
           * 修改docker-compose-flink.yml需要先销毁，然后重新部署一次，主要是增加host域名解析 //TODO尽量优化不重新部署
     2. 部署connector、udf函数到容器并重启容器使jar生效（jobmanager及taskmanager都需要复制）
-       cd ${env}
+       chmod +x ./flink/*.sh
        ./flink/deploy-flink-libs.sh
           * 更新connector及udf jar时都需要重做这一步
           * 更新方法是把jar放到libs目录，然后更新libs，更新完之后要重新部署一次flink作业（下面一步）
     4. 部署flink作业（只需把作文件复制到jobmanager）
-        cd scripts
         source ../env/dev
         ./flink/deploy-flink-jobs.sh
            * 每跑一次，默认job会全部自动提交一次
@@ -55,7 +53,6 @@
              docker exec -it jobmanager /opt/flink/bin/sql-client.sh -f /opt/flink/scripts/gen-prom.sql
            * 修改模板后，先生成作业sql，然后用单作业启动方式
              以template/flink/sls-prom-slb.sql为例，修改模板，然后重新生成作业sql，flink/out在容器启动时自动挂到容器中的/opt/flink/scripts目录
-             cd ${env}
              ./flink/gen-flink-sql.sh
              docker exec -it jobmanager /opt/flink/bin/sql-client.sh -f /opt/flink/scripts/sls-prom-slb.sql
 
@@ -66,3 +63,12 @@
     2、作业开发\UDF，点UDF注册，选择flink-udx-1.0-all.jar，系统会自动扫描包中的函数
     3、作业开发\Drafts，然后按flink/out/目录中需要的脚本依次手动创建作业，语法验证无误后提交运行
     4、检查作业运行正常，数据抽取正常。
+
+三、rds ak/sk
+    tianji集群上kv.conf里搜rds，得到的ak sk
+
+GRANT ALL PRIVILEGES ON monitor.* TO 'grafana'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+FLUSH   PRIVILEGES;
+
+CREATE USER 'grafana'@'%' IDENTIFIED BY '123456' ;
+GRANT ALL ON monitor.* TO 'grafana'@'%' WITH GRANT OPTION;

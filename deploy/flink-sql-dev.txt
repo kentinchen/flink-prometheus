@@ -50,6 +50,13 @@
     # TYPE cpu_usage gauge
     cpu_usage {orgid="23", rsid="23", vmid="r-mv737f87db8c47d4", bus="配电系统"} 0.8
 
+    recv_size | error_403 |  error_404 | orgid |rsid  |vmid               |
+    100           3            2           23     23     r-mv737f87db8c47d4
+
+    recv_size {orgid="23", rsid="23", vmid="r-mv737f87db8c47d4"}  100
+    error_403 {orgid="23", rsid="23", vmid="r-mv737f87db8c47d4"}  3
+    error_404 {orgid="23", rsid="23", vmid="r-mv737f87db8c47d4"}  2
+
 3、数据要求及类型转换
     指标名不能有减号，空格等特殊符号，只能是字母、数字、下划线
     指标名定好之后不能变动，告警与这些指标名强依赖

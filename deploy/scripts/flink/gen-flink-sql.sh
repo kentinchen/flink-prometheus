@@ -14,7 +14,7 @@ mkdir -p "$FLINK_OUTPUT_DIR"
 
 #生成client文件
 file="sql-client-init.sql"
-envsubst <"$FLINK_TEMPLATE_DIR/../$file"  >"$FLINK_OUTPUT_DIR/../${file/tsql/sql}"
+envsubst <"$FLINK_TEMPLATE_DIR/../$file"  >"$FLINK_OUTPUT_DIR/../${file}"
 
 #生成job文件
 # shellcheck disable=SC2045

@@ -7,8 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
-    private static String DATA_FORMAT_DATA_SHORT_SYMBOL_X = "yyyy-MM-dd";
-    private static String DATA_FORMAT_DATA_SHORT_SYMBOL_Y = "yyyy-MM-dd HH:mm:ss";
+    private static final String DATA_FORMAT_DATA_SHORT_SYMBOL_X = "yyyy-MM-dd";
 
     /**
      * 通过时间秒毫秒数判断两个时间的间隔
@@ -181,6 +180,7 @@ public class DateUtil {
      * @return 返回当前的时间
      */
     public static String getNowTime() {
+        String DATA_FORMAT_DATA_SHORT_SYMBOL_Y = "yyyy-MM-dd HH:mm:ss";
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATA_FORMAT_DATA_SHORT_SYMBOL_Y);
         return dateFormat.format(getNowDate());
     }
@@ -199,7 +199,6 @@ public class DateUtil {
      * 获得当前时间前几天的日期
      *
      * @param i 天数
-     * @return
      */
     public static Date getBeforeDayDate(int i) {
         Calendar cal = Calendar.getInstance();
@@ -210,8 +209,6 @@ public class DateUtil {
 
     /**
      * 获得某天23:59:59点时间
-     *
-     * @return
      */
     public static Date getTimesnight(Date date) {
         Calendar cal = Calendar.getInstance();
@@ -225,8 +222,6 @@ public class DateUtil {
 
     /**
      * 获得某天0点时间
-     *
-     * @return
      */
     public static Date getTimesmorning(Date date) {
         Calendar cal = Calendar.getInstance();
@@ -241,7 +236,6 @@ public class DateUtil {
     /**
      * @param inputJudgeDate 要判断是否在当天24h内的时间
      * @return boolean
-     * @Description 是否为当天24h内
      * @author guo
      */
     public static boolean isToday(Date inputJudgeDate) {
@@ -288,17 +282,13 @@ public class DateUtil {
 
     /**
      * 时间戳转date
-     *
-     * @return
      */
     public static Date timeToDate(Long time) {
         //时间戳转化为Sting或Date
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String d = format.format(time);
-        Date date = null;
         try {
-            date = format.parse(d);
-            return date;
+            return format.parse(d);
         } catch (ParseException e) {
             e.printStackTrace();
         }

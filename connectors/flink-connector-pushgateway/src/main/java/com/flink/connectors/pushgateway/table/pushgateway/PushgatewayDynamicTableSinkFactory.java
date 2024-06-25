@@ -46,6 +46,8 @@ public class PushgatewayDynamicTableSinkFactory extends AsyncDynamicTableSinkFac
     public Set<ConfigOption<?>> optionalOptions() {
         Set<ConfigOption<?>> options = super.optionalOptions();
         options.add(PROM_JOB);
+        options.add(PROM_MODE);
+        options.add(PROM_DEBUG);
         options.add(PROM_M_TYPE);
         options.add(PROM_J_NAME);
         options.add(PROM_M_NAME);

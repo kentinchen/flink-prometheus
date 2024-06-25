@@ -1,0 +1,38 @@
+SET 'pipeline.name' = 'oss_st_perf_prom';
+
+CREATE TABLE oss_monitor_service (
+    storage DOUBLE,
+    start_time BIGINT,
+    bucket_name VARCHAR
+) WITH (
+    'connector'= 'sls',
+    'endPoint' = '${sls_endpoint}',
+    'accessid' = '${sls_accessid}',
+    'accesskey' = '${sls_accesskey}',
+    project = 'aliyun-oss',
+    logStore = 'oss_metering_data',
+    batchGetSize = '100'
+);
+
+CREATE TABLE oss_perf_logstore (
+    instanceId             VARCHAR,
+    ts                     BIGINT,
+    m                      VARCHAR,
+    product                VARCHAR,
+    v                      DOUBLE
+) WITH (
+    'connector' = 'pushgateway',
+    'format' = 'json',
+    'pushgateway' = '${pushgateway}',
+    'prom.batch_size' = '100'
+);
+
+INSERT INTO oss_perf_logstore
+select * from (
+    select bucket_name as instanceId,
+    start_time * 1000 as ts,
+    'storage' as m,
+    'oss' as product,
+    if(cast(storage as varchar)='NaN',cast(0 as DOUBLE),storage) as v
+    from oss_monitor_service
+);

@@ -3,6 +3,7 @@
 .\gradlew shadow
 docker/build-dev.bat
 docker-compose up -d
+docker-compose up -d -f deploy\dev\docker-compose.yml
 
 docker exec -it jobmanager bash
 ./bin/sql-client.sh
@@ -15,6 +16,9 @@ docker exec -it jobmanager bash
 
 nc -lk 9999
 INSERT|Alice|12
+
+sls查询
+i-6qn059f007t6uy2yinea and vm.TcpCount
 
 https://mirrors.cloud.tencent.com/gradle/
 
@@ -48,3 +52,6 @@ curl -XPOST -d"{}" http://10.81.200.185:8060/dingtalk/webhook1/send
 
 curl -XPOST http://10.81.200.185:9093/-/reload
 https://www.prometheus.io/webtools/alerting/routing-tree-editor/
+
+#dos2unix转换目录下所有文件
+find . -type f -exec dos2unix {} \;

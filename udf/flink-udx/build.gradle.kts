@@ -29,6 +29,10 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks.withType<JavaCompile> {
+    options.encoding = "utf-8"
+}
+
 var copyJar = task("copyJar", type = Copy::class) {
     from("build/libs")
     into(rootProject.projectDir.absolutePath + "/deploy/libs")

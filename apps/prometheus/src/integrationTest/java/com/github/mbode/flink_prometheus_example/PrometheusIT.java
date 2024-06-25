@@ -11,11 +11,7 @@ import static org.awaitility.Awaitility.await;
 
 class PrometheusIT {
     private static final String PROMETHEUS_URL =
-            "http://"
-                    + System.getProperty("prometheus.host")
-                    + ":"
-                    + Integer.getInteger("prometheus.tcp.9090")
-                    + "/";
+            "http://" + System.getProperty("prometheus.host") + ":" + Integer.getInteger("prometheus.tcp.9090") + "/";
 
     private static boolean dataIsAvailableInPrometheusFor(String metricsName)
             throws UnirestException {
@@ -36,12 +32,8 @@ class PrometheusIT {
 
     @Test
     void exampleJobMetricsAreAvailable() {
-        await()
-                .atMost(1, TimeUnit.MINUTES)
-                .until(
-                        () ->
-                                dataIsAvailableInPrometheusFor("flink_taskmanager_job_task_operator_events")
-                                        && dataIsAvailableInPrometheusFor(
-                                        "flink_taskmanager_job_task_operator_value_histogram"));
+        await().atMost(1, TimeUnit.MINUTES).until(
+                () -> dataIsAvailableInPrometheusFor("flink_taskmanager_job_task_operator_events")
+                        && dataIsAvailableInPrometheusFor("flink_taskmanager_job_task_operator_value_histogram"));
     }
 }

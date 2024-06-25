@@ -21,10 +21,7 @@ services:
         taskmanager.numberOfTaskSlots: 20
         state.checkpoints.dir: file:///state
     extra_hosts:
-      - "ali-tianji-cms-transfer.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "oss_monitor_service.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "aliyun-oss.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "noc.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+      - "sls主机名:sls主机ip"
 
   taskmanager1:
     # build: .
@@ -44,10 +41,7 @@ services:
         taskmanager.numberOfTaskSlots: 20
         state.checkpoints.dir: file:///state
     extra_hosts:
-      - "ali-tianji-cms-transfer.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "oss_monitor_service.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "aliyun-oss.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "noc.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+      - "sls主机名:sls主机ip"
 
   taskmanager2:
     # build: .
@@ -67,10 +61,7 @@ services:
         taskmanager.numberOfTaskSlots: 20
         state.checkpoints.dir: file:///state
     extra_hosts:
-      - "ali-tianji-cms-transfer.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "oss_monitor_service.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "aliyun-oss.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
-      - "noc.data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com:10.81.200.186"
+      - "sls主机名:sls主机ip"
 
 volumes:
   state:

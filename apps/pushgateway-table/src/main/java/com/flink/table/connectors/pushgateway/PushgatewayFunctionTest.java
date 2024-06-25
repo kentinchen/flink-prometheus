@@ -22,14 +22,14 @@ public class PushgatewayFunctionTest {
 
     static class MyPushgatewaySinkFunction extends PushgatewayBaseSinkFunction<MyData> {
         public MyPushgatewaySinkFunction(String pushgateway) {
-            super(pushgateway);
+            super(pushgateway,"",1,true);
         }
 
         public void constructPoint(MyData myData) {
             TreeMap<String, String> tagsMap = new TreeMap<>();
             tagsMap.put("tagK1", myData.tagV1);
             PushgatewayGaugeEntity gaugeSinkEntity = new PushgatewayGaugeEntity("job",
-                    myData.metric, (double) myData.value, tagsMap);
+                    myData.metric, (double) myData.value,tagsMap);
             pushGauge(gaugeSinkEntity);
         }
     }

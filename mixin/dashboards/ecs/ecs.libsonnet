@@ -21,18 +21,19 @@ local queries = import './queries.libsonnet';
              g.util.grid.makeGrid([
                row.new('使用率')
                + row.withPanels([
-                   panels.timeSeries.cpuUsage('CPU', queries.cpuUsage),
-                   panels.timeSeries.memUsage('MEM', queries.memUsage),
-                   panels.timeSeries.diskUsage('Disk',   queries.diskUsage),
-                   panels.timeSeries.diskInodeUsage('Inode',   queries.diskInodeUsage),
+                   panels.timeSeries.cpuUsage('CPU(%)', queries.cpuUsage),
+                   panels.timeSeries.memUsage('MEM(%)', queries.memUsage),
+                   panels.timeSeries.diskUsage('Disk(%)',   queries.diskUsage),
+                   panels.timeSeries.diskInodeUsage('Inode使用率',   queries.diskInodeUsage),
                  ]),
                row.new('饱和度')
                + row.withPanels([
                    panels.timeSeries.vmLoadAverage('Load', queries.vmLoadAverage),
+                   panels.timeSeries.vmLoadAverage5('Load5', queries.vmLoadAverage5),
                    panels.timeSeries.vmDiskIORead('磁盘读', queries.vmDiskIORead),
                    panels.timeSeries.vmDiskIOWrite('磁盘写', queries.vmDiskIOWrite),
-                   panels.timeSeries.vmInternetNetworkRX('网络接收', queries.vmInternetNetworkRX),
-                   panels.timeSeries.vmInternetNetworkTX('网络发送', queries.vmInternetNetworkTX),
+                   panels.timeSeries.vmInternetNetworkRX('网络接收(kb)', queries.vmInternetNetworkRX),
+                   panels.timeSeries.vmInternetNetworkTX('网络发送(kb)', queries.vmInternetNetworkTX),
                  ]),
                row.new('错误')
                + row.withPanels([

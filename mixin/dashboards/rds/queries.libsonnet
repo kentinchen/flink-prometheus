@@ -13,7 +13,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
   TPS:
     prometheusQuery.new(
@@ -24,7 +24,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
   QPS:
     prometheusQuery.new(
@@ -35,7 +35,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
   CpuUsage:
     prometheusQuery.new(
@@ -46,7 +46,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
   DiskUsage:
     prometheusQuery.new(
@@ -57,7 +57,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
   IOPSUsage:
     prometheusQuery.new(
@@ -68,7 +68,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
   MemoryUsage:
     prometheusQuery.new(
@@ -79,7 +79,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
 
   Queries_ps:
@@ -91,7 +91,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
   Slow_queries_ps:
     prometheusQuery.new(
@@ -102,7 +102,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
   Key_usage_ratio:
     prometheusQuery.new(
@@ -113,7 +113,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
   Key_read_hit_ratio:
     prometheusQuery.new(
@@ -124,7 +124,7 @@ local variables = import './variables.libsonnet';
     )
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat(|||
-      {{instanceid}}
+      {{instanceId}}
     |||),
    Key_write_hit_ratio:
      prometheusQuery.new(
@@ -135,6 +135,6 @@ local variables = import './variables.libsonnet';
      )
      + prometheusQuery.withIntervalFactor(2)
      + prometheusQuery.withLegendFormat(|||
-       {{instanceid}}
+       {{instanceId}}
      |||),
 }

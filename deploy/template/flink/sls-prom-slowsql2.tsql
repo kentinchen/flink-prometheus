@@ -1,0 +1,121 @@
+SET 'pipeline.name' = 'rds_slowsql_2_perf_prom';
+
+CREATE TABLE prd_rds_sql (
+    __topic__                       VARCHAR HEADER,
+    _sql_scan_rows                  VARCHAR,
+    _execute_target_db              VARCHAR,
+    _rc_temp_sort_file_size         VARCHAR,
+    `_execute_source_ip`            VARCHAR,
+    _sql_total_cost_time            VARCHAR,
+    _execute_start_time             VARCHAR,
+    _sql_select_rows                VARCHAR,
+    `_sql_rendered`                 VARCHAR,
+    _sql_update_rows                VARCHAR,
+    `_execute_source_user`          VARCHAR,
+    insName                         VARCHAR,
+    _sql_result_code                VARCHAR,
+    _schemaType                     VARCHAR
+) WITH (
+    'type' = 'sls',
+    'endpoint' = '${sls_endpoint}',
+    'accessid' = '${sls_accessid_rds}',
+    'accesskey' = '${sls_accesskey_rds}',
+    'project' = 'rds-project',
+    'logStore' = 'redline-logstore',
+    'batchGetSize' = '10000'
+);
+
+
+CREATE TABLE slowsql_perf_logstore (
+    instanceid              VARCHAR,
+    check_rows              VARCHAR,
+    db                      VARCHAR,
+    fail                    VARCHAR,
+    hash                    VARCHAR,
+    ip                      VARCHAR,
+    isbind                  VARCHAR,
+    latency                 VARCHAR,
+    origin_time             VARCHAR,
+    return_rows             VARCHAR,
+    root                    VARCHAR,
+    `sql`                   VARCHAR,
+    tid                     VARCHAR,
+    update_rows             VARCHAR,
+    `user`                  VARCHAR,
+    topic                   VARCHAR
+) WITH (
+      'connector' = 'pushgateway',
+      'format' = 'json',
+      'pushgateway' = '${pushgateway}',
+      'prom.method' = 'direct',
+      'prom.debug' = 'F',
+      'prom.batch_size' = '1000',
+  );
+
+CREATE TABLE sw_slowsql (
+    instance_id              VARCHAR,
+    check_rows              VARCHAR,
+    db                      VARCHAR,
+    fail                    VARCHAR,
+    hash                    VARCHAR,
+    ip                      VARCHAR,
+    isbind                  VARCHAR,
+    latency                 VARCHAR,
+    origin_time             VARCHAR,
+    return_rows             VARCHAR,
+    root                    VARCHAR,
+    `sql`                   VARCHAR,
+    update_rows             VARCHAR,
+    `user`                  VARCHAR,
+    topic                   VARCHAR
+) WITH (
+      'connector' = 'pushgateway',
+      'format' = 'json',
+      'pushgateway' = '${pushgateway}',
+      'prom.method' = 'direct',
+      'prom.debug' = 'F',
+      'prom.batch_size' = '1000'
+  );
+
+
+insert into slowsql_perf_logstore
+select
+    a.insName AS instance_id,
+    a._sql_select_rows ,
+    a._execute_target_db         ,
+    a._sql_result_code       ,
+    '0' as  `hash`     ,
+    a.`_execute_source_ip`       ,
+    '0' as isbind      ,
+    cast(cast(a._sql_total_cost_time as BIGINT) * 1000 as VARCHAR) as latency,
+    cast(cast(a._execute_start_time as BIGINT) * 1000 as VARCHAR) as origin_time,
+    a._sql_update_rows,
+    '0' as `root`     ,
+    a.`_sql_rendered`      ,
+    '0' as tid        ,
+    a._sql_update_rows,
+    a.`_execute_source_user`     ,
+    a._schemaType
+from prd_rds_sql a;
+
+insert into sw_slowsql
+select
+    a.insName AS instance_id,
+    a._sql_select_rows as check_rows,
+    a._execute_target_db as db,
+    a._sql_result_code as fail       ,
+    '0' as  `hash`     ,
+    a._execute_source_ip as `ip`       ,
+    '0' as isbind     ,
+    cast(cast(a._sql_total_cost_time as BIGINT) * 1000 as VARCHAR) as latency,
+    cast(cast(a._execute_start_time as BIGINT) * 1000 as VARCHAR) as origin_time,
+    a._sql_update_rows as return_rows,
+    '0' as `root`     ,
+    a._sql_rendered as `sql`      ,
+    a._sql_update_rows as update_rows,
+    a._execute_source_user as `user`,
+    a._schemaType
+from prd_rds_sql a
+where a.`_sql_rendered` <> 'logout!' and a._sql_rendered <> 'login failed!'
+and a._sql_rendered <> 'commit' and a._sql_rendered <> 'login success!'
+and a._sql_rendered not like '%bladex%';

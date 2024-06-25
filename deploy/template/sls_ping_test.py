@@ -75,10 +75,10 @@ def exec_sql_log(client, project, sql):
 
 
 def main():
-    endpoint = os.environ.get('ALIYUN_LOG_SAMPLE_ENDPOINT', 'data.cn-yaan-sczwhlw-d01.sls.res.inter-sctyun.com')
-    accessKeyId = os.environ.get('ALIYUN_LOG_SAMPLE_ACCESSID', 'OLIDBuPuCROXJt52')
-    accessKey = os.environ.get('ALIYUN_LOG_SAMPLE_ACCESSKEY', '9LoXpXIN5by9M8Gzz2CWgSIkGIbxyI')
-    client = LogClient(endpoint, accessKeyId, accessKey, "", region='cn-yaan-sczwhlw-d01')
+    endpoint = os.environ.get('ALIYUN_LOG_SAMPLE_ENDPOINT', '${sls_endpoint}')
+    accessKeyId = os.environ.get('ALIYUN_LOG_SAMPLE_ACCESSID', '${sls_accessid}')
+    accessKey = os.environ.get('ALIYUN_LOG_SAMPLE_ACCESSKEY', '${sls_accesskey}')
+    client = LogClient(endpoint, accessKeyId, accessKey, "", region='${sls_region}')
 
     # test list project
     ret = client.list_project(size=-1)

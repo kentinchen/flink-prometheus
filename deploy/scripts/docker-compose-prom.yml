@@ -8,19 +8,23 @@ services:
     restart: always
     command:
       - '--storage.tsdb.path=/data/tsdb'
+      - '--storage.tsdb.retention.time=7d'
       - '--web.enable-lifecycle'
     volumes:
       - ./prometheus/prometheus.yml:/prometheus/prometheus.yml
       - ./prometheus/flink.rules.yml:/prometheus/flink.rules.yml
       - ./prometheus/prometheus_rules.yml:/prometheus/prometheus_rules.yml
       - ./prometheus/prometheus_alerts.yml:/prometheus/prometheus_alerts.yml
-      - ../data/tsdb:/data/tsdb
+      - /data/tsdb:/data/tsdb
 
   pushgateway:
-    image: prom/pushgateway
+    #image: prom/pushgateway
+    image: dmathai/prom-pushgateway-ttl:latest
     container_name: pushgateway
     ports:
       - "9091:9091"
+    command:
+      - '--metric.timetolive=120s'
     restart: always
 
   alertmanager:
@@ -43,9 +47,12 @@ services:
       - "8060:8060"
     volumes:
       - ./dingtalk/config.yml:/config/config.yaml
+      - ./dingtalk/templates/dingding.tmpl:/templates/dingding.tmpl
     command:
       - '--config.file=/config/config.yaml'
       - '--web.enable-ui'
+    extra_hosts:
+      - "oapi.dingtalk.com:10.43.2.223"
 
   node_exporter:
     image: quay.io/prometheus/node-exporter

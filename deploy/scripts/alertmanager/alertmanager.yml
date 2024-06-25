@@ -1,13 +1,51 @@
+global:
+  resolve_timeout: 1m   # 每1分钟检测一次是否恢复
+
 route:
-  group_by: ['alertname']
-  group_wait: 30s
-  group_interval: 5m
-  repeat_interval: 1h
-  receiver: 'web.hook'
+  group_by: [ 'alertname','status' ]
+  group_wait: 60s       # 初次发送告警延时//设置等待时间，如果在等待时间内当前group接收到了新的告警，这些告警会合并为一个通知向receiver发送。
+  group_interval: 60s   # 距离第一次发送告警，等待多久再次发送告警//定义相同的Group之间发送告警通知的时间间隔
+  repeat_interval: 1h   # 告警重发时间
+  receiver: 'null'
+  routes:
+    - receiver: RX_ECS_RC
+      matchers:
+        - product = ecs
+        - instanceId =~ "i-4fo01h7fs2doplts381w|i-4fo01h7fs2doplts381x|i-4fo01h7fs2doplts381y|i-4fo01h7fs2doplts381z|i-4fo01o4le2mk2k46qxa1|i-4fo01o4le2mk2k46qxa2|i-4fo01o4le2mk2k46qxa3|i-4fo01h7fs2f4irqk6i66|i-4fo01h7fs2f4irqk6i68|i-4fo01h7fs2f4irqk6i6a|i-4fo01h7fs2f4irqk6i6d|i-4fo01h7fs2f4irqk6i64|i-4fo01h7fs2f4irqk6i6c|i-4fo01h7fs2f4irqk6i69|i-4fo01h7fs2f4irqk6i6b|i-4fo01h7fs2doplts3820|i-4fo01h7fs2doplts3821|i-4fo01h7fs2f107w73t5i|i-4fo01o4le2o1ybe14vsh|i-4fo01o4le2o1ybe14vsc|i-4fo01o4le2o1ybe14vse|i-4fo01o4le2o1ybe14vsg|i-4fo01o4le2o1ybe14vsb|i-4fo01o4le2o1ybe14vsf|i-4fo01o4le2o1ybe14vsa|i-4fo01o4le2o1ybe14vsd|i-4fo01h7fs2f107w73t5h|i-4fo01h7fs2doplts3822|i-4fo01h7fs2doplts3823|i-4fo01h7fs2dopnst7a19|i-4fo01h7fs2dopnst7a1a|i-4fo01h7fs2dopnst7a1b|i-4fo01h7fs2dopnst7a1c|i-4fo01h7fs2doplts3824|i-4fo01h7fs2dopnst7a1d|i-4fo01h7fs2dopprubc0i|i-4fo01h7fs2dopprubc0j|i-4fo01h7fs2dopprubc0k|i-4fo01o4le2mk2k46qxa4|i-4fo01o4le2mk2k46qxa5|i-4fo01o4le2mk2k46qxa6|i-4fo01h7fs2fab3f1b2cw|i-4fo01h7fs2fab3f1b2cv|i-4fo01h7fs2fab3f1b2cu|i-4fo01h7fs2fab3f1b2ct|i-4fo01h7fs2fab3f1b2cs|i-4fo01h7fs2fab3f1b2cr|i-4fo01h7fs2fab3f1b2cq|i-4fo01h7fs2fab3f1b2cp|i-4fo01h7fs2fab3f1b2co|i-4fo01h7fs2fab3f1b2cn|i-4fo01h7fs2d2n9yunzgp|i-4fo01h7fs2d2nbxvs1fu|i-4fo01h7fs2f4irqk6i65|i-4fo01h7fs2f4irqk6i67|i-4fo01h7fs2f4itplak5j|i-4fo01h7fs2f4ivomem4o|i-4fo01o4le2ly0899boqd|i-4fo01o4le2ly0a8afqpi|i-4fo01o4le2ly0c7bjson|i-4fo01o4le2mk2q1a337j|i-4fo01o4le2mk2q1a337k|i-4fo01o4le2o4n3um1s71|i-4fo01o4le2o4n3um1s72|i-4fo01o4le2o4n3um1s73|i-4fo01o4le2o4n3um1s74|i-4fo01o4le2o4n3um1s75|i-4fo01o4le2o4n3um1s76|i-4fo01o4le2o4n5tn5u6b|i-4fo01h7fs2ffrgyrvnx4|i-4fo01h7fs2ffrgyrvnx5|i-4fo01h7fs2ffrgyrvnx6|i-4fo01h7fs2ffrgyrvnx7|i-4fo01h7fs2ffrgyrvnx8|i-4fo01h7fs2ffrgyrvnx9|i-4fo01h7fs2ffrgyrvnxa|i-4fo01h7fs2ffrgyrvnxb|i-4fo01o4le2ob73xp21xt|i-4fo01o4le2ob73xp21xu|i-4fo01o4le2ob73xp21xv|i-4fo01o4le2ob73xp21xw|i-4fo01o4le2ob73xp21xx|i-4fo01o4le2ob73xp21xy|i-4fo01o4le2ob73xp21xz|i-4fo01o4le2ocbm1jalpe"
+    - receiver: RX_OSS_RC
+      matchers:
+        - product = oss
+        - bucket_name =~ "ywjybmxt"
+    - receiver: RX_KVS_RC
+      matchers:
+        - product = kv
+        - instanceId =~ "r-4fof6e7be6e750b4|r-4foea0f6fc8b3464"
+    - receiver: RX_SLB_RC
+      matchers:
+        - product = slb
+        - lbId =~ "lb-4fok1ekvvx1wzonpdqm8e"
+
 receivers:
-  - name: 'web.hook'
+  - name: 'null'
+    #webhook_configs:
+    #  - url: 'http://10.48.4.25:8060/dingtalk/webhook_test/send'
+  - name: 'RX_ECS_RC'
     webhook_configs:
-      - url: 'http://10.81.200.185:8060/dingtalk/webhook1/send'
+      - url: 'http://10.48.4.25:8060/dingtalk/webhook_ruxue/send'
+        send_resolved: true
+  - name: 'RX_OSS_RC'
+    webhook_configs:
+      - url: 'http://10.48.4.25:8060/dingtalk/webhook_ruxue/send'
+        send_resolved: true
+  - name: 'RX_SLB_RC'
+    webhook_configs:
+      - url: 'http://10.48.4.25:8060/dingtalk/webhook_ruxue/send'
+        send_resolved: true
+  - name: 'RX_KVS_RC'
+    webhook_configs:
+      - url: 'http://10.48.4.25:8060/dingtalk/webhook_ruxue/send'
+        send_resolved: true
+
 inhibit_rules:
   - source_match:
       severity: 'critical'

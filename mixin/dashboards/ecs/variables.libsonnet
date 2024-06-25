@@ -6,12 +6,11 @@ local var = g.dashboard.variable;
       var.datasource.new('datasource', 'prometheus'),
 
     instances:
-      var.query.new('instances')
-      + var.query.withDatasourceFromVariable(self.datasource)
-      + var.query.queryTypes.withLabelValues(
-        'instanceId',
-        'vm_LoadAverage',
-      )
+      var.query.new('instances','select vm_id from monitor.ecs_info')
+      + var.query.withDatasource(
+                     type='mysql',
+                     uid='MySQL',
+                   )
       + var.query.selectionOptions.withMulti()
       + var.query.selectionOptions.withIncludeAll(),
 
